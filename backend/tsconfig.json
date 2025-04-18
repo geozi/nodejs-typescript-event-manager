@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths": { "*": ["src/*"], "tests/*": ["tests/*"], "logs/*": ["logs/*"] },
+    "paths": { "*": ["src/*"], "spec/*": ["spec/*"], "logs/*": ["logs/*"] },
     "types": ["node"],
     "strict": true,
     "noUnusedLocals": true,
