@@ -1,0 +1,10 @@
+{
+  "name": "backend-event-manager",
+  "version": "1.0.0",
+  "description": "Contains the backend implementation of the Event Manager app.",
+  "license": "ISC",
+  "author": "geozi",
+  "type": "module",
+  "main": "src/app.ts",
+  "scripts": {}
+}
