@@ -14,7 +14,7 @@ import {
 } from "resources/regexp/validationRegExp";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({ name: "employer_contact_info" })
 export class EmployerContactInfo {
   @PrimaryGeneratedColumn()
   id!: number;

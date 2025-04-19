@@ -12,7 +12,7 @@ import {
 } from "typeorm";
 import { EmployerContactInfo } from "./EmployerContactInfo";
 
-@Entity()
+@Entity({ name: "employers" })
 export class Employer {
   // Columns
 
