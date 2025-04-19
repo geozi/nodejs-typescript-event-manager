@@ -1,7 +1,7 @@
 import { IsEnum, IsString, MaxLength, MinLength } from "class-validator";
-import { IndustryType } from "src/enums/IndustryType";
-import { employerFailedValidationMessages } from "src/messages/validation/employerValidationMessages";
-import { employerConstants } from "src/resources/constants/employerConstants";
+import { IndustryType } from "enums/IndustryType";
+import { employerFailedValidationMessages } from "messages/validation/employerValidationMessages";
+import { employerConstants } from "resources/constants/employerConstants";
 import {
   Column,
   Entity,

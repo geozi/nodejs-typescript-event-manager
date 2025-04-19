@@ -1,5 +1,5 @@
-import { industryTypeAsObj } from "src/enums/IndustryType";
-import { employerConstants } from "src/resources/constants/employerConstants";
+import { industryTypeAsObj } from "enums/IndustryType";
+import { employerConstants } from "resources/constants/employerConstants";
 
 export const employerFailedValidationMessages = {
   COMPANY_NAME_ABOVE_MAX_LENGTH_MESSAGE: `Company name must be no longer than ${employerConstants.COMPANY_NAME_MAX_LENGTH} characters long`,

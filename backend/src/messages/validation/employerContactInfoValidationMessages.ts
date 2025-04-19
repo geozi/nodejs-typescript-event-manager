@@ -1,4 +1,4 @@
-import { employerContactInfoConstants } from "src/resources/constants/employerContactInfoConstants";
+import { employerContactInfoConstants } from "resources/constants/employerContactInfoConstants";
 
 export const employerContactInfoFailedValidation = {
   PHONE_NUMBER_INVALID_TYPE_MESSAGE: "Phone number must be a string",

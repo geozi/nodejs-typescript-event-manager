@@ -6,14 +6,15 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { employerContactInfoFailedValidation } from "src/messages/validation/employerContactInfoValidationMessages";
-import { employerContactInfoConstants } from "src/resources/constants/employerContactInfoConstants";
+import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
+import { employerContactInfoConstants } from "resources/constants/employerContactInfoConstants";
 import {
   CITY_REGEX,
   PHONE_NUMBER_REGEX,
-} from "src/resources/regexp/validationRegExp";
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+} from "resources/regexp/validationRegExp";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class EmployerContactInfo {
   @PrimaryGeneratedColumn()
   id!: number;
