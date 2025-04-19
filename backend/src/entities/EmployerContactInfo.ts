@@ -1,7 +1,6 @@
 import {
   IsEmail,
   IsString,
-  Length,
   Matches,
   MaxLength,
   MinLength,
@@ -24,14 +23,6 @@ export class EmployerContactInfo {
     message:
       employerContactInfoFailedValidation.PHONE_NUMBER_INVALID_TYPE_MESSAGE,
   })
-  @Length(
-    employerContactInfoConstants.PHONE_NUMBER_LENGTH,
-    employerContactInfoConstants.PHONE_NUMBER_LENGTH,
-    {
-      message:
-        employerContactInfoFailedValidation.PHONE_NUMBER_OUT_OF_LENGTH_MESSAGE,
-    }
-  )
   @Matches(PHONE_NUMBER_REGEX, {
     message:
       employerContactInfoFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,

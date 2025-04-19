@@ -10,6 +10,7 @@ describe("Employer entity unit tests", () => {
   describe("Positive scenario", () => {
     beforeEach(() => {
       mockEmployer = new Employer();
+      mockEmployer.id = validEmployerInputs.id;
       mockEmployer.companyName = validEmployerInputs.companyName;
       mockEmployer.industry = validEmployerInputs.industry;
       mockEmployer.employerContactInfo =
@@ -20,11 +21,7 @@ describe("Employer entity unit tests", () => {
       const errors = validateSync(mockEmployer);
 
       expect(errors.length).toEqual(0);
-      expect(mockEmployer.companyName).toEqual(validEmployerInputs.companyName);
-      expect(mockEmployer.industry).toEqual(validEmployerInputs.industry);
-      expect(mockEmployer.employerContactInfo).toEqual(
-        validEmployerInputs.employerContactInfo
-      );
+      expect(mockEmployer.toString()).toEqual(validEmployerInputs.toString());
     });
   });
 
