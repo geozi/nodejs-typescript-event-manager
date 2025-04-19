@@ -1,6 +1,7 @@
 import { validateSync } from "class-validator";
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
 import { LocalCities } from "enums/LocalCityList";
+import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import {
   invalidEmployerContactInfoInputs,
@@ -55,8 +56,7 @@ describe("EmployerContactInfo entity unit tests", () => {
           invalidEmployerContactInfoInputs.PHONE_NUMBER_TOO_SHORT
         );
         expect(errors[0].constraints).toEqual({
-          matches:
-            employerContactInfoFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
+          matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
         });
       });
 
@@ -70,8 +70,7 @@ describe("EmployerContactInfo entity unit tests", () => {
           invalidEmployerContactInfoInputs.PHONE_NUMBER_TOO_LONG
         );
         expect(errors[0].constraints).toEqual({
-          matches:
-            employerContactInfoFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
+          matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
         });
       });
 
@@ -85,8 +84,7 @@ describe("EmployerContactInfo entity unit tests", () => {
           invalidEmployerContactInfoInputs.PHONE_NUMBER_INVALID_FORMAT
         );
         expect(errors[0].constraints).toEqual({
-          matches:
-            employerContactInfoFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
+          matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
         });
       });
 
@@ -99,8 +97,7 @@ describe("EmployerContactInfo entity unit tests", () => {
 
             expect(errors[0].value).toEqual(invalidEmail);
             expect(errors[0].constraints).toEqual({
-              isEmail:
-                employerContactInfoFailedValidation.EMAIL_INVALID_MESSAGE,
+              isEmail: commonFailedValidation.EMAIL_INVALID_MESSAGE,
             });
           });
         }
