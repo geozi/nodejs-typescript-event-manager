@@ -1,5 +1,6 @@
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
 import { IndustryType } from "enums/IndustryType";
+import { LocalCities } from "enums/LocalCityList";
 
 export const validEmployerInputs = {
   id: 1,
@@ -20,7 +21,7 @@ export const validEmployerContactInfoInputs = {
   phoneNumber: "8372045916",
   email: "new@mail.com",
   streetAddress: "Acropolis 1",
-  city: "Athens",
+  city: LocalCities.Athens,
 };
 
 export const invalidEmployerContactInfoInputs = {
@@ -36,6 +37,5 @@ export const invalidEmployerContactInfoInputs = {
   ] as [string, string][],
   STREET_ADDRESS_TOO_SHORT: "St.",
   STREET_ADDRESS_TOO_LONG: `12345 Grand Avenue, Apartment 678, Eastwood Business Plaza, Building 9, Suite 452A, Springfield, IL, 62704, United States`,
-  CITY_TOO_SHORT: "C",
-  CITY_INVALID: "C1ty*",
+  CITY_INVALID: "New York",
 };
