@@ -1,0 +1,27 @@
+export enum IndustryType {
+  Banking = "Banking",
+  CivilEngineering = "Civil Engineering",
+  Construction = "Construction",
+  ConsumerElectronics = "Consumer Electronics",
+  Entertainment = "Entertainment",
+  EventServices = "Event Services",
+  Fitness = "Fitness",
+  Gaming = "Gaming",
+  HealthCare = "Health Care",
+  Hospitality = "Hospitality",
+  HumanResources = "Human Resources",
+  InformationTechnology = "Information Technology",
+  LegalServices = "Legal Services",
+  Logistics = "Logistics",
+  Manufacturing = "Manufacturing",
+  Mining = "Mining",
+  RetailSales = "Retails Sales",
+  SecurityServices = "Security Services",
+  SupplyChain = "Supply Chain",
+  Transportation = "Transportation",
+  WholesaleSales = "Wholesale Sales",
+}
+
+export const industryTypeAsObj = Object.fromEntries(
+  Object.entries(IndustryType)
+);
