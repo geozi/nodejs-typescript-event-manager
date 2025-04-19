@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEnum,
+  IsNotEmpty,
   IsString,
   Matches,
   MaxLength,
@@ -19,6 +20,7 @@ export class EmployerContactInfo {
   id!: number;
 
   @Column({ type: "varchar" })
+  @IsNotEmpty({ message: commonFailedValidation.PHONE_NUMBER_REQUIRED })
   @IsString({
     message: commonFailedValidation.PHONE_NUMBER_INVALID_TYPE_MESSAGE,
   })
@@ -28,10 +30,15 @@ export class EmployerContactInfo {
   phoneNumber!: string;
 
   @Column({ type: "varchar" })
+  @IsNotEmpty({ message: commonFailedValidation.EMAIL_REQUIRED_MESSAGE })
   @IsEmail({}, { message: commonFailedValidation.EMAIL_INVALID_MESSAGE })
   email!: string;
 
   @Column({ type: "varchar" })
+  @IsNotEmpty({
+    message:
+      employerContactInfoFailedValidation.STREET_ADDRESS_REQUIRED_MESSAGE,
+  })
   @IsString({
     message:
       employerContactInfoFailedValidation.STREET_ADDRESS_INVALID_TYPE_MESSAGE,
@@ -47,6 +54,9 @@ export class EmployerContactInfo {
   streetAddress!: string;
 
   @Column({ type: "enum", enum: LocalCities })
+  @IsNotEmpty({
+    message: employerContactInfoFailedValidation.CITY_REQUIRED_MESSAGE,
+  })
   @Index()
   @IsEnum(LocalCities, {
     message: employerContactInfoFailedValidation.CITY_INVALID_MESSAGE,
