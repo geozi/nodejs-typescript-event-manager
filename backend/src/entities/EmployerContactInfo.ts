@@ -1,17 +1,16 @@
 import {
   IsEmail,
+  IsEnum,
   IsString,
   Matches,
   MaxLength,
   MinLength,
 } from "class-validator";
+import { LocalCities } from "enums/LocalCityList";
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import { employerContactInfoConstants } from "resources/constants/employerContactInfoConstants";
-import {
-  CITY_REGEX,
-  PHONE_NUMBER_REGEX,
-} from "resources/regexp/validationRegExp";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { PHONE_NUMBER_REGEX } from "resources/regexp/validationRegExp";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "employer_contact_info" })
 export class EmployerContactInfo {
@@ -51,15 +50,10 @@ export class EmployerContactInfo {
   })
   streetAddress!: string;
 
-  @Column({ type: "varchar" })
-  @IsString({
-    message: employerContactInfoFailedValidation.CITY_INVALID_TYPE_MESSAGE,
+  @Column({ type: "enum", enum: LocalCities })
+  @Index()
+  @IsEnum(LocalCities, {
+    message: employerContactInfoFailedValidation.CITY_INVALID_MESSAGE,
   })
-  @MinLength(employerContactInfoConstants.CITY_MIN_LENGTH, {
-    message: employerContactInfoFailedValidation.CITY_BELOW_MIN_LENGTH_MESSAGE,
-  })
-  @Matches(CITY_REGEX, {
-    message: employerContactInfoFailedValidation.CITY_INVALID_FORMAT_MESSAGE,
-  })
-  city!: string;
+  city!: LocalCities;
 }

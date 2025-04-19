@@ -1,0 +1,24 @@
+export enum LocalCities {
+  Agrinio = "Agrinio",
+  Alexandroupoli = "Alexandroupoli",
+  Athens = "Athens",
+  Chania = "Chania",
+  Chalkida = "Chalkida",
+  Corfu = "Corfu",
+  Heraklion = "Heraklion",
+  Ioannina = "Ioannina",
+  Kalamata = "Kalamata",
+  Kavala = "Kavala",
+  Lamia = "Lamia",
+  Larissa = "Larissa",
+  Mytilene = "Mytilene",
+  Patras = "Patras",
+  Rhodes = "Rhodes",
+  Serres = "Serres",
+  Thessaloniki = "Thessaloniki",
+  Trikala = "Trikala",
+  Veria = "Veria",
+  Volos = "Volos",
+}
+
+export const localCitiesAsObj = Object.fromEntries(Object.entries(LocalCities));
