@@ -1,5 +1,6 @@
 import { validateSync } from "class-validator";
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
+import { LocalCities } from "enums/LocalCityList";
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import {
   invalidEmployerContactInfoInputs,
@@ -135,24 +136,9 @@ describe("EmployerContactInfo entity unit tests", () => {
         });
       });
 
-      it("city is too short", () => {
+      it("city is invalid", () => {
         mockEmployerContactInfo.city =
-          invalidEmployerContactInfoInputs.CITY_TOO_SHORT;
-
-        const errors = validateSync(mockEmployerContactInfo);
-
-        expect(errors[0].value).toEqual(
-          invalidEmployerContactInfoInputs.CITY_TOO_SHORT
-        );
-        expect(errors[0].constraints).toEqual({
-          minLength:
-            employerContactInfoFailedValidation.CITY_BELOW_MIN_LENGTH_MESSAGE,
-        });
-      });
-
-      it("city has invalid format", () => {
-        mockEmployerContactInfo.city =
-          invalidEmployerContactInfoInputs.CITY_INVALID;
+          invalidEmployerContactInfoInputs.CITY_INVALID as LocalCities;
 
         const errors = validateSync(mockEmployerContactInfo);
 
@@ -160,8 +146,7 @@ describe("EmployerContactInfo entity unit tests", () => {
           invalidEmployerContactInfoInputs.CITY_INVALID
         );
         expect(errors[0].constraints).toEqual({
-          matches:
-            employerContactInfoFailedValidation.CITY_INVALID_FORMAT_MESSAGE,
+          isEnum: employerContactInfoFailedValidation.CITY_INVALID_MESSAGE,
         });
       });
     });
