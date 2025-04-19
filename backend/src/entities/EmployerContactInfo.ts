@@ -7,6 +7,7 @@ import {
   MinLength,
 } from "class-validator";
 import { LocalCities } from "enums/LocalCityList";
+import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import { employerContactInfoConstants } from "resources/constants/employerContactInfoConstants";
 import { PHONE_NUMBER_REGEX } from "resources/regexp/validationRegExp";
@@ -19,20 +20,15 @@ export class EmployerContactInfo {
 
   @Column({ type: "varchar" })
   @IsString({
-    message:
-      employerContactInfoFailedValidation.PHONE_NUMBER_INVALID_TYPE_MESSAGE,
+    message: commonFailedValidation.PHONE_NUMBER_INVALID_TYPE_MESSAGE,
   })
   @Matches(PHONE_NUMBER_REGEX, {
-    message:
-      employerContactInfoFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
+    message: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
   })
   phoneNumber!: string;
 
   @Column({ type: "varchar" })
-  @IsEmail(
-    {},
-    { message: employerContactInfoFailedValidation.EMAIL_INVALID_MESSAGE }
-  )
+  @IsEmail({}, { message: commonFailedValidation.EMAIL_INVALID_MESSAGE })
   email!: string;
 
   @Column({ type: "varchar" })
