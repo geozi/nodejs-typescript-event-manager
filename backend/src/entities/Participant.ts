@@ -80,4 +80,9 @@ export class Participant {
     message: participantFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
   })
   ticketID!: string;
+
+  /**
+   * TODO: Add userID when User entity is ready
+   * TODO: Recast ticketID to Ticket when the Ticket entity is ready
+   */
 }
