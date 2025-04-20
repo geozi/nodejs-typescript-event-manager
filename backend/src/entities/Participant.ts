@@ -79,5 +79,5 @@ export class Participant {
   @Matches(TICKET_ID_REGEX, {
     message: participantFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
   })
-  readonly ticketID!: string;
+  ticketID!: string;
 }

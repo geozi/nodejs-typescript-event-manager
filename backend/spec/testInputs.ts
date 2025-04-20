@@ -1,4 +1,5 @@
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
+import { EmploymentStatus } from "enums/EmploymentStatus";
 import { IndustryType } from "enums/IndustryType";
 import { LocalCities } from "enums/LocalCityList";
 
@@ -25,6 +26,29 @@ export const validEmployerContactInfoInputs = {
 };
 
 export const invalidEmployerContactInfoInputs = {
+  STREET_ADDRESS_TOO_SHORT: "St.",
+  STREET_ADDRESS_TOO_LONG: `12345 Grand Avenue, Apartment 678, Eastwood Business Plaza, Building 9, Suite 452A, Springfield, IL, 62704, United States`,
+  CITY_INVALID: "New York",
+};
+
+export const validParticipantInputs = {
+  id: 1,
+  firstName: "Jayson",
+  lastName: "Johnson",
+  email: "mymail@mail.com",
+  phoneNumber: "6999999999",
+  employmentStatus: EmploymentStatus.Unemployed,
+  ticketId: "EMP20250419RN453190",
+};
+
+export const invalidParticipantInputs = {
+  FIRST_NAME_INVALID: "Ja1s0n*",
+  LAST_NAME_INVALID: "J0hns0n",
+  EMPLOYMENT_STATUS_INVALID: "Too employed",
+  TICKET_ID_INVALID: "1234*@34",
+};
+
+export const invalidCommonInputs = {
   PHONE_NUMBER_TOO_SHORT: "6999",
   PHONE_NUMBER_TOO_LONG: "6999999999999",
   PHONE_NUMBER_INVALID_FORMAT: "699-99-999",
@@ -35,7 +59,4 @@ export const invalidEmployerContactInfoInputs = {
     ["email has no .", "random@mailcom"],
     ["email has no top level domain", "random@mail."],
   ] as [string, string][],
-  STREET_ADDRESS_TOO_SHORT: "St.",
-  STREET_ADDRESS_TOO_LONG: `12345 Grand Avenue, Apartment 678, Eastwood Business Plaza, Building 9, Suite 452A, Springfield, IL, 62704, United States`,
-  CITY_INVALID: "New York",
 };
