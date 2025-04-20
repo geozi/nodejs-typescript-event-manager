@@ -2,7 +2,7 @@ import { validateSync } from "class-validator";
 import { Participant } from "entities/Participant";
 import { validParticipantInputs } from "spec/testInputs";
 
-describe("Participant entity unit tests", () => {
+describe("Participant entity validation tests", () => {
   let mockParticipant: Partial<Participant>;
 
   describe("Positive scenario", () => {
