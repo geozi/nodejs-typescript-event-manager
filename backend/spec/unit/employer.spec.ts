@@ -1,6 +1,5 @@
 import { validateSync } from "class-validator";
 import { Employer } from "entities/Employer";
-import { IndustryType } from "enums/IndustryType";
 import { employerFailedValidationMessages } from "messages/validation/employerValidationMessages";
 import {
   invalidEmployerInputs,
@@ -99,8 +98,7 @@ describe("Employer entity validation tests", () => {
     });
 
     it("industry is invalid", () => {
-      mockEmployer.industry =
-        invalidEmployerInputs.INDUSTRY_TYPE_INVALID as IndustryType;
+      mockEmployer.industry = invalidEmployerInputs.INDUSTRY_TYPE_INVALID;
 
       const errors = validateSync(mockEmployer);
 

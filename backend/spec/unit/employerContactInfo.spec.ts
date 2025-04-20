@@ -1,6 +1,5 @@
 import { validateSync } from "class-validator";
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
-import { LocalCities } from "enums/LocalCityList";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import {
@@ -191,7 +190,7 @@ describe("EmployerContactInfo entity validation tests", () => {
 
     it("city is invalid", () => {
       mockEmployerContactInfo.city =
-        invalidEmployerContactInfoInputs.CITY_INVALID as LocalCities;
+        invalidEmployerContactInfoInputs.CITY_INVALID;
 
       const errors = validateSync(mockEmployerContactInfo);
 

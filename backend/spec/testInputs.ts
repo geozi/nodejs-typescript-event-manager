@@ -14,7 +14,7 @@ export const invalidEmployerInputs = {
   COMPANY_NAME_INVALID_TYPE: 12,
   COMPANY_NAME_TOO_SHORT: "C",
   COMPANY_NAME_TOO_LONG: `International Association for Advanced Technological Innovations and Sustainable Development`,
-  INDUSTRY_TYPE_INVALID: "Leisure Activities",
+  INDUSTRY_TYPE_INVALID: "Leisure Activities" as IndustryType,
 };
 
 export const validEmployerContactInfoInputs = {
@@ -25,7 +25,7 @@ export const validEmployerContactInfoInputs = {
 export const invalidEmployerContactInfoInputs = {
   STREET_ADDRESS_TOO_SHORT: "St.",
   STREET_ADDRESS_TOO_LONG: `12345 Grand Avenue, Apartment 678, Eastwood Business Plaza, Building 9, Suite 452A, Springfield, IL, 62704, United States`,
-  CITY_INVALID: "New York",
+  CITY_INVALID: "New York" as LocalCities,
 };
 
 export const validParticipantInputs = {
@@ -34,7 +34,7 @@ export const validParticipantInputs = {
 };
 
 export const invalidParticipantInputs = {
-  EMPLOYMENT_STATUS_INVALID: "Too employed",
+  EMPLOYMENT_STATUS_INVALID: "Too employed" as EmploymentStatus,
   TICKET_ID_INVALID: "1234*@34",
 };
 
@@ -64,4 +64,8 @@ export const invalidCommonInputs = {
 export const validStaffInputs = {
   jobTitle: "Talent recruiter",
   department: DeptCategory.Recruitment,
+};
+
+export const invalidStaffInputs = {
+  DEPT_INVALID: "Testing Department" as DeptCategory,
 };

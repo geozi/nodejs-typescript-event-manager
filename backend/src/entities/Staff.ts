@@ -20,7 +20,7 @@ export class Staff {
 
   @Column({ type: "varchar" })
   @IsNotEmpty({ message: commonFailedValidation.LAST_NAME_REQUIRED_MESSAGE })
-  @IsString({ message: commonFailedValidation.FIRST_NAME_INVALID_TYPE_MESSAGE })
+  @IsString({ message: commonFailedValidation.LAST_NAME_INVALID_TYPE_MESSAGE })
   @IsAlpha("en-US", {
     message: commonFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
   })

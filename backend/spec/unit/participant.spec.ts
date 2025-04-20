@@ -1,6 +1,5 @@
 import { validateSync } from "class-validator";
 import { Participant } from "entities/Participant";
-import { EmploymentStatus } from "enums/EmploymentStatus";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { participantFailedValidation } from "messages/validation/participantValidationMessages";
 import {
@@ -194,12 +193,12 @@ describe("Participant entity validation tests", () => {
 
     it("employmentStatus is invalid", () => {
       mockParticipant.employmentStatus =
-        invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID as EmploymentStatus;
+        invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID;
 
       const errors = validateSync(mockParticipant);
 
       expect(errors[0].value).toEqual(
-        invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID as EmploymentStatus
+        invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID
       );
       expect(errors[0].constraints).toEqual({
         isEnum: participantFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
