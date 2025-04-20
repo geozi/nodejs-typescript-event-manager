@@ -57,9 +57,9 @@ describe("Participant entity validation tests", () => {
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
-        isNotEmpty: participantFailedValidation.FIRST_NAME_REQUIRED_MESSAGE,
-        isString: participantFailedValidation.FIRST_NAME_INVALID_TYPE_MESSAGE,
-        isAlpha: participantFailedValidation.FIRST_NAME_INVALID_FORMAT_MESSAGE,
+        isNotEmpty: commonFailedValidation.FIRST_NAME_REQUIRED_MESSAGE,
+        isString: commonFailedValidation.FIRST_NAME_INVALID_TYPE_MESSAGE,
+        isAlpha: commonFailedValidation.FIRST_NAME_INVALID_FORMAT_MESSAGE,
       });
     });
 
@@ -72,7 +72,7 @@ describe("Participant entity validation tests", () => {
         invalidParticipantInputs.FIRST_NAME_INVALID
       );
       expect(errors[0].constraints).toEqual({
-        isAlpha: participantFailedValidation.FIRST_NAME_INVALID_FORMAT_MESSAGE,
+        isAlpha: commonFailedValidation.FIRST_NAME_INVALID_FORMAT_MESSAGE,
       });
     });
 
@@ -83,9 +83,9 @@ describe("Participant entity validation tests", () => {
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
-        isNotEmpty: participantFailedValidation.LAST_NAME_REQUIRED_MESSAGE,
-        isString: participantFailedValidation.LAST_NAME_INVALID_TYPE_MESSAGE,
-        isAlpha: participantFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
+        isNotEmpty: commonFailedValidation.LAST_NAME_REQUIRED_MESSAGE,
+        isString: commonFailedValidation.LAST_NAME_INVALID_TYPE_MESSAGE,
+        isAlpha: commonFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
       });
     });
 
@@ -98,7 +98,7 @@ describe("Participant entity validation tests", () => {
         invalidParticipantInputs.LAST_NAME_INVALID
       );
       expect(errors[0].constraints).toEqual({
-        isAlpha: participantFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
+        isAlpha: commonFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
       });
     });
 
