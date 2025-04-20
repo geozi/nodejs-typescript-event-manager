@@ -22,25 +22,25 @@ export class Participant {
 
   @Column({ type: "varchar" })
   @IsNotEmpty({
-    message: participantFailedValidation.FIRST_NAME_REQUIRED_MESSAGE,
+    message: commonFailedValidation.FIRST_NAME_REQUIRED_MESSAGE,
   })
   @IsString({
-    message: participantFailedValidation.FIRST_NAME_INVALID_TYPE_MESSAGE,
+    message: commonFailedValidation.FIRST_NAME_INVALID_TYPE_MESSAGE,
   })
   @IsAlpha("en-US", {
-    message: participantFailedValidation.FIRST_NAME_INVALID_FORMAT_MESSAGE,
+    message: commonFailedValidation.FIRST_NAME_INVALID_FORMAT_MESSAGE,
   })
   firstName!: string;
 
   @Column({ type: "varchar" })
   @IsNotEmpty({
-    message: participantFailedValidation.LAST_NAME_REQUIRED_MESSAGE,
+    message: commonFailedValidation.LAST_NAME_REQUIRED_MESSAGE,
   })
   @IsString({
-    message: participantFailedValidation.LAST_NAME_INVALID_TYPE_MESSAGE,
+    message: commonFailedValidation.LAST_NAME_INVALID_TYPE_MESSAGE,
   })
   @IsAlpha("en-US", {
-    message: participantFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
+    message: commonFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
   })
   lastName!: string;
 
