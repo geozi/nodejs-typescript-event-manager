@@ -31,7 +31,7 @@ export class Employer {
   })
   @Index()
   @IsString({
-    message: employerFailedValidationMessages.COMPANY_NAME_INVALID_MESSAGE,
+    message: employerFailedValidationMessages.COMPANY_NAME_INVALID_TYPE_MESSAGE,
   })
   @MinLength(employerConstants.COMPANY_NAME_MIN_LENGTH, {
     message:

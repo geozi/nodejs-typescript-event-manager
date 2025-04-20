@@ -5,7 +5,7 @@ import { employerFailedValidationMessages } from "messages/validation/employerVa
 import { invalidEmployerInputs, validEmployerInputs } from "spec/testInputs";
 
 describe("Employer entity unit tests", () => {
-  let mockEmployer: Employer;
+  let mockEmployer: Partial<Employer>;
 
   describe("Positive scenario", () => {
     beforeEach(() => {
@@ -35,7 +35,25 @@ describe("Employer entity unit tests", () => {
           validEmployerInputs.employerContactInfo;
       });
 
-      it("company name is too short", () => {
+      it("companyName is undefined", () => {
+        mockEmployer.companyName = undefined;
+
+        const errors = validateSync(mockEmployer);
+
+        expect(errors[0].value).toEqual(undefined);
+        expect(errors[0].constraints).toEqual({
+          isNotEmpty:
+            employerFailedValidationMessages.COMPANY_NAME_REQUIRED_MESSAGE,
+          isString:
+            employerFailedValidationMessages.COMPANY_NAME_INVALID_TYPE_MESSAGE,
+          maxLength:
+            employerFailedValidationMessages.COMPANY_NAME_ABOVE_MAX_LENGTH_MESSAGE,
+          minLength:
+            employerFailedValidationMessages.COMPANY_NAME_BELOW_MIN_LENGTH_MESSAGE,
+        });
+      });
+
+      it("companyName is too short", () => {
         mockEmployer.companyName = invalidEmployerInputs.COMPANY_NAME_TOO_SHORT;
 
         const errors = validateSync(mockEmployer);
@@ -49,7 +67,7 @@ describe("Employer entity unit tests", () => {
         });
       });
 
-      it("company name is too long", () => {
+      it("companyName is too long", () => {
         mockEmployer.companyName = invalidEmployerInputs.COMPANY_NAME_TOO_LONG;
 
         const errors = validateSync(mockEmployer);
@@ -63,7 +81,20 @@ describe("Employer entity unit tests", () => {
         });
       });
 
-      it("industry type is invalid", () => {
+      it("industry is undefined", () => {
+        mockEmployer.industry = undefined;
+
+        const errors = validateSync(mockEmployer);
+
+        expect(errors[0].value).toEqual(undefined);
+        expect(errors[0].constraints).toEqual({
+          isNotEmpty:
+            employerFailedValidationMessages.INDUSTRY_REQUIRED_MESSAGE,
+          isEnum: employerFailedValidationMessages.INDUSTRY_INVALID_MESSAGE,
+        });
+      });
+
+      it("industry is invalid", () => {
         mockEmployer.industry =
           invalidEmployerInputs.INDUSTRY_TYPE_INVALID as IndustryType;
 
