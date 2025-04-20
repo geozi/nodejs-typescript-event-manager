@@ -9,6 +9,7 @@ describe("Employer entity validation tests", () => {
 
   describe("Positive scenario", () => {
     beforeEach(() => {
+      // Mocks
       mockEmployer = new Employer();
       mockEmployer.id = validEmployerInputs.id;
       mockEmployer.companyName = validEmployerInputs.companyName;
@@ -27,6 +28,7 @@ describe("Employer entity validation tests", () => {
 
   describe("Negative scenarios", () => {
     beforeEach(() => {
+      // Mocks
       mockEmployer = new Employer();
       mockEmployer.companyName = validEmployerInputs.companyName;
       mockEmployer.industry = validEmployerInputs.industry;

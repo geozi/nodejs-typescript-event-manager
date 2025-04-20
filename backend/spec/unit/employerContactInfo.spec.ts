@@ -14,6 +14,7 @@ describe("EmployerContactInfo entity validation tests", () => {
 
   describe("Positive scenario", () => {
     beforeEach(() => {
+      // Mocks
       mockEmployerContactInfo = new EmployerContactInfo();
       mockEmployerContactInfo.id = validEmployerContactInfoInputs.id;
       mockEmployerContactInfo.phoneNumber =
@@ -36,6 +37,7 @@ describe("EmployerContactInfo entity validation tests", () => {
 
   describe("Negative scenarios", () => {
     beforeEach(() => {
+      // Mocks
       mockEmployerContactInfo = new EmployerContactInfo();
       mockEmployerContactInfo.id = validEmployerContactInfoInputs.id;
       mockEmployerContactInfo.phoneNumber =
