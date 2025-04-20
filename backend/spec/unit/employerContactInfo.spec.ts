@@ -4,6 +4,7 @@ import { LocalCities } from "enums/LocalCityList";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import {
+  invalidCommonInputs,
   invalidEmployerContactInfoInputs,
   validEmployerContactInfoInputs,
 } from "spec/testInputs";
@@ -61,12 +62,12 @@ describe("EmployerContactInfo entity unit tests", () => {
 
       it("phoneNumber is too short", () => {
         mockEmployerContactInfo.phoneNumber =
-          invalidEmployerContactInfoInputs.PHONE_NUMBER_TOO_SHORT;
+          invalidCommonInputs.PHONE_NUMBER_TOO_SHORT;
 
         const errors = validateSync(mockEmployerContactInfo);
 
         expect(errors[0].value).toEqual(
-          invalidEmployerContactInfoInputs.PHONE_NUMBER_TOO_SHORT
+          invalidCommonInputs.PHONE_NUMBER_TOO_SHORT
         );
         expect(errors[0].constraints).toEqual({
           matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
@@ -75,12 +76,12 @@ describe("EmployerContactInfo entity unit tests", () => {
 
       it("phoneNumber is too long", () => {
         mockEmployerContactInfo.phoneNumber =
-          invalidEmployerContactInfoInputs.PHONE_NUMBER_TOO_LONG;
+          invalidCommonInputs.PHONE_NUMBER_TOO_LONG;
 
         const errors = validateSync(mockEmployerContactInfo);
 
         expect(errors[0].value).toEqual(
-          invalidEmployerContactInfoInputs.PHONE_NUMBER_TOO_LONG
+          invalidCommonInputs.PHONE_NUMBER_TOO_LONG
         );
         expect(errors[0].constraints).toEqual({
           matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
@@ -89,12 +90,12 @@ describe("EmployerContactInfo entity unit tests", () => {
 
       it("phoneNumber has invalid format", () => {
         mockEmployerContactInfo.phoneNumber =
-          invalidEmployerContactInfoInputs.PHONE_NUMBER_INVALID_FORMAT;
+          invalidCommonInputs.PHONE_NUMBER_INVALID_FORMAT;
 
         const errors = validateSync(mockEmployerContactInfo);
 
         expect(errors[0].value).toEqual(
-          invalidEmployerContactInfoInputs.PHONE_NUMBER_INVALID_FORMAT
+          invalidCommonInputs.PHONE_NUMBER_INVALID_FORMAT
         );
         expect(errors[0].constraints).toEqual({
           matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
@@ -113,7 +114,7 @@ describe("EmployerContactInfo entity unit tests", () => {
         });
       });
 
-      invalidEmployerContactInfoInputs.EMAIL_INVALID_CASES.forEach(
+      invalidCommonInputs.EMAIL_INVALID_CASES.forEach(
         ([testName, invalidEmail]) => {
           it(testName, () => {
             mockEmployerContactInfo.email = invalidEmail;
