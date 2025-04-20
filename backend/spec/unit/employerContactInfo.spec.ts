@@ -9,7 +9,7 @@ import {
 } from "spec/testInputs";
 
 describe("EmployerContactInfo entity unit tests", () => {
-  let mockEmployerContactInfo: EmployerContactInfo;
+  let mockEmployerContactInfo: Partial<EmployerContactInfo>;
 
   describe("Positive scenario", () => {
     beforeEach(() => {
@@ -44,6 +44,19 @@ describe("EmployerContactInfo entity unit tests", () => {
         mockEmployerContactInfo.streetAddress =
           validEmployerContactInfoInputs.streetAddress;
         mockEmployerContactInfo.city = validEmployerContactInfoInputs.city;
+      });
+
+      it("phoneNumber is undefined", () => {
+        mockEmployerContactInfo.phoneNumber = undefined;
+
+        const errors = validateSync(mockEmployerContactInfo);
+
+        expect(errors[0].value).toEqual(undefined);
+        expect(errors[0].constraints).toEqual({
+          isNotEmpty: commonFailedValidation.PHONE_NUMBER_REQUIRED,
+          isString: commonFailedValidation.PHONE_NUMBER_INVALID_TYPE_MESSAGE,
+          matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
+        });
       });
 
       it("phoneNumber is too short", () => {
@@ -88,6 +101,18 @@ describe("EmployerContactInfo entity unit tests", () => {
         });
       });
 
+      it("email is undefined", () => {
+        mockEmployerContactInfo.email = undefined;
+
+        const errors = validateSync(mockEmployerContactInfo);
+
+        expect(errors[0].value).toEqual(undefined);
+        expect(errors[0].constraints).toEqual({
+          isNotEmpty: commonFailedValidation.EMAIL_REQUIRED_MESSAGE,
+          isEmail: commonFailedValidation.EMAIL_INVALID_MESSAGE,
+        });
+      });
+
       invalidEmployerContactInfoInputs.EMAIL_INVALID_CASES.forEach(
         ([testName, invalidEmail]) => {
           it(testName, () => {
@@ -103,7 +128,25 @@ describe("EmployerContactInfo entity unit tests", () => {
         }
       );
 
-      it("street address is too short", () => {
+      it("streetAddress is undefined", () => {
+        mockEmployerContactInfo.streetAddress = undefined;
+
+        const errors = validateSync(mockEmployerContactInfo);
+
+        expect(errors[0].value).toEqual(undefined);
+        expect(errors[0].constraints).toEqual({
+          isNotEmpty:
+            employerContactInfoFailedValidation.STREET_ADDRESS_REQUIRED_MESSAGE,
+          isString:
+            employerContactInfoFailedValidation.STREET_ADDRESS_INVALID_TYPE_MESSAGE,
+          maxLength:
+            employerContactInfoFailedValidation.STREET_ADDRESS_ABOVE_MAX_LENGTH_MESSAGE,
+          minLength:
+            employerContactInfoFailedValidation.STREET_ADDRESS_BELOW_MIN_LENGTH_MESSAGE,
+        });
+      });
+
+      it("streetAddress is too short", () => {
         mockEmployerContactInfo.streetAddress =
           invalidEmployerContactInfoInputs.STREET_ADDRESS_TOO_SHORT;
 
@@ -118,7 +161,7 @@ describe("EmployerContactInfo entity unit tests", () => {
         });
       });
 
-      it("street address is too long", () => {
+      it("streetAddress is too long", () => {
         mockEmployerContactInfo.streetAddress =
           invalidEmployerContactInfoInputs.STREET_ADDRESS_TOO_LONG;
 
@@ -130,6 +173,18 @@ describe("EmployerContactInfo entity unit tests", () => {
         expect(errors[0].constraints).toEqual({
           maxLength:
             employerContactInfoFailedValidation.STREET_ADDRESS_ABOVE_MAX_LENGTH_MESSAGE,
+        });
+      });
+
+      it("city is undefined", () => {
+        mockEmployerContactInfo.city = undefined;
+
+        const errors = validateSync(mockEmployerContactInfo);
+
+        expect(errors[0].value).toEqual(undefined);
+        expect(errors[0].constraints).toEqual({
+          isNotEmpty: employerContactInfoFailedValidation.CITY_REQUIRED_MESSAGE,
+          isEnum: employerContactInfoFailedValidation.CITY_INVALID_MESSAGE,
         });
       });
 
