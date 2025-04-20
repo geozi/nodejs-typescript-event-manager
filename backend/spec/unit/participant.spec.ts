@@ -6,6 +6,7 @@ import { participantFailedValidation } from "messages/validation/participantVali
 import {
   invalidCommonInputs,
   invalidParticipantInputs,
+  validCommonInputs,
   validParticipantInputs,
 } from "spec/testInputs";
 
@@ -16,11 +17,11 @@ describe("Participant entity validation tests", () => {
     beforeEach(() => {
       // Mocks
       mockParticipant = new Participant();
-      mockParticipant.id = validParticipantInputs.id;
-      mockParticipant.firstName = validParticipantInputs.firstName;
-      mockParticipant.lastName = validParticipantInputs.lastName;
-      mockParticipant.email = validParticipantInputs.email;
-      mockParticipant.phoneNumber = validParticipantInputs.phoneNumber;
+      mockParticipant.id = validCommonInputs.id;
+      mockParticipant.firstName = validCommonInputs.firstName;
+      mockParticipant.lastName = validCommonInputs.lastName;
+      mockParticipant.email = validCommonInputs.email;
+      mockParticipant.phoneNumber = validCommonInputs.phoneNumber;
       mockParticipant.employmentStatus =
         validParticipantInputs.employmentStatus;
       mockParticipant.ticketID = validParticipantInputs.ticketId;
@@ -40,11 +41,11 @@ describe("Participant entity validation tests", () => {
     beforeEach(() => {
       // Mocks
       mockParticipant = new Participant();
-      mockParticipant.id = validParticipantInputs.id;
-      mockParticipant.firstName = validParticipantInputs.firstName;
-      mockParticipant.lastName = validParticipantInputs.lastName;
-      mockParticipant.email = validParticipantInputs.email;
-      mockParticipant.phoneNumber = validParticipantInputs.phoneNumber;
+      mockParticipant.id = validCommonInputs.id;
+      mockParticipant.firstName = validCommonInputs.firstName;
+      mockParticipant.lastName = validCommonInputs.lastName;
+      mockParticipant.email = validCommonInputs.email;
+      mockParticipant.phoneNumber = validCommonInputs.phoneNumber;
       mockParticipant.employmentStatus =
         validParticipantInputs.employmentStatus;
       mockParticipant.ticketID = validParticipantInputs.ticketId;
@@ -64,13 +65,11 @@ describe("Participant entity validation tests", () => {
     });
 
     it("firstName is invalid", () => {
-      mockParticipant.firstName = invalidParticipantInputs.FIRST_NAME_INVALID;
+      mockParticipant.firstName = invalidCommonInputs.FIRST_NAME_INVALID;
 
       const errors = validateSync(mockParticipant);
 
-      expect(errors[0].value).toEqual(
-        invalidParticipantInputs.FIRST_NAME_INVALID
-      );
+      expect(errors[0].value).toEqual(invalidCommonInputs.FIRST_NAME_INVALID);
       expect(errors[0].constraints).toEqual({
         isAlpha: commonFailedValidation.FIRST_NAME_INVALID_FORMAT_MESSAGE,
       });
@@ -90,13 +89,11 @@ describe("Participant entity validation tests", () => {
     });
 
     it("lastName is invalid", () => {
-      mockParticipant.lastName = invalidParticipantInputs.LAST_NAME_INVALID;
+      mockParticipant.lastName = invalidCommonInputs.LAST_NAME_INVALID;
 
       const errors = validateSync(mockParticipant);
 
-      expect(errors[0].value).toEqual(
-        invalidParticipantInputs.LAST_NAME_INVALID
-      );
+      expect(errors[0].value).toEqual(invalidCommonInputs.LAST_NAME_INVALID);
       expect(errors[0].constraints).toEqual({
         isAlpha: commonFailedValidation.LAST_NAME_INVALID_FORMAT_MESSAGE,
       });

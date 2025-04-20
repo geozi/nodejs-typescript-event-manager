@@ -2,7 +2,11 @@ import { validateSync } from "class-validator";
 import { Employer } from "entities/Employer";
 import { IndustryType } from "enums/IndustryType";
 import { employerFailedValidationMessages } from "messages/validation/employerValidationMessages";
-import { invalidEmployerInputs, validEmployerInputs } from "spec/testInputs";
+import {
+  invalidEmployerInputs,
+  validCommonInputs,
+  validEmployerInputs,
+} from "spec/testInputs";
 
 describe("Employer entity validation tests", () => {
   let mockEmployer: Partial<Employer>;
@@ -11,7 +15,7 @@ describe("Employer entity validation tests", () => {
     beforeEach(() => {
       // Mocks
       mockEmployer = new Employer();
-      mockEmployer.id = validEmployerInputs.id;
+      mockEmployer.id = validCommonInputs.id;
       mockEmployer.companyName = validEmployerInputs.companyName;
       mockEmployer.industry = validEmployerInputs.industry;
       mockEmployer.employerContactInfo =

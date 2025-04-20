@@ -6,6 +6,7 @@ import { employerContactInfoFailedValidation } from "messages/validation/employe
 import {
   invalidCommonInputs,
   invalidEmployerContactInfoInputs,
+  validCommonInputs,
   validEmployerContactInfoInputs,
 } from "spec/testInputs";
 
@@ -16,10 +17,9 @@ describe("EmployerContactInfo entity validation tests", () => {
     beforeEach(() => {
       // Mocks
       mockEmployerContactInfo = new EmployerContactInfo();
-      mockEmployerContactInfo.id = validEmployerContactInfoInputs.id;
-      mockEmployerContactInfo.phoneNumber =
-        validEmployerContactInfoInputs.phoneNumber;
-      mockEmployerContactInfo.email = validEmployerContactInfoInputs.email;
+      mockEmployerContactInfo.id = validCommonInputs.id;
+      mockEmployerContactInfo.phoneNumber = validCommonInputs.phoneNumber;
+      mockEmployerContactInfo.email = validCommonInputs.email;
       mockEmployerContactInfo.streetAddress =
         validEmployerContactInfoInputs.streetAddress;
       mockEmployerContactInfo.city = validEmployerContactInfoInputs.city;
@@ -39,10 +39,9 @@ describe("EmployerContactInfo entity validation tests", () => {
     beforeEach(() => {
       // Mocks
       mockEmployerContactInfo = new EmployerContactInfo();
-      mockEmployerContactInfo.id = validEmployerContactInfoInputs.id;
-      mockEmployerContactInfo.phoneNumber =
-        validEmployerContactInfoInputs.phoneNumber;
-      mockEmployerContactInfo.email = validEmployerContactInfoInputs.email;
+      mockEmployerContactInfo.id = validCommonInputs.id;
+      mockEmployerContactInfo.phoneNumber = validCommonInputs.phoneNumber;
+      mockEmployerContactInfo.email = validCommonInputs.email;
       mockEmployerContactInfo.streetAddress =
         validEmployerContactInfoInputs.streetAddress;
       mockEmployerContactInfo.city = validEmployerContactInfoInputs.city;
