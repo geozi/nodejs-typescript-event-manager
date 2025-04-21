@@ -1,0 +1,6 @@
+export const activityConstants = {
+  TITLE_MIN_LENGTH: 5,
+  TITLE_MAX_LENGTH: 50,
+  DESCRIPTION_MIN_LENGTH: 10,
+  DESCRIPTION_MAX_LENGTH: 100,
+};
