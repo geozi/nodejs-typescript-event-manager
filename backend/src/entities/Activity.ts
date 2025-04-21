@@ -8,10 +8,17 @@ import {
 import { ActivityType } from "enums/ActivityType";
 import { activityFailedValidation } from "messages/validation/activityValidationMessages";
 import { activityConstants } from "resources/constants/activityConstants";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 @Entity({ name: "activities" })
 export class Activity {
+  // Columns
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -49,4 +56,10 @@ export class Activity {
     message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
   })
   activityType!: ActivityType;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }

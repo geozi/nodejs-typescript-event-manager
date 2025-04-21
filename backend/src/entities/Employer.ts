@@ -10,12 +10,14 @@ import { employerFailedValidationMessages } from "messages/validation/employerVa
 import { employerConstants } from "resources/constants/employerConstants";
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { EmployerContactInfo } from "./EmployerContactInfo";
 import { Event } from "./Event";
@@ -23,7 +25,6 @@ import { Event } from "./Event";
 @Entity({ name: "employers" })
 export class Employer {
   // Columns
-
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -54,6 +55,12 @@ export class Employer {
     message: employerFailedValidationMessages.INDUSTRY_INVALID_MESSAGE,
   })
   industry!: IndustryType;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
   // Relations
 

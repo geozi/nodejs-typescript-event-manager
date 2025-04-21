@@ -12,10 +12,12 @@ import { commonFailedValidation } from "messages/validation/commonValidationMess
 import { PHONE_NUMBER_REGEX } from "resources/regexp/validationRegExp";
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { EventClient } from "./EventClient";
 
@@ -73,6 +75,12 @@ export class Client {
     message: clientFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
   })
   employmentStatus!: EmploymentStatus;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
   // Relations
   @OneToMany(() => EventClient, (eventClient) => eventClient.client)

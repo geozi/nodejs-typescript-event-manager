@@ -11,12 +11,14 @@ import { eventFailedValidation } from "messages/validation/eventValidationMessag
 import { eventConstants } from "resources/constants/eventConstants";
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Employer } from "./Employer";
 import { EventClient } from "./EventClient";
@@ -68,6 +70,12 @@ export class Event {
     message: eventFailedValidation.STATUS_INVALID_MESSAGE,
   })
   status!: EventStatus;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
   // Relations
   @ManyToMany(() => Employer, (employer) => employer.events)

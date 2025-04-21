@@ -12,10 +12,18 @@ import { commonFailedValidation } from "messages/validation/commonValidationMess
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import { employerContactInfoConstants } from "resources/constants/employerContactInfoConstants";
 import { PHONE_NUMBER_REGEX } from "resources/regexp/validationRegExp";
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 @Entity({ name: "employer_contact_info" })
 export class EmployerContactInfo {
+  // Columns
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -62,4 +70,10 @@ export class EmployerContactInfo {
     message: employerContactInfoFailedValidation.CITY_INVALID_MESSAGE,
   })
   city!: LocalCities;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }

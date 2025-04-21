@@ -2,13 +2,19 @@ import { IsAlpha, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { DeptCategory } from "enums/DeptCategory";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { staffFailedValidation } from "messages/validation/staffValidationMessages";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { Event } from "./Event";
 
 @Entity({ name: "staff_members" })
 export class Staff {
   // Columns
-
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -37,6 +43,12 @@ export class Staff {
   @IsNotEmpty({ message: staffFailedValidation.DEPT_REQUIRED_MESSAGE })
   @IsEnum(DeptCategory, { message: staffFailedValidation.DEPT_INVALID_MESSAGE })
   department!: DeptCategory;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
   // Relations
   @ManyToMany(() => Event, (event) => event.staffMembers)
