@@ -9,10 +9,7 @@ import {
 import { EmploymentStatus } from "enums/EmploymentStatus";
 import { clientFailedValidation } from "messages/validation/clientValidationMessages";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
-import {
-  PHONE_NUMBER_REGEX,
-  TICKET_ID_REGEX,
-} from "resources/regexp/validationRegExp";
+import { PHONE_NUMBER_REGEX } from "resources/regexp/validationRegExp";
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "participants" })
@@ -69,20 +66,7 @@ export class Client {
   })
   employmentStatus!: EmploymentStatus;
 
-  @Column({ type: "varchar", unique: true })
-  @IsNotEmpty({
-    message: clientFailedValidation.TICKET_ID_REQUIRED_MESSAGE,
-  })
-  @IsString({
-    message: clientFailedValidation.TICKET_ID_INVALID_TYPE_MESSAGE,
-  })
-  @Matches(TICKET_ID_REGEX, {
-    message: clientFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
-  })
-  ticketID!: string;
-
   /**
    * TODO: Add userID when User entity is ready
-   * TODO: Recast ticketID to Ticket when the Ticket entity is ready
    */
 }
