@@ -129,7 +129,7 @@ describe("Client entity validation tests", () => {
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
-        isNotEmpty: commonFailedValidation.PHONE_NUMBER_REQUIRED,
+        isNotEmpty: commonFailedValidation.PHONE_NUMBER_REQUIRED_MESSAGE,
         isString: commonFailedValidation.PHONE_NUMBER_INVALID_TYPE_MESSAGE,
         matches: commonFailedValidation.PHONE_NUMBER_INVALID_FORMAT_MESSAGE,
       });
