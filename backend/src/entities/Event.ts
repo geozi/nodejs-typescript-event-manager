@@ -87,4 +87,6 @@ export class Event {
 
   @OneToMany(() => EventClient, (eventClient) => eventClient.event)
   clients!: EventClient[];
+
+  // TODO: ManyToMany relationship with Activity
 }

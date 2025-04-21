@@ -64,4 +64,6 @@ export class Activity {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  // TODO: ManyToMany relationship with Event
 }

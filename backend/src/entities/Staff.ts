@@ -57,5 +57,5 @@ export class Staff {
   @ManyToMany(() => Event, (event) => event.staffMembers)
   events!: Event[];
 
-  // TODO: Add user ID when User entity is ready.
+  // TODO: OneToOne relationship with User.
 }
