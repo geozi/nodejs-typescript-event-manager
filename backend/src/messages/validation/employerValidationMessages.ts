@@ -1,4 +1,3 @@
-import { industryTypeAsObj } from "enums/IndustryType";
 import { employerConstants } from "resources/constants/employerConstants";
 
 export const employerFailedValidationMessages = {
@@ -7,7 +6,5 @@ export const employerFailedValidationMessages = {
   COMPANY_NAME_BELOW_MIN_LENGTH_MESSAGE: `Company name must be at least ${employerConstants.COMPANY_NAME_MIN_LENGTH} characters long`,
   COMPANY_NAME_INVALID_TYPE_MESSAGE: "Company name must be a string",
   INDUSTRY_REQUIRED_MESSAGE: "Industry is a required field",
-  INDUSTRY_INVALID_MESSAGE: `Industry must be one of the following: ${Object.values(
-    industryTypeAsObj
-  )}`,
+  INDUSTRY_INVALID_MESSAGE: `Industry has a standard set of constant values. See relevant documentation`,
 };
