@@ -27,7 +27,12 @@ describe("Staff entity validation tests", () => {
       const errors = validateSync(mockStaff);
 
       expect(errors.length).toEqual(0);
-      expect(mockStaff.toString()).toEqual(validStaffInputs.toString());
+      expect({ ...mockStaff }).toEqual({
+        id: validCommonInputs.id,
+        firstName: validCommonInputs.firstName,
+        lastName: validCommonInputs.lastName,
+        ...validStaffInputs,
+      });
     });
   });
 

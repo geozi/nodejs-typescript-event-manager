@@ -1,4 +1,5 @@
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
+import { ActivityType } from "enums/ActivityType";
 import { DeptCategory } from "enums/DeptCategory";
 import { EmploymentStatus } from "enums/EmploymentStatus";
 import { IndustryType } from "enums/IndustryType";
@@ -66,4 +67,18 @@ export const validStaffInputs = {
 
 export const invalidStaffInputs = {
   DEPT_INVALID: "Testing Department" as DeptCategory,
+};
+
+export const validActivityInputs = {
+  title: "CV creation",
+  description: "Learn how to make a successful CV",
+  activityType: ActivityType.Workshop,
+};
+
+export const invalidActivityInputs = {
+  TITLE_TOO_SHORT: "C",
+  TITLE_TOO_LONG: `Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas`,
+  DESCRIPTION_TOO_SHORT: "Desc",
+  DESCRIPTION_TOO_LONG: `Pellentesque fermentum facilisis hendrerit. Vivamus venenatis dapibus sem, sit amet placerat tortor blandit eget. Nullam id augue vitae nulla interdum pharetra ut et turpis. Etiam nisl mauris, feugiat malesuada mi sed, vestibulum commodo lectus. Donec convallis ac tortor vitae tincidunt. Praesent ut ligula elit. Morbi eget mi ex. Curabitur quis dignissim eros. Suspendisse id massa at velit maximus ultrices. Suspendisse euismod rhoncus sapien, sit amet pretium arcu mollis a. Cras commodo lacus erat, gravida congue ipsum condimentum nec. In lacinia nunc sagittis mauris ullamcorper interdum. Pellentesque ac risus consequat orci congue malesuada in nec mi. Donec eleifend id nunc quis semper. Sed consequat metus non accumsan rutrum.`,
+  ACTIVITY_TYPE_INVALID: "Exercise" as ActivityType,
 };

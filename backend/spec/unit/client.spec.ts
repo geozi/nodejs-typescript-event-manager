@@ -28,7 +28,10 @@ describe("Client entity validation tests", () => {
       const errors = validateSync(mockClient);
 
       expect(errors.length).toEqual(0);
-      expect(mockClient.toString()).toEqual(invalidClientInputs.toString());
+      expect({ ...mockClient }).toEqual({
+        ...validCommonInputs,
+        ...validClientInputs,
+      });
     });
   });
 

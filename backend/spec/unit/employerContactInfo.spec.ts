@@ -28,9 +28,12 @@ describe("EmployerContactInfo entity validation tests", () => {
       const errors = validateSync(mockEmployerContactInfo);
 
       expect(errors.length).toEqual(0);
-      expect(mockEmployerContactInfo.toString()).toEqual(
-        validEmployerContactInfoInputs.toString()
-      );
+      expect({ ...mockEmployerContactInfo }).toEqual({
+        id: validCommonInputs.id,
+        phoneNumber: validCommonInputs.phoneNumber,
+        email: validCommonInputs.email,
+        ...validEmployerContactInfoInputs,
+      });
     });
   });
 

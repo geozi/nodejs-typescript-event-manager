@@ -25,7 +25,10 @@ describe("Employer entity validation tests", () => {
       const errors = validateSync(mockEmployer);
 
       expect(errors.length).toEqual(0);
-      expect(mockEmployer.toString()).toEqual(validEmployerInputs.toString());
+      expect({ ...mockEmployer }).toEqual({
+        id: validCommonInputs.id,
+        ...validEmployerInputs,
+      });
     });
   });
 
