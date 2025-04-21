@@ -3,10 +3,10 @@ import { Client } from "entities/Client";
 import { clientFailedValidation } from "messages/validation/clientValidationMessages";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import {
+  invalidClientInputs,
   invalidCommonInputs,
-  invalidParticipantInputs,
+  validClientInputs,
   validCommonInputs,
-  validParticipantInputs,
 } from "spec/testInputs";
 
 describe("Client entity validation tests", () => {
@@ -21,14 +21,14 @@ describe("Client entity validation tests", () => {
       mockClient.lastName = validCommonInputs.lastName;
       mockClient.email = validCommonInputs.email;
       mockClient.phoneNumber = validCommonInputs.phoneNumber;
-      mockClient.employmentStatus = validParticipantInputs.employmentStatus;
+      mockClient.employmentStatus = validClientInputs.employmentStatus;
     });
 
     it("client has valid inputs", () => {
       const errors = validateSync(mockClient);
 
       expect(errors.length).toEqual(0);
-      expect(mockClient.toString()).toEqual(validParticipantInputs.toString());
+      expect(mockClient.toString()).toEqual(invalidClientInputs.toString());
     });
   });
 
@@ -41,7 +41,7 @@ describe("Client entity validation tests", () => {
       mockClient.lastName = validCommonInputs.lastName;
       mockClient.email = validCommonInputs.email;
       mockClient.phoneNumber = validCommonInputs.phoneNumber;
-      mockClient.employmentStatus = validParticipantInputs.employmentStatus;
+      mockClient.employmentStatus = validClientInputs.employmentStatus;
     });
 
     it("firstName is undefined", () => {
@@ -185,12 +185,12 @@ describe("Client entity validation tests", () => {
 
     it("employmentStatus is invalid", () => {
       mockClient.employmentStatus =
-        invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID;
+        invalidClientInputs.EMPLOYMENT_STATUS_INVALID;
 
       const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(
-        invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID
+        invalidClientInputs.EMPLOYMENT_STATUS_INVALID
       );
       expect(errors[0].constraints).toEqual({
         isEnum: clientFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,

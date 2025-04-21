@@ -28,11 +28,11 @@ export const invalidEmployerContactInfoInputs = {
   CITY_INVALID: "New York" as LocalCities,
 };
 
-export const validParticipantInputs = {
+export const validClientInputs = {
   employmentStatus: EmploymentStatus.Unemployed,
 };
 
-export const invalidParticipantInputs = {
+export const invalidClientInputs = {
   EMPLOYMENT_STATUS_INVALID: "Too employed" as EmploymentStatus,
 };
 
