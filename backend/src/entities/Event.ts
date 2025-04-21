@@ -15,9 +15,11 @@ import {
   Index,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Employer } from "./Employer";
+import { EventClient } from "./EventClient";
 import { Staff } from "./Staff";
 
 @Entity({ name: "events" })
@@ -75,4 +77,7 @@ export class Event {
   @ManyToMany(() => Staff, (staff) => staff.events)
   @JoinTable({ name: "event_staff_members" })
   staffMembers!: Staff[];
+
+  @OneToMany(() => EventClient, (eventClient) => eventClient.event)
+  clients!: EventClient[];
 }

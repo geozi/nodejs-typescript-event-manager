@@ -10,10 +10,18 @@ import { EmploymentStatus } from "enums/EmploymentStatus";
 import { clientFailedValidation } from "messages/validation/clientValidationMessages";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { PHONE_NUMBER_REGEX } from "resources/regexp/validationRegExp";
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { EventClient } from "./EventClient";
 
 @Entity({ name: "clients" })
 export class Client {
+  // Columns
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -66,7 +74,7 @@ export class Client {
   })
   employmentStatus!: EmploymentStatus;
 
-  /**
-   * TODO: Add userID when User entity is ready
-   */
+  // Relations
+  @OneToMany(() => EventClient, (eventClient) => eventClient.client)
+  events!: EventClient[];
 }
