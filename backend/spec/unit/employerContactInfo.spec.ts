@@ -22,6 +22,8 @@ describe("EmployerContactInfo entity validation tests", () => {
       mockEmployerContactInfo.streetAddress =
         validEmployerContactInfoInputs.streetAddress;
       mockEmployerContactInfo.city = validEmployerContactInfoInputs.city;
+      mockEmployerContactInfo.createdAt = validCommonInputs.createdAt;
+      mockEmployerContactInfo.updatedAt = validCommonInputs.updatedAt;
     });
 
     it("employerContactInfo has valid inputs", () => {
@@ -33,6 +35,8 @@ describe("EmployerContactInfo entity validation tests", () => {
         phoneNumber: validCommonInputs.phoneNumber,
         email: validCommonInputs.email,
         ...validEmployerContactInfoInputs,
+        createdAt: validCommonInputs.createdAt,
+        updatedAt: validCommonInputs.updatedAt,
       });
     });
   });

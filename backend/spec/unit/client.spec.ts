@@ -22,6 +22,9 @@ describe("Client entity validation tests", () => {
       mockClient.email = validCommonInputs.email;
       mockClient.phoneNumber = validCommonInputs.phoneNumber;
       mockClient.employmentStatus = validClientInputs.employmentStatus;
+      mockClient.createdAt = validCommonInputs.createdAt;
+      mockClient.updatedAt = validCommonInputs.updatedAt;
+      mockClient.events = validClientInputs.events;
     });
 
     it("client has valid inputs", () => {

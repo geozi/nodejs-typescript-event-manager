@@ -1,4 +1,6 @@
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
+import { Event } from "entities/Event";
+import { EventClient } from "entities/EventClient";
 import { ActivityType } from "enums/ActivityType";
 import { DeptCategory } from "enums/DeptCategory";
 import { EmploymentStatus } from "enums/EmploymentStatus";
@@ -31,6 +33,7 @@ export const invalidEmployerContactInfoInputs = {
 
 export const validClientInputs = {
   employmentStatus: EmploymentStatus.Unemployed,
+  events: [new EventClient(), new EventClient()],
 };
 
 export const invalidClientInputs = {
@@ -43,6 +46,9 @@ export const validCommonInputs = {
   lastName: "Johnson",
   email: "mymail@mail.com",
   phoneNumber: "6999999999",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  events: [new Event(), new Event()],
 };
 
 export const invalidCommonInputs = {

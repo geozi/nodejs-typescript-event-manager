@@ -21,6 +21,9 @@ describe("Staff entity validation tests", () => {
       mockStaff.lastName = validCommonInputs.lastName;
       mockStaff.jobTitle = validStaffInputs.jobTitle;
       mockStaff.department = validStaffInputs.department;
+      mockStaff.createdAt = validCommonInputs.createdAt;
+      mockStaff.updatedAt = validCommonInputs.updatedAt;
+      mockStaff.events = validCommonInputs.events;
     });
 
     it("staff has valid inputs", () => {
@@ -32,6 +35,9 @@ describe("Staff entity validation tests", () => {
         firstName: validCommonInputs.firstName,
         lastName: validCommonInputs.lastName,
         ...validStaffInputs,
+        createdAt: validCommonInputs.createdAt,
+        updatedAt: validCommonInputs.updatedAt,
+        events: validCommonInputs.events,
       });
     });
   });

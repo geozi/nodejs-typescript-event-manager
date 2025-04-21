@@ -18,6 +18,8 @@ describe("Activity entity validation tests", () => {
       mockActivity.title = validActivityInputs.title;
       mockActivity.description = validActivityInputs.description;
       mockActivity.activityType = validActivityInputs.activityType;
+      mockActivity.createdAt = validCommonInputs.createdAt;
+      mockActivity.updatedAt = validCommonInputs.updatedAt;
     });
 
     it("activity has valid inputs", () => {
@@ -27,6 +29,8 @@ describe("Activity entity validation tests", () => {
       expect({ ...mockActivity }).toEqual({
         id: validCommonInputs.id,
         ...validActivityInputs,
+        createdAt: validCommonInputs.createdAt,
+        updatedAt: validCommonInputs.updatedAt,
       });
     });
   });

@@ -19,11 +19,11 @@ export class EventClient {
 
   // Relations
   @ManyToOne(() => Event, (event) => event.clients)
-  @PrimaryColumn()
+  @PrimaryColumn({ type: "number" })
   event!: Event;
 
   @ManyToOne(() => Client, (client) => client.events)
-  @PrimaryColumn()
+  @PrimaryColumn({ type: "number" })
   client!: Client;
 
   @CreateDateColumn()
