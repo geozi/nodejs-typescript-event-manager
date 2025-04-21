@@ -51,7 +51,7 @@ export class Client {
   })
   lastName!: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true })
   @IsNotEmpty({ message: commonFailedValidation.EMAIL_REQUIRED_MESSAGE })
   @IsEmail({}, { message: commonFailedValidation.EMAIL_INVALID_MESSAGE })
   email!: string;

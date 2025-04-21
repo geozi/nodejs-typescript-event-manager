@@ -30,8 +30,7 @@ export class Event {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: "varchar" })
-  @Index()
+  @Column({ type: "varchar", unique: true })
   @IsNotEmpty({ message: eventFailedValidation.NAME_REQUIRED_MESSAGE })
   @IsString({ message: eventFailedValidation.NAME_INVALID_TYPE_MESSAGE })
   @MinLength(eventConstants.NAME_MIN, {

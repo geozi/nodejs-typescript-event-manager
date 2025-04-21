@@ -12,6 +12,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -22,7 +23,7 @@ export class Activity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true })
   @IsNotEmpty({ message: activityFailedValidation.TITLE_REQUIRED_MESSAGE })
   @IsString({ message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE })
   @MinLength(activityConstants.TITLE_MIN_LENGTH, {
@@ -49,6 +50,7 @@ export class Activity {
   description!: string;
 
   @Column({ type: "enum", enum: ActivityType })
+  @Index()
   @IsNotEmpty({
     message: activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE,
   })

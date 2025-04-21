@@ -28,11 +28,10 @@ export class Employer {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true })
   @IsNotEmpty({
     message: employerFailedValidationMessages.COMPANY_NAME_REQUIRED_MESSAGE,
   })
-  @Index()
   @IsString({
     message: employerFailedValidationMessages.COMPANY_NAME_INVALID_TYPE_MESSAGE,
   })
@@ -47,10 +46,10 @@ export class Employer {
   companyName!: string;
 
   @Column({ type: "enum", enum: IndustryType })
+  @Index()
   @IsNotEmpty({
     message: employerFailedValidationMessages.INDUSTRY_REQUIRED_MESSAGE,
   })
-  @Index()
   @IsEnum(IndustryType, {
     message: employerFailedValidationMessages.INDUSTRY_INVALID_MESSAGE,
   })

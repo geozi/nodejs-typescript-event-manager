@@ -6,6 +6,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -35,11 +36,13 @@ export class Staff {
   lastName!: string;
 
   @Column({ type: "varchar" })
+  @Index()
   @IsNotEmpty({ message: staffFailedValidation.JOB_TITLE_REQUIRED_MESSAGE })
   @IsString({ message: staffFailedValidation.JOB_TITLE_INVALID_TYPE_MESSAGE })
   jobTitle!: string;
 
   @Column({ type: "enum", enum: DeptCategory })
+  @Index()
   @IsNotEmpty({ message: staffFailedValidation.DEPT_REQUIRED_MESSAGE })
   @IsEnum(DeptCategory, { message: staffFailedValidation.DEPT_INVALID_MESSAGE })
   department!: DeptCategory;
