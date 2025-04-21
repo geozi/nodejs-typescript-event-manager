@@ -22,7 +22,6 @@ describe("Client entity validation tests", () => {
       mockClient.email = validCommonInputs.email;
       mockClient.phoneNumber = validCommonInputs.phoneNumber;
       mockClient.employmentStatus = validParticipantInputs.employmentStatus;
-      mockClient.ticketID = validParticipantInputs.ticketId;
     });
 
     it("client has valid inputs", () => {
@@ -43,7 +42,6 @@ describe("Client entity validation tests", () => {
       mockClient.email = validCommonInputs.email;
       mockClient.phoneNumber = validCommonInputs.phoneNumber;
       mockClient.employmentStatus = validParticipantInputs.employmentStatus;
-      mockClient.ticketID = validParticipantInputs.ticketId;
     });
 
     it("firstName is undefined", () => {
@@ -196,32 +194,6 @@ describe("Client entity validation tests", () => {
       );
       expect(errors[0].constraints).toEqual({
         isEnum: clientFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
-      });
-    });
-
-    it("ticketId is undefined", () => {
-      mockClient.ticketID = undefined;
-
-      const errors = validateSync(mockClient);
-
-      expect(errors[0].value).toEqual(undefined);
-      expect(errors[0].constraints).toEqual({
-        isNotEmpty: clientFailedValidation.TICKET_ID_REQUIRED_MESSAGE,
-        isString: clientFailedValidation.TICKET_ID_INVALID_TYPE_MESSAGE,
-        matches: clientFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
-      });
-    });
-
-    it("ticketId is invalid", () => {
-      mockClient.ticketID = invalidParticipantInputs.TICKET_ID_INVALID;
-
-      const errors = validateSync(mockClient);
-
-      expect(errors[0].value).toEqual(
-        invalidParticipantInputs.TICKET_ID_INVALID
-      );
-      expect(errors[0].constraints).toEqual({
-        matches: clientFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
       });
     });
   });

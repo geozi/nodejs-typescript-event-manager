@@ -30,12 +30,10 @@ export const invalidEmployerContactInfoInputs = {
 
 export const validParticipantInputs = {
   employmentStatus: EmploymentStatus.Unemployed,
-  ticketId: "EMP20250419RN453190",
 };
 
 export const invalidParticipantInputs = {
   EMPLOYMENT_STATUS_INVALID: "Too employed" as EmploymentStatus,
-  TICKET_ID_INVALID: "1234*@34",
 };
 
 export const validCommonInputs = {
