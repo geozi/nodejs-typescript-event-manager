@@ -1,7 +1,7 @@
 import { validateSync } from "class-validator";
 import { Client } from "entities/Client";
+import { clientFailedValidation } from "messages/validation/clientValidationMessages";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
-import { participantFailedValidation } from "messages/validation/participantValidationMessages";
 import {
   invalidCommonInputs,
   invalidParticipantInputs,
@@ -180,9 +180,8 @@ describe("Client entity validation tests", () => {
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
-        isNotEmpty:
-          participantFailedValidation.EMPLOYMENT_STATUS_REQUIRED_MESSAGE,
-        isEnum: participantFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
+        isNotEmpty: clientFailedValidation.EMPLOYMENT_STATUS_REQUIRED_MESSAGE,
+        isEnum: clientFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
       });
     });
 
@@ -196,7 +195,7 @@ describe("Client entity validation tests", () => {
         invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID
       );
       expect(errors[0].constraints).toEqual({
-        isEnum: participantFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
+        isEnum: clientFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
       });
     });
 
@@ -207,9 +206,9 @@ describe("Client entity validation tests", () => {
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
-        isNotEmpty: participantFailedValidation.TICKET_ID_REQUIRED_MESSAGE,
-        isString: participantFailedValidation.TICKET_ID_INVALID_TYPE_MESSAGE,
-        matches: participantFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
+        isNotEmpty: clientFailedValidation.TICKET_ID_REQUIRED_MESSAGE,
+        isString: clientFailedValidation.TICKET_ID_INVALID_TYPE_MESSAGE,
+        matches: clientFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
       });
     });
 
@@ -222,7 +221,7 @@ describe("Client entity validation tests", () => {
         invalidParticipantInputs.TICKET_ID_INVALID
       );
       expect(errors[0].constraints).toEqual({
-        matches: participantFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
+        matches: clientFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
       });
     });
   });

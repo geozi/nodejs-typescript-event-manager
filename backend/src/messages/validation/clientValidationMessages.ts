@@ -1,6 +1,6 @@
 import { employmentStatusAsObj } from "enums/EmploymentStatus";
 
-export const participantFailedValidation = {
+export const clientFailedValidation = {
   EMPLOYMENT_STATUS_REQUIRED_MESSAGE: "Employment status is a required field",
   EMPLOYMENT_STATUS_INVALID_MESSAGE: `Employment status must be one of the following: ${Object.values(
     employmentStatusAsObj

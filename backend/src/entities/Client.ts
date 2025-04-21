@@ -7,8 +7,8 @@ import {
   Matches,
 } from "class-validator";
 import { EmploymentStatus } from "enums/EmploymentStatus";
+import { clientFailedValidation } from "messages/validation/clientValidationMessages";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
-import { participantFailedValidation } from "messages/validation/participantValidationMessages";
 import {
   PHONE_NUMBER_REGEX,
   TICKET_ID_REGEX,
@@ -62,22 +62,22 @@ export class Client {
   @Column({ type: "enum", enum: EmploymentStatus })
   @Index()
   @IsNotEmpty({
-    message: participantFailedValidation.EMPLOYMENT_STATUS_REQUIRED_MESSAGE,
+    message: clientFailedValidation.EMPLOYMENT_STATUS_REQUIRED_MESSAGE,
   })
   @IsEnum(EmploymentStatus, {
-    message: participantFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
+    message: clientFailedValidation.EMPLOYMENT_STATUS_INVALID_MESSAGE,
   })
   employmentStatus!: EmploymentStatus;
 
   @Column({ type: "varchar", unique: true })
   @IsNotEmpty({
-    message: participantFailedValidation.TICKET_ID_REQUIRED_MESSAGE,
+    message: clientFailedValidation.TICKET_ID_REQUIRED_MESSAGE,
   })
   @IsString({
-    message: participantFailedValidation.TICKET_ID_INVALID_TYPE_MESSAGE,
+    message: clientFailedValidation.TICKET_ID_INVALID_TYPE_MESSAGE,
   })
   @Matches(TICKET_ID_REGEX, {
-    message: participantFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
+    message: clientFailedValidation.TICKET_ID_INVALID_FORMAT_MESSAGE,
   })
   ticketID!: string;
 
