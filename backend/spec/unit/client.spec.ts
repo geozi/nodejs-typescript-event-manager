@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { Participant } from "entities/Client";
+import { Client } from "entities/Client";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { participantFailedValidation } from "messages/validation/participantValidationMessages";
 import {
@@ -9,51 +9,47 @@ import {
   validParticipantInputs,
 } from "spec/testInputs";
 
-describe("Participant entity validation tests", () => {
-  let mockParticipant: Partial<Participant>;
+describe("Client entity validation tests", () => {
+  let mockClient: Partial<Client>;
 
   describe("Positive scenario", () => {
     beforeEach(() => {
       // Mocks
-      mockParticipant = new Participant();
-      mockParticipant.id = validCommonInputs.id;
-      mockParticipant.firstName = validCommonInputs.firstName;
-      mockParticipant.lastName = validCommonInputs.lastName;
-      mockParticipant.email = validCommonInputs.email;
-      mockParticipant.phoneNumber = validCommonInputs.phoneNumber;
-      mockParticipant.employmentStatus =
-        validParticipantInputs.employmentStatus;
-      mockParticipant.ticketID = validParticipantInputs.ticketId;
+      mockClient = new Client();
+      mockClient.id = validCommonInputs.id;
+      mockClient.firstName = validCommonInputs.firstName;
+      mockClient.lastName = validCommonInputs.lastName;
+      mockClient.email = validCommonInputs.email;
+      mockClient.phoneNumber = validCommonInputs.phoneNumber;
+      mockClient.employmentStatus = validParticipantInputs.employmentStatus;
+      mockClient.ticketID = validParticipantInputs.ticketId;
     });
 
-    it("participant has valid inputs", () => {
-      const errors = validateSync(mockParticipant);
+    it("client has valid inputs", () => {
+      const errors = validateSync(mockClient);
 
       expect(errors.length).toEqual(0);
-      expect(mockParticipant.toString()).toEqual(
-        validParticipantInputs.toString()
-      );
+      expect(mockClient.toString()).toEqual(validParticipantInputs.toString());
     });
   });
 
   describe("Negative scenarios", () => {
     beforeEach(() => {
       // Mocks
-      mockParticipant = new Participant();
-      mockParticipant.id = validCommonInputs.id;
-      mockParticipant.firstName = validCommonInputs.firstName;
-      mockParticipant.lastName = validCommonInputs.lastName;
-      mockParticipant.email = validCommonInputs.email;
-      mockParticipant.phoneNumber = validCommonInputs.phoneNumber;
-      mockParticipant.employmentStatus =
-        validParticipantInputs.employmentStatus;
-      mockParticipant.ticketID = validParticipantInputs.ticketId;
+      mockClient = new Client();
+      mockClient.id = validCommonInputs.id;
+      mockClient.firstName = validCommonInputs.firstName;
+      mockClient.lastName = validCommonInputs.lastName;
+      mockClient.email = validCommonInputs.email;
+      mockClient.phoneNumber = validCommonInputs.phoneNumber;
+      mockClient.employmentStatus = validParticipantInputs.employmentStatus;
+      mockClient.ticketID = validParticipantInputs.ticketId;
     });
 
     it("firstName is undefined", () => {
-      mockParticipant.firstName = undefined;
+      mockClient.firstName = undefined;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
@@ -64,9 +60,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("firstName is invalid", () => {
-      mockParticipant.firstName = invalidCommonInputs.FIRST_NAME_INVALID;
+      mockClient.firstName = invalidCommonInputs.FIRST_NAME_INVALID;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(invalidCommonInputs.FIRST_NAME_INVALID);
       expect(errors[0].constraints).toEqual({
@@ -75,9 +71,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("lastName is undefined", () => {
-      mockParticipant.lastName = undefined;
+      mockClient.lastName = undefined;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
@@ -88,9 +84,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("lastName is invalid", () => {
-      mockParticipant.lastName = invalidCommonInputs.LAST_NAME_INVALID;
+      mockClient.lastName = invalidCommonInputs.LAST_NAME_INVALID;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(invalidCommonInputs.LAST_NAME_INVALID);
       expect(errors[0].constraints).toEqual({
@@ -99,9 +95,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("email is undefined", () => {
-      mockParticipant.email = undefined;
+      mockClient.email = undefined;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
@@ -113,9 +109,9 @@ describe("Participant entity validation tests", () => {
     invalidCommonInputs.EMAIL_INVALID_CASES.forEach(
       ([testName, invalidEmail]) => {
         it(testName, () => {
-          mockParticipant.email = invalidEmail;
+          mockClient.email = invalidEmail;
 
-          const errors = validateSync(mockParticipant);
+          const errors = validateSync(mockClient);
 
           expect(errors[0].value).toEqual(invalidEmail);
           expect(errors[0].constraints).toEqual({
@@ -126,9 +122,9 @@ describe("Participant entity validation tests", () => {
     );
 
     it("phoneNumber is undefined", () => {
-      mockParticipant.phoneNumber = undefined;
+      mockClient.phoneNumber = undefined;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
@@ -139,9 +135,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("phoneNumber is too short", () => {
-      mockParticipant.phoneNumber = invalidCommonInputs.PHONE_NUMBER_TOO_SHORT;
+      mockClient.phoneNumber = invalidCommonInputs.PHONE_NUMBER_TOO_SHORT;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(
         invalidCommonInputs.PHONE_NUMBER_TOO_SHORT
@@ -152,9 +148,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("phoneNumber is too long", () => {
-      mockParticipant.phoneNumber = invalidCommonInputs.PHONE_NUMBER_TOO_LONG;
+      mockClient.phoneNumber = invalidCommonInputs.PHONE_NUMBER_TOO_LONG;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(
         invalidCommonInputs.PHONE_NUMBER_TOO_LONG
@@ -165,10 +161,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("phoneNumber is invalid", () => {
-      mockParticipant.phoneNumber =
-        invalidCommonInputs.PHONE_NUMBER_INVALID_FORMAT;
+      mockClient.phoneNumber = invalidCommonInputs.PHONE_NUMBER_INVALID_FORMAT;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(
         invalidCommonInputs.PHONE_NUMBER_INVALID_FORMAT
@@ -179,9 +174,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("employmentStatus is undefined", () => {
-      mockParticipant.employmentStatus = undefined;
+      mockClient.employmentStatus = undefined;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
@@ -192,10 +187,10 @@ describe("Participant entity validation tests", () => {
     });
 
     it("employmentStatus is invalid", () => {
-      mockParticipant.employmentStatus =
+      mockClient.employmentStatus =
         invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(
         invalidParticipantInputs.EMPLOYMENT_STATUS_INVALID
@@ -206,9 +201,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("ticketId is undefined", () => {
-      mockParticipant.ticketID = undefined;
+      mockClient.ticketID = undefined;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].constraints).toEqual({
@@ -219,9 +214,9 @@ describe("Participant entity validation tests", () => {
     });
 
     it("ticketId is invalid", () => {
-      mockParticipant.ticketID = invalidParticipantInputs.TICKET_ID_INVALID;
+      mockClient.ticketID = invalidParticipantInputs.TICKET_ID_INVALID;
 
-      const errors = validateSync(mockParticipant);
+      const errors = validateSync(mockClient);
 
       expect(errors[0].value).toEqual(
         invalidParticipantInputs.TICKET_ID_INVALID
