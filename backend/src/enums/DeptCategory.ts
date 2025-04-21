@@ -7,7 +7,3 @@ export enum DeptCategory {
   IT = "IT",
   Recruitment = "Recruitment",
 }
-
-export const deptCategoryAsObj = Object.fromEntries(
-  Object.entries(DeptCategory)
-);

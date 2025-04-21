@@ -21,7 +21,3 @@ export enum IndustryType {
   Transportation = "Transportation",
   WholesaleSales = "Wholesale Sales",
 }
-
-export const industryTypeAsObj = Object.fromEntries(
-  Object.entries(IndustryType)
-);

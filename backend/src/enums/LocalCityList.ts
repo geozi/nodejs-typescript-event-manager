@@ -20,5 +20,3 @@ export enum LocalCities {
   Veria = "Veria",
   Volos = "Volos",
 }
-
-export const localCitiesAsObj = Object.fromEntries(Object.entries(LocalCities));

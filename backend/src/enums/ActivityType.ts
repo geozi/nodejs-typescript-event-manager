@@ -3,7 +3,3 @@ export enum ActivityType {
   Presentation = "Presentation",
   Workshop = "Workshop",
 }
-
-export const activityTypeAsObj = Object.fromEntries(
-  Object.entries(ActivityType)
-);
