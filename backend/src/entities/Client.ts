@@ -12,7 +12,7 @@ import { commonFailedValidation } from "messages/validation/commonValidationMess
 import { PHONE_NUMBER_REGEX } from "resources/regexp/validationRegExp";
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "participants" })
+@Entity({ name: "clients" })
 export class Client {
   @PrimaryGeneratedColumn()
   id!: number;

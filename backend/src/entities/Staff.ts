@@ -2,8 +2,9 @@ import { IsAlpha, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { DeptCategory } from "enums/DeptCategory";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { staffFailedValidation } from "messages/validation/staffValidationMessages";
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity({ name: "staff_members" })
 export class Staff {
   // Columns
 

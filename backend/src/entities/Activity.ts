@@ -10,7 +10,7 @@ import { activityFailedValidation } from "messages/validation/activityValidation
 import { activityConstants } from "resources/constants/activityConstants";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({ name: "activities" })
 export class Activity {
   @PrimaryGeneratedColumn()
   id!: number;
