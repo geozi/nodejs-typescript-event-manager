@@ -9,7 +9,16 @@ import {
 import { EventStatus } from "enums/EventStatus";
 import { eventFailedValidation } from "messages/validation/eventValidationMessages";
 import { eventConstants } from "resources/constants/eventConstants";
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Employer } from "./Employer";
+import { Staff } from "./Staff";
 
 @Entity({ name: "events" })
 export class Event {
@@ -58,5 +67,12 @@ export class Event {
   })
   status!: EventStatus;
 
-  // TODO: Add relations with other entities
+  // Relations
+  @ManyToMany(() => Employer, (employer) => employer.events)
+  @JoinTable({ name: "event_employers" })
+  employers!: Employer[];
+
+  @ManyToMany(() => Staff, (staff) => staff.events)
+  @JoinTable({ name: "event_staff_members" })
+  staffMembers!: Staff[];
 }

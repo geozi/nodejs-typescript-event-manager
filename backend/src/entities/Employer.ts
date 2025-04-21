@@ -13,10 +13,12 @@ import {
   Entity,
   Index,
   JoinColumn,
+  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { EmployerContactInfo } from "./EmployerContactInfo";
+import { Event } from "./Event";
 
 @Entity({ name: "employers" })
 export class Employer {
@@ -58,4 +60,7 @@ export class Employer {
   @OneToOne(() => EmployerContactInfo)
   @JoinColumn()
   employerContactInfo!: EmployerContactInfo;
+
+  @ManyToMany(() => Event, (event) => event.employers)
+  events!: Event[];
 }

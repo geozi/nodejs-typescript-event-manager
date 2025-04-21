@@ -2,7 +2,8 @@ import { IsAlpha, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { DeptCategory } from "enums/DeptCategory";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { staffFailedValidation } from "messages/validation/staffValidationMessages";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Event } from "./Event";
 
 @Entity({ name: "staff_members" })
 export class Staff {
@@ -36,6 +37,10 @@ export class Staff {
   @IsNotEmpty({ message: staffFailedValidation.DEPT_REQUIRED_MESSAGE })
   @IsEnum(DeptCategory, { message: staffFailedValidation.DEPT_INVALID_MESSAGE })
   department!: DeptCategory;
+
+  // Relations
+  @ManyToMany(() => Event, (event) => event.staffMembers)
+  events!: Event[];
 
   // TODO: Add user ID when User entity is ready.
 }
