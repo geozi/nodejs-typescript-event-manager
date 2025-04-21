@@ -47,7 +47,7 @@ export class Client {
   email!: string;
 
   @Column({ type: "varchar" })
-  @IsNotEmpty({ message: commonFailedValidation.PHONE_NUMBER_REQUIRED })
+  @IsNotEmpty({ message: commonFailedValidation.PHONE_NUMBER_REQUIRED_MESSAGE })
   @IsString({
     message: commonFailedValidation.PHONE_NUMBER_INVALID_TYPE_MESSAGE,
   })
