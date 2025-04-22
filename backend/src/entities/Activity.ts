@@ -13,9 +13,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Event } from "./Event";
 
 @Entity({ name: "activities" })
 export class Activity {
@@ -65,5 +67,7 @@ export class Activity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  // TODO: ManyToMany relationship with Event
+  // Relations
+  @ManyToMany(() => Event, (event) => event.activities)
+  events!: Event[];
 }

@@ -20,6 +20,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Activity } from "./Activity";
 import { Employer } from "./Employer";
 import { EventClient } from "./EventClient";
 import { Staff } from "./Staff";
@@ -85,8 +86,10 @@ export class Event {
   @JoinTable({ name: "event_staff_members" })
   staffMembers!: Staff[];
 
+  @ManyToMany(() => Activity, (activity) => activity.events)
+  @JoinTable({ name: "event_activities" })
+  activities!: Activity[];
+
   @OneToMany(() => EventClient, (eventClient) => eventClient.event)
   clients!: EventClient[];
-
-  // TODO: ManyToMany relationship with Activity
 }
