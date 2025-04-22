@@ -6,6 +6,7 @@ import { EmployerContactInfo } from "entities/EmployerContactInfo";
 import { Event } from "entities/Event";
 import { EventClient } from "entities/EventClient";
 import { Staff } from "entities/Staff";
+import { User } from "entities/User";
 import { DataSource } from "typeorm";
 dotenv.config();
 
@@ -26,6 +27,7 @@ export const AppDataSource = new DataSource({
     Event,
     EventClient,
     Staff,
+    User,
   ],
   migrations: [],
   subscribers: [],
