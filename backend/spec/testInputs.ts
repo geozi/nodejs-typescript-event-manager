@@ -10,6 +10,7 @@ import { EmploymentStatus } from "enums/EmploymentStatus";
 import { EventStatus } from "enums/EventStatus";
 import { IndustryType } from "enums/IndustryType";
 import { LocalCities } from "enums/LocalCityList";
+import { RoleType } from "enums/RoleType";
 
 export const validEmployerInputs = {
   companyName: "Tech solutions",
@@ -111,4 +112,24 @@ export const invalidEventInputs = {
   SUMMARY_TOO_SHORT: `Summary`,
   SUMMARY_TOO_LONG: `Fusce at nunc lacinia, bibendum neque in, pharetra elit. Fusce orci justo, elementum vel mi sit amet, ultrices tempor eros. Ut placerat massa et velit tempor, id congue urna mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dignissim neque non mattis blandit. Integer eget placerat erat. Donec tempor lorem ipsum, sed imperdiet sem rhoncus vel. Nullam nulla ligula, malesuada quis enim vel, ultrices dapibus mauris. In et justo non elit molestie dapibus sed eu velit. Donec semper, orci ut cursus egestas, nibh urna fringilla tortor, a blandit tellus libero vitae massa. Suspendisse fermentum ex vel volutpat luctus. Etiam ut venenatis leo.`,
   STATUS_INVALID: "Pending" as EventStatus,
+};
+
+export const validUserInput = {
+  username: "newUser",
+  email: "random@mail.com",
+  password: "5W]L8t1m4@PcTTO",
+  role: RoleType.User,
+};
+
+export const invalidUserInputs = {
+  TOO_SHORT_USERNAME: "ab",
+  TOO_LONG_USERNAME: "thisIsAVeryLongUsernameToTest",
+  TOO_SHORT_PASSWORD: "E^e;0=",
+  PASSWORD_INVALID_CASES: [
+    ["password has no uppercase letters", "!]i&u^^.57h3.,%"],
+    ["password has no lowercase letters", "+[Q]D~~A,9CGYZ~"],
+    ["password has no numbers", "Q}_MC}mdguOs!Gr"],
+    ["password has no special symbols", "EyB0McqoXAOYA1Y"],
+  ] as [string, string][],
+  ROLE_INVALID: "Executive" as RoleType,
 };
