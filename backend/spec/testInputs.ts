@@ -1,5 +1,6 @@
 import { EventActivity } from "entities/intermediary/EventActivity";
 import { EventClient } from "entities/intermediary/EventClient";
+import { EventStaff } from "entities/intermediary/EventStaff";
 import { Activity } from "entities/primary/Activity";
 import { Employer } from "entities/primary/Employer";
 import { EmployerContactInfo } from "entities/primary/EmployerContactInfo";
@@ -77,6 +78,7 @@ export const invalidCommonInputs = {
 export const validStaffInputs = {
   jobTitle: "Talent recruiter",
   department: DeptCategory.Recruitment,
+  events: [new EventStaff(), new EventStaff()],
 };
 
 export const invalidStaffInputs = {

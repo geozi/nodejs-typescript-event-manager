@@ -23,7 +23,7 @@ describe("Staff entity validation tests", () => {
       mockStaff.department = validStaffInputs.department;
       mockStaff.createdAt = validCommonInputs.createdAt;
       mockStaff.updatedAt = validCommonInputs.updatedAt;
-      mockStaff.events = validCommonInputs.events;
+      mockStaff.events = validStaffInputs.events;
       mockStaff.user = validCommonInputs.user;
     });
 
@@ -38,7 +38,6 @@ describe("Staff entity validation tests", () => {
         ...validStaffInputs,
         createdAt: validCommonInputs.createdAt,
         updatedAt: validCommonInputs.updatedAt,
-        events: validCommonInputs.events,
         user: validCommonInputs.user,
       });
     });
@@ -47,7 +46,7 @@ describe("Staff entity validation tests", () => {
   describe("Negative scenario", () => {
     beforeEach(() => {
       // Mocks
-      mockStaff = new Staff();
+      mockStaff = new StaffMember();
       mockStaff.id = validCommonInputs.id;
       mockStaff.firstName = validCommonInputs.firstName;
       mockStaff.lastName = validCommonInputs.lastName;
