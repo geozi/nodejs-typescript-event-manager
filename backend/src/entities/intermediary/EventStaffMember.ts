@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 
 @Entity({ name: "event_staff_members" })
-export class EventStaff {
+export class EventStaffMember {
   // Columns
   @PrimaryColumn({ type: "int" })
   eventId!: number;

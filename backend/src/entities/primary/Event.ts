@@ -8,7 +8,7 @@ import {
 } from "class-validator";
 import { EventActivity } from "entities/intermediary/EventActivity";
 import { EventEmployer } from "entities/intermediary/EventEmployer";
-import { EventStaff } from "entities/intermediary/EventStaff";
+import { EventStaffMember } from "entities/intermediary/EventStaffMember";
 import { EventStatus } from "enums/EventStatus";
 import { eventFailedValidation } from "messages/validation/eventValidationMessages";
 import { eventConstants } from "resources/constants/eventConstants";
@@ -85,6 +85,9 @@ export class Event {
   @OneToMany(() => EventClient, (eventClient) => eventClient.event)
   clients!: EventClient[];
 
-  @OneToMany(() => EventStaff, (eventStaff) => eventStaff.event)
-  staffMembers!: EventStaff[];
+  @OneToMany(
+    () => EventStaffMember,
+    (eventStaffMember) => eventStaffMember.event
+  )
+  staffMembers!: EventStaffMember[];
 }

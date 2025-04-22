@@ -1,5 +1,5 @@
 import { IsAlpha, IsEnum, IsNotEmpty, IsString } from "class-validator";
-import { EventStaff } from "entities/intermediary/EventStaff";
+import { EventStaffMember } from "entities/intermediary/EventStaffMember";
 import { DeptCategory } from "enums/DeptCategory";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { staffFailedValidation } from "messages/validation/staffValidationMessages";
@@ -57,8 +57,11 @@ export class StaffMember {
   updatedAt!: Date;
 
   // Relations
-  @OneToMany(() => EventStaff, (eventStaff) => eventStaff.staffMember)
-  events!: EventStaff[];
+  @OneToMany(
+    () => EventStaffMember,
+    (eventStaffMember) => eventStaffMember.staffMember
+  )
+  events!: EventStaffMember[];
 
   @OneToOne(() => User)
   @JoinColumn()
