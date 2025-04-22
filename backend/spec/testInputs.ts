@@ -1,3 +1,4 @@
+import { EventActivity } from "entities/intermediary/EventActivity";
 import { EventClient } from "entities/intermediary/EventClient";
 import { Activity } from "entities/primary/Activity";
 import { Employer } from "entities/primary/Employer";
@@ -86,6 +87,7 @@ export const validActivityInputs = {
   title: "CV creation",
   description: "Learn how to make a successful CV",
   activityType: ActivityType.Workshop,
+  events: [new EventActivity(), new EventActivity()],
 };
 
 export const invalidActivityInputs = {
