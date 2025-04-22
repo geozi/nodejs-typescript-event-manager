@@ -5,6 +5,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
+import { EventEmployer } from "entities/intermediary/EventEmployer";
 import { IndustryType } from "enums/IndustryType";
 import { employerFailedValidationMessages } from "messages/validation/employerValidationMessages";
 import { employerConstants } from "resources/constants/employerConstants";
@@ -14,13 +15,12 @@ import {
   Entity,
   Index,
   JoinColumn,
-  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { EmployerContactInfo } from "./EmployerContactInfo";
-import { Event } from "./Event";
 
 @Entity({ name: "employers" })
 export class Employer {
@@ -67,6 +67,6 @@ export class Employer {
   @JoinColumn()
   employerContactInfo!: EmployerContactInfo;
 
-  @ManyToMany(() => Event, (event) => event.employers)
-  events!: Event[];
+  @OneToMany(() => EventEmployer, (eventEmployer) => eventEmployer.employer)
+  events!: EventEmployer[];
 }

@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
+import { EventEmployer } from "entities/intermediary/EventEmployer";
 import { EventStatus } from "enums/EventStatus";
 import { eventFailedValidation } from "messages/validation/eventValidationMessages";
 import { eventConstants } from "resources/constants/eventConstants";
@@ -22,7 +23,6 @@ import {
 } from "typeorm";
 import { EventClient } from "../intermediary/EventClient";
 import { Activity } from "./Activity";
-import { Employer } from "./Employer";
 import { Staff } from "./Staff";
 
 @Entity({ name: "events" })
@@ -78,9 +78,11 @@ export class Event {
   updatedAt!: Date;
 
   // Relations
-  @ManyToMany(() => Employer, (employer) => employer.events)
-  @JoinTable({ name: "event_employers" })
-  employers!: Employer[];
+  @OneToMany(() => EventEmployer, (eventEmployer) => eventEmployer.event)
+  employers!: EventEmployer[];
+
+  @OneToMany(() => EventClient, (eventClient) => eventClient.event)
+  clients!: EventClient[];
 
   @ManyToMany(() => Staff, (staff) => staff.events)
   @JoinTable({ name: "event_staff_members" })
@@ -89,7 +91,4 @@ export class Event {
   @ManyToMany(() => Activity, (activity) => activity.events)
   @JoinTable({ name: "event_activities" })
   activities!: Activity[];
-
-  @OneToMany(() => EventClient, (eventClient) => eventClient.event)
-  clients!: EventClient[];
 }
