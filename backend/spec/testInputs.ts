@@ -104,3 +104,11 @@ export const validEventInputs = {
   activities: [new Activity(), new Activity()],
   clients: [new EventClient(), new EventClient()],
 };
+
+export const invalidEventInputs = {
+  NAME_TOO_SHORT: "Event",
+  NAME_TOO_LONG: `Donec convallis, libero pretium accumsan viverra, felis diam venenatis massa, et vulputate magna nibh et urna`,
+  SUMMARY_TOO_SHORT: `Summary`,
+  SUMMARY_TOO_LONG: `Fusce at nunc lacinia, bibendum neque in, pharetra elit. Fusce orci justo, elementum vel mi sit amet, ultrices tempor eros. Ut placerat massa et velit tempor, id congue urna mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dignissim neque non mattis blandit. Integer eget placerat erat. Donec tempor lorem ipsum, sed imperdiet sem rhoncus vel. Nullam nulla ligula, malesuada quis enim vel, ultrices dapibus mauris. In et justo non elit molestie dapibus sed eu velit. Donec semper, orci ut cursus egestas, nibh urna fringilla tortor, a blandit tellus libero vitae massa. Suspendisse fermentum ex vel volutpat luctus. Etiam ut venenatis leo.`,
+  STATUS_INVALID: "Pending" as EventStatus,
+};
