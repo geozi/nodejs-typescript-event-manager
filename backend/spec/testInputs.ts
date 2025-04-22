@@ -1,5 +1,6 @@
 import { EventActivity } from "entities/intermediary/EventActivity";
 import { EventClient } from "entities/intermediary/EventClient";
+import { EventEmployer } from "entities/intermediary/EventEmployer";
 import { EventStaff } from "entities/intermediary/EventStaff";
 import { Activity } from "entities/primary/Activity";
 import { Employer } from "entities/primary/Employer";
@@ -19,6 +20,7 @@ export const validEmployerInputs = {
   companyName: "Tech solutions",
   industry: IndustryType.InformationTechnology,
   employerContactInfo: new EmployerContactInfo(),
+  events: [new EventEmployer(), new EventEmployer()],
 };
 
 export const invalidEmployerInputs = {

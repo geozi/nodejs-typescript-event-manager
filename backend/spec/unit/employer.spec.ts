@@ -21,7 +21,7 @@ describe("Employer entity validation tests", () => {
         validEmployerInputs.employerContactInfo;
       mockEmployer.createdAt = validCommonInputs.createdAt;
       mockEmployer.updatedAt = validCommonInputs.updatedAt;
-      mockEmployer.events = validCommonInputs.events;
+      mockEmployer.events = validEmployerInputs.events;
     });
 
     it("employer has valid inputs", () => {
@@ -33,7 +33,6 @@ describe("Employer entity validation tests", () => {
         ...validEmployerInputs,
         createdAt: validCommonInputs.createdAt,
         updatedAt: validCommonInputs.updatedAt,
-        events: validCommonInputs.events,
       });
     });
   });
