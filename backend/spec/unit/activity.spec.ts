@@ -32,7 +32,6 @@ describe("Activity entity validation tests", () => {
         ...validActivityInputs,
         createdAt: validCommonInputs.createdAt,
         updatedAt: validCommonInputs.updatedAt,
-        events: validActivityInputs.events,
       });
     });
   });
