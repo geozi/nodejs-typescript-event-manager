@@ -3,13 +3,14 @@
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "node",
-    "rootDirs": ["./src", "./spec", "./logs"],
+    "rootDirs": ["./src", "./spec", "./logs", "./db"],
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
       "*": ["src/*"],
       "spec/*": ["spec/*"],
-      "logs/*": ["logs/*"]
+      "logs/*": ["logs/*"],
+      "db/*": ["./db"]
     },
     "types": ["node", "jasmine"],
     "strict": true,
@@ -23,6 +24,6 @@
     "experimentalDecorators": true,
     "sourceMap": true
   },
-  "include": ["./src", "./spec", "./logs"],
+  "include": ["./src", "./spec", "./logs", "./db"],
   "exclude": ["node_modules"]
 }
