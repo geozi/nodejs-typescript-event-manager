@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { Client } from "entities/Client";
+import { Client } from "entities/primary/Client";
 import { clientFailedValidation } from "messages/validation/clientValidationMessages";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import {

@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { EmployerContactInfo } from "entities/EmployerContactInfo";
+import { EmployerContactInfo } from "entities/primary/EmployerContactInfo";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { employerContactInfoFailedValidation } from "messages/validation/employerContactInfoValidationMessages";
 import {

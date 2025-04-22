@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { Staff } from "entities/Staff";
+import { Staff } from "entities/primary/Staff";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { staffFailedValidation } from "messages/validation/staffValidationMessages";
 import {

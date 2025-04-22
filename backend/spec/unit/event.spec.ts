@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { Event } from "entities/Event";
+import { Event } from "entities/primary/Event";
 import { eventFailedValidation } from "messages/validation/eventValidationMessages";
 import {
   invalidEventInputs,

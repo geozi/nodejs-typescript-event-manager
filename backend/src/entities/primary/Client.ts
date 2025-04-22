@@ -21,7 +21,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { EventClient } from "./EventClient";
+import { EventClient } from "../intermediary/EventClient";
 import { User } from "./User";
 
 @Entity({ name: "clients" })

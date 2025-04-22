@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { Activity } from "entities/Activity";
+import { Activity } from "entities/primary/Activity";
 import { activityFailedValidation } from "messages/validation/activityValidationMessages";
 import {
   invalidActivityInputs,

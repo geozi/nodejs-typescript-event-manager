@@ -1,10 +1,10 @@
-import { Activity } from "entities/Activity";
-import { Employer } from "entities/Employer";
-import { EmployerContactInfo } from "entities/EmployerContactInfo";
-import { Event } from "entities/Event";
-import { EventClient } from "entities/EventClient";
-import { Staff } from "entities/Staff";
-import { User } from "entities/User";
+import { EventClient } from "entities/intermediary/EventClient";
+import { Activity } from "entities/primary/Activity";
+import { Employer } from "entities/primary/Employer";
+import { EmployerContactInfo } from "entities/primary/EmployerContactInfo";
+import { Event } from "entities/primary/Event";
+import { Staff } from "entities/primary/Staff";
+import { User } from "entities/primary/User";
 import { ActivityType } from "enums/ActivityType";
 import { DeptCategory } from "enums/DeptCategory";
 import { EmploymentStatus } from "enums/EmploymentStatus";

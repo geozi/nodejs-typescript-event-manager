@@ -8,8 +8,8 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Client } from "./Client";
-import { Event } from "./Event";
+import { Client } from "../primary/Client";
+import { Event } from "../primary/Event";
 
 @Entity({ name: "event_clients" })
 export class EventClient {

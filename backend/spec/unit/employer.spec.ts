@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { Employer } from "entities/Employer";
+import { Employer } from "entities/primary/Employer";
 import { employerFailedValidationMessages } from "messages/validation/employerValidationMessages";
 import {
   invalidEmployerInputs,

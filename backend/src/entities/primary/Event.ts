@@ -20,9 +20,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { EventClient } from "../intermediary/EventClient";
 import { Activity } from "./Activity";
 import { Employer } from "./Employer";
-import { EventClient } from "./EventClient";
 import { Staff } from "./Staff";
 
 @Entity({ name: "events" })
