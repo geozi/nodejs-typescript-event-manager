@@ -20,8 +20,15 @@ export class EventClient {
 
   @PrimaryColumn({ type: "int" })
   eventId!: number;
+
   @PrimaryColumn({ type: "int" })
   clientId!: number;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
   // Relations
   @ManyToOne(() => Event, (event) => event.clients)
@@ -31,10 +38,4 @@ export class EventClient {
   @ManyToOne(() => Client, (client) => client.events)
   @JoinColumn({ name: "clientId" })
   client!: Client;
-
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
 }
