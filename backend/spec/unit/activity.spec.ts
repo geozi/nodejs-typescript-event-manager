@@ -20,6 +20,7 @@ describe("Activity entity validation tests", () => {
       mockActivity.activityType = validActivityInputs.activityType;
       mockActivity.createdAt = validCommonInputs.createdAt;
       mockActivity.updatedAt = validCommonInputs.updatedAt;
+      mockActivity.events = validCommonInputs.events;
     });
 
     it("activity has valid inputs", () => {
@@ -31,6 +32,7 @@ describe("Activity entity validation tests", () => {
         ...validActivityInputs,
         createdAt: validCommonInputs.createdAt,
         updatedAt: validCommonInputs.updatedAt,
+        events: validCommonInputs.events,
       });
     });
   });
