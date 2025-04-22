@@ -4,6 +4,7 @@ import { EmployerContactInfo } from "entities/EmployerContactInfo";
 import { Event } from "entities/Event";
 import { EventClient } from "entities/EventClient";
 import { Staff } from "entities/Staff";
+import { User } from "entities/User";
 import { ActivityType } from "enums/ActivityType";
 import { DeptCategory } from "enums/DeptCategory";
 import { EmploymentStatus } from "enums/EmploymentStatus";
@@ -54,6 +55,7 @@ export const validCommonInputs = {
   createdAt: new Date(),
   updatedAt: new Date(),
   events: [new Event(), new Event()],
+  user: new User(),
 };
 
 export const invalidCommonInputs = {

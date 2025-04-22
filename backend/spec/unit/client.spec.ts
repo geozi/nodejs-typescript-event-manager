@@ -25,6 +25,7 @@ describe("Client entity validation tests", () => {
       mockClient.createdAt = validCommonInputs.createdAt;
       mockClient.updatedAt = validCommonInputs.updatedAt;
       mockClient.events = validClientInputs.events;
+      mockClient.user = validCommonInputs.user;
     });
 
     it("client has valid inputs", () => {

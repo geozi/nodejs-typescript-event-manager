@@ -24,6 +24,7 @@ describe("Staff entity validation tests", () => {
       mockStaff.createdAt = validCommonInputs.createdAt;
       mockStaff.updatedAt = validCommonInputs.updatedAt;
       mockStaff.events = validCommonInputs.events;
+      mockStaff.user = validCommonInputs.user;
     });
 
     it("staff has valid inputs", () => {
@@ -38,6 +39,7 @@ describe("Staff entity validation tests", () => {
         createdAt: validCommonInputs.createdAt,
         updatedAt: validCommonInputs.updatedAt,
         events: validCommonInputs.events,
+        user: validCommonInputs.user,
       });
     });
   });
