@@ -1,5 +1,5 @@
-import { Activity } from "entities/primary/Activity";
 import { Event } from "entities/primary/Event";
+import { Staff } from "entities/primary/Staff";
 import {
   CreateDateColumn,
   Entity,
@@ -9,14 +9,14 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity({ name: "event_activities" })
-export class EventActivity {
+@Entity({ name: "event_staff_members" })
+export class EventStaff {
   // Columns
   @PrimaryColumn({ type: "int" })
   eventId!: number;
 
   @PrimaryColumn({ type: "int" })
-  activityId!: number;
+  staffId!: number;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -25,11 +25,11 @@ export class EventActivity {
   updatedAt!: Date;
 
   // Relations
-  @ManyToOne(() => Event, (event) => event.activities)
+  @ManyToOne(() => Event, (event) => event.staffMembers)
   @JoinColumn({ name: "eventId" })
   event!: Event;
 
-  @ManyToOne(() => Activity, (activity) => activity.events)
-  @JoinColumn({ name: "activityId" })
-  activity!: Activity;
+  @ManyToOne(() => Staff, (staff) => staff.events)
+  @JoinColumn({ name: "staffId" })
+  staffMember!: Staff;
 }

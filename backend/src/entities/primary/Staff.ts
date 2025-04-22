@@ -1,4 +1,5 @@
 import { IsAlpha, IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { EventStaff } from "entities/intermediary/EventStaff";
 import { DeptCategory } from "enums/DeptCategory";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { staffFailedValidation } from "messages/validation/staffValidationMessages";
@@ -8,12 +9,11 @@ import {
   Entity,
   Index,
   JoinColumn,
-  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Event } from "./Event";
 import { User } from "./User";
 
 @Entity({ name: "staff_members" })
@@ -57,8 +57,8 @@ export class Staff {
   updatedAt!: Date;
 
   // Relations
-  @ManyToMany(() => Event, (event) => event.staffMembers)
-  events!: Event[];
+  @OneToMany(() => EventStaff, (eventStaff) => eventStaff.staffMember)
+  events!: EventStaff[];
 
   @OneToOne(() => User)
   @JoinColumn()

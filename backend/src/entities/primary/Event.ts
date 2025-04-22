@@ -8,6 +8,7 @@ import {
 } from "class-validator";
 import { EventActivity } from "entities/intermediary/EventActivity";
 import { EventEmployer } from "entities/intermediary/EventEmployer";
+import { EventStaff } from "entities/intermediary/EventStaff";
 import { EventStatus } from "enums/EventStatus";
 import { eventFailedValidation } from "messages/validation/eventValidationMessages";
 import { eventConstants } from "resources/constants/eventConstants";
@@ -16,14 +17,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { EventClient } from "../intermediary/EventClient";
-import { Staff } from "./Staff";
 
 @Entity({ name: "events" })
 export class Event {
@@ -87,7 +85,6 @@ export class Event {
   @OneToMany(() => EventClient, (eventClient) => eventClient.event)
   clients!: EventClient[];
 
-  @ManyToMany(() => Staff, (staff) => staff.events)
-  @JoinTable({ name: "event_staff_members" })
-  staffMembers!: Staff[];
+  @OneToMany(() => EventStaff, (eventStaff) => eventStaff.event)
+  staffMembers!: EventStaff[];
 }

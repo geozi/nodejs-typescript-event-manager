@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import { EventActivity } from "entities/intermediary/EventActivity";
 import { EventClient } from "entities/intermediary/EventClient";
 import { EventEmployer } from "entities/intermediary/EventEmployer";
+import { EventStaff } from "entities/intermediary/EventStaff";
 import { Activity } from "entities/primary/Activity";
 import { Client } from "entities/primary/Client";
 import { Employer } from "entities/primary/Employer";
@@ -30,6 +31,7 @@ export const AppDataSource = new DataSource({
     EventActivity,
     EventClient,
     EventEmployer,
+    EventStaff,
     Staff,
     User,
   ],
