@@ -1,9 +1,13 @@
+import { Activity } from "entities/Activity";
+import { Employer } from "entities/Employer";
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
 import { Event } from "entities/Event";
 import { EventClient } from "entities/EventClient";
+import { Staff } from "entities/Staff";
 import { ActivityType } from "enums/ActivityType";
 import { DeptCategory } from "enums/DeptCategory";
 import { EmploymentStatus } from "enums/EmploymentStatus";
+import { EventStatus } from "enums/EventStatus";
 import { IndustryType } from "enums/IndustryType";
 import { LocalCities } from "enums/LocalCityList";
 
@@ -87,4 +91,16 @@ export const invalidActivityInputs = {
   DESCRIPTION_TOO_SHORT: "Desc",
   DESCRIPTION_TOO_LONG: `Pellentesque fermentum facilisis hendrerit. Vivamus venenatis dapibus sem, sit amet placerat tortor blandit eget. Nullam id augue vitae nulla interdum pharetra ut et turpis. Etiam nisl mauris, feugiat malesuada mi sed, vestibulum commodo lectus. Donec convallis ac tortor vitae tincidunt. Praesent ut ligula elit. Morbi eget mi ex. Curabitur quis dignissim eros. Suspendisse id massa at velit maximus ultrices. Suspendisse euismod rhoncus sapien, sit amet pretium arcu mollis a. Cras commodo lacus erat, gravida congue ipsum condimentum nec. In lacinia nunc sagittis mauris ullamcorper interdum. Pellentesque ac risus consequat orci congue malesuada in nec mi. Donec eleifend id nunc quis semper. Sed consequat metus non accumsan rutrum.`,
   ACTIVITY_TYPE_INVALID: "Exercise" as ActivityType,
+};
+
+export const validEventInputs = {
+  name: "Some event name",
+  summary: "This is the description of an event.",
+  startingDate: new Date(),
+  endingDate: new Date(),
+  status: EventStatus.Active,
+  employers: [new Employer(), new Employer()],
+  staffMembers: [new Staff(), new Staff()],
+  activities: [new Activity(), new Activity()],
+  clients: [new EventClient(), new EventClient()],
 };
