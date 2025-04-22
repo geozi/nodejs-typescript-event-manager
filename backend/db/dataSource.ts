@@ -3,6 +3,7 @@ import { Activity } from "entities/Activity";
 import { Client } from "entities/Client";
 import { Employer } from "entities/Employer";
 import { EmployerContactInfo } from "entities/EmployerContactInfo";
+import { Event } from "entities/Event";
 import { EventClient } from "entities/EventClient";
 import { Staff } from "entities/Staff";
 import { DataSource } from "typeorm";

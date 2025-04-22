@@ -1,6 +1,7 @@
+import { AppDataSource } from "db/dataSource";
 import express from "express";
 import "reflect-metadata";
-import { AppDataSource } from "./dataSource";
+
 const app = express();
 const port = 3000;
 

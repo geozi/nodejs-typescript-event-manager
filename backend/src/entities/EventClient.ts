@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  JoinColumn,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -17,13 +18,18 @@ export class EventClient {
   @Generated("uuid")
   ticketId!: string;
 
+  @PrimaryColumn({ type: "int" })
+  eventId!: number;
+  @PrimaryColumn({ type: "int" })
+  clientId!: number;
+
   // Relations
   @ManyToOne(() => Event, (event) => event.clients)
-  @PrimaryColumn({ type: "number" })
+  @JoinColumn({ name: "eventId" })
   event!: Event;
 
   @ManyToOne(() => Client, (client) => client.events)
-  @PrimaryColumn({ type: "number" })
+  @JoinColumn({ name: "clientId" })
   client!: Client;
 
   @CreateDateColumn()

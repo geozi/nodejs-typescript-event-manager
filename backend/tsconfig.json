@@ -10,7 +10,7 @@
       "*": ["src/*"],
       "spec/*": ["spec/*"],
       "logs/*": ["logs/*"],
-      "db/*": ["./db"]
+      "db/*": ["db/*"]
     },
     "types": ["node", "jasmine"],
     "strict": true,
