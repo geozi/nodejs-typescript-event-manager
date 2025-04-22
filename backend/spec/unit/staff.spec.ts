@@ -1,5 +1,5 @@
 import { validateSync } from "class-validator";
-import { Staff } from "entities/primary/Staff";
+import { StaffMember } from "entities/primary/StaffMember";
 import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { staffFailedValidation } from "messages/validation/staffValidationMessages";
 import {
@@ -10,12 +10,12 @@ import {
 } from "spec/testInputs";
 
 describe("Staff entity validation tests", () => {
-  let mockStaff: Partial<Staff>;
+  let mockStaff: Partial<StaffMember>;
 
   describe("Positive scenario", () => {
     beforeEach(() => {
       // Mocks
-      mockStaff = new Staff();
+      mockStaff = new StaffMember();
       mockStaff.id = validCommonInputs.id;
       mockStaff.firstName = validCommonInputs.firstName;
       mockStaff.lastName = validCommonInputs.lastName;

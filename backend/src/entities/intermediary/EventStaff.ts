@@ -1,5 +1,5 @@
 import { Event } from "entities/primary/Event";
-import { Staff } from "entities/primary/Staff";
+import { StaffMember } from "entities/primary/StaffMember";
 import {
   CreateDateColumn,
   Entity,
@@ -16,7 +16,7 @@ export class EventStaff {
   eventId!: number;
 
   @PrimaryColumn({ type: "int" })
-  staffId!: number;
+  staffMemberId!: number;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -29,7 +29,7 @@ export class EventStaff {
   @JoinColumn({ name: "eventId" })
   event!: Event;
 
-  @ManyToOne(() => Staff, (staff) => staff.events)
-  @JoinColumn({ name: "staffId" })
-  staffMember!: Staff;
+  @ManyToOne(() => StaffMember, (staffMember) => staffMember.events)
+  @JoinColumn({ name: "staffMemberId" })
+  staffMember!: StaffMember;
 }

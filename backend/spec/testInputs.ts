@@ -3,7 +3,7 @@ import { Activity } from "entities/primary/Activity";
 import { Employer } from "entities/primary/Employer";
 import { EmployerContactInfo } from "entities/primary/EmployerContactInfo";
 import { Event } from "entities/primary/Event";
-import { Staff } from "entities/primary/Staff";
+import { StaffMember } from "entities/primary/StaffMember";
 import { User } from "entities/primary/User";
 import { ActivityType } from "enums/ActivityType";
 import { DeptCategory } from "enums/DeptCategory";
@@ -103,7 +103,7 @@ export const validEventInputs = {
   endingDate: new Date(),
   status: EventStatus.Active,
   employers: [new Employer(), new Employer()],
-  staffMembers: [new Staff(), new Staff()],
+  staffMembers: [new StaffMember(), new StaffMember()],
   activities: [new Activity(), new Activity()],
   clients: [new EventClient(), new EventClient()],
 };

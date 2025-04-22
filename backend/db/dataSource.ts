@@ -8,7 +8,7 @@ import { Client } from "entities/primary/Client";
 import { Employer } from "entities/primary/Employer";
 import { EmployerContactInfo } from "entities/primary/EmployerContactInfo";
 import { Event } from "entities/primary/Event";
-import { Staff } from "entities/primary/Staff";
+import { StaffMember } from "entities/primary/StaffMember";
 import { User } from "entities/primary/User";
 import { DataSource } from "typeorm";
 dotenv.config();
@@ -32,7 +32,7 @@ export const AppDataSource = new DataSource({
     EventClient,
     EventEmployer,
     EventStaff,
-    Staff,
+    StaffMember,
     User,
   ],
   migrations: [],
