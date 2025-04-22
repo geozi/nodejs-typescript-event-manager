@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import { EventActivity } from "entities/intermediary/EventActivity";
 import { EventClient } from "entities/intermediary/EventClient";
 import { EventEmployer } from "entities/intermediary/EventEmployer";
 import { Activity } from "entities/primary/Activity";
@@ -26,6 +27,7 @@ export const AppDataSource = new DataSource({
     Employer,
     EmployerContactInfo,
     Event,
+    EventActivity,
     EventClient,
     EventEmployer,
     Staff,

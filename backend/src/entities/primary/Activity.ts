@@ -5,6 +5,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
+import { EventActivity } from "entities/intermediary/EventActivity";
 import { ActivityType } from "enums/ActivityType";
 import { activityFailedValidation } from "messages/validation/activityValidationMessages";
 import { activityConstants } from "resources/constants/activityConstants";
@@ -13,11 +14,10 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Event } from "./Event";
 
 @Entity({ name: "activities" })
 export class Activity {
@@ -68,6 +68,6 @@ export class Activity {
   updatedAt!: Date;
 
   // Relations
-  @ManyToMany(() => Event, (event) => event.activities)
-  events!: Event[];
+  @OneToMany(() => EventActivity, (eventActivity) => eventActivity.activity)
+  events!: EventActivity[];
 }
