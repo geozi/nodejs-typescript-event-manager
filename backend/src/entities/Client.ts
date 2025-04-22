@@ -15,11 +15,14 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { EventClient } from "./EventClient";
+import { User } from "./User";
 
 @Entity({ name: "clients" })
 export class Client {
@@ -85,4 +88,8 @@ export class Client {
   // Relations
   @OneToMany(() => EventClient, (eventClient) => eventClient.client)
   events!: EventClient[];
+
+  @OneToOne(() => User)
+  @JoinColumn()
+  user!: User;
 }

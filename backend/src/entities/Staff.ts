@@ -7,11 +7,14 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Event } from "./Event";
+import { User } from "./User";
 
 @Entity({ name: "staff_members" })
 export class Staff {
@@ -57,5 +60,7 @@ export class Staff {
   @ManyToMany(() => Event, (event) => event.staffMembers)
   events!: Event[];
 
-  // TODO: OneToOne relationship with User.
+  @OneToOne(() => User)
+  @JoinColumn()
+  user!: User;
 }
