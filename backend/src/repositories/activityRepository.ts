@@ -1,11 +1,73 @@
 import { validate, ValidationError } from "class-validator";
 import { AppDataSource } from "db/dataSource";
 import { Activity } from "entities/primary/Activity";
+import { ActivityType } from "enums/ActivityType";
 import { appLogger } from "logs/loggerConfig";
 import { commonResponseMessages } from "messages/response/commonResponseMessages";
 import { TypeORMError } from "typeorm";
 
 const activityRepository = AppDataSource.getRepository(Activity);
+
+export const getActivityByTitle = async (
+  title: string
+): Promise<Activity | null> => {
+  try {
+    return await activityRepository.findOneBy({ title: title });
+  } catch (error) {
+    if (error instanceof TypeORMError || error instanceof Error) {
+      appLogger.error(
+        `Activity repository: ${getActivityByTitle.name} -> ${error.name} thrown`
+      );
+
+      throw error;
+    }
+
+    appLogger.error(
+      `Activity repository: ${getActivityByTitle.name} -> ServerError thrown`
+    );
+    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+  }
+};
+
+export const getActivitiesByType = async (
+  activityType: ActivityType
+): Promise<Activity[]> => {
+  try {
+    return await activityRepository.findBy({ activityType: activityType });
+  } catch (error) {
+    if (error instanceof TypeORMError || error instanceof Error) {
+      appLogger.error(
+        `Activity repository: ${getActivitiesByType.name} -> ${error.name} thrown`
+      );
+
+      throw error;
+    }
+
+    appLogger.error(
+      `Activity repository: ${getActivitiesByType.name} -> ServerError thrown`
+    );
+    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+  }
+};
+
+export const getActivityById = async (id: number): Promise<Activity | null> => {
+  try {
+    return await activityRepository.findOneBy({ id: id });
+  } catch (error) {
+    if (error instanceof TypeORMError || error instanceof Error) {
+      appLogger.error(
+        `Activity repository: ${getActivityById.name} -> ${error.name} thrown`
+      );
+
+      throw error;
+    }
+
+    appLogger.error(
+      `Activity repository: ${getActivityById.name} -> ServerError thrown`
+    );
+    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+  }
+};
 
 export const createActivity = async (
   newActivity: Activity
@@ -57,9 +119,6 @@ export const createActivity = async (
   }
 };
 
-// TODO: export const getActivityByTitle = async(title: string) => {}
-// TODO: export const getActivitiesByType = async(activityType: ActivityType) => {}
-// TODO: export const getActivityById = async(id: number) => {}
 // TODO: export const updateActivity = async(updateDTO: IActivityUpdate) => {}
 // TODO: export const deleteActivityById = async(id: number) => {}
 // TODO: export const deleteActivityByTitle = async(title: string) => {}
