@@ -7,6 +7,7 @@ import {
 } from "class-validator";
 import { EventActivity } from "entities/intermediary/EventActivity";
 import { ActivityType } from "enums/ActivityType";
+import { IActivity } from "interfaces/IActivity";
 import { activityFailedValidation } from "messages/validation/activityValidationMessages";
 import { activityConstants } from "resources/constants/activityConstants";
 import {
@@ -20,7 +21,7 @@ import {
 } from "typeorm";
 
 @Entity({ name: "activities" })
-export class Activity {
+export class Activity implements IActivity {
   // Columns
   @PrimaryGeneratedColumn()
   id!: number;

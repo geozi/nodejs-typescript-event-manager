@@ -32,7 +32,10 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "mysql2": "^3.14.0",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
     "reflect-metadata": "^0.2.2",
+    "typedoc": "^0.28.3",
     "typeorm": "^0.3.22"
   }
 }
