@@ -1,10 +1,12 @@
 import { validate, ValidationError } from "class-validator";
 import { AppDataSource } from "db/dataSource";
+import { ActivityUpdateDTO } from "dto/ActivityUpdateDTO";
 import { Activity } from "entities/primary/Activity";
 import { ActivityType } from "enums/ActivityType";
 import { appLogger } from "logs/loggerConfig";
 import { commonResponseMessages } from "messages/response/commonResponseMessages";
 import { TypeORMError } from "typeorm";
+import { extractValidationErrorConstraints } from "utilities/constraintExtractor";
 
 const activityRepository = AppDataSource.getRepository(Activity);
 
@@ -23,7 +25,7 @@ export const getActivityByTitle = async (
     }
 
     appLogger.error(
-      `Activity repository: ${getActivityByTitle.name} -> ServerError thrown`
+      `Activity repository: ${getActivityByTitle.name} -> Internal server error thrown`
     );
     throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
   }
@@ -44,7 +46,7 @@ export const getActivitiesByType = async (
     }
 
     appLogger.error(
-      `Activity repository: ${getActivitiesByType.name} -> ServerError thrown`
+      `Activity repository: ${getActivitiesByType.name} -> Internal server error thrown`
     );
     throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
   }
@@ -63,7 +65,7 @@ export const getActivityById = async (id: number): Promise<Activity | null> => {
     }
 
     appLogger.error(
-      `Activity repository: ${getActivityById.name} -> ServerError thrown`
+      `Activity repository: ${getActivityById.name} -> Internal server error thrown`
     );
     throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
   }
@@ -74,22 +76,16 @@ export const createActivity = async (
 ): Promise<Activity> => {
   try {
     const errors = await validate(newActivity);
-    if (errors.length > 0) {
-      /**
-       * Convert an array of ValidationError objects to an
-       * object containing the constraints field of each
-       * ValidationError.
-       */
-      const constraintArray: (Record<string, string> | undefined)[] = [];
-      errors.forEach((err) => constraintArray.push(err.constraints));
-      const constraintObject = Object.assign({}, ...constraintArray);
 
-      /**
-       * Assign the object to the constraints field of
-       * a new ValidationError instance.
-       */
-      const validationError = new ValidationError();
-      validationError.constraints = constraintObject;
+    let validationError: ValidationError;
+    if (errors.length > 0) {
+      validationError = new ValidationError();
+      if (errors.length === 1) {
+        validationError.constraints = errors[0].constraints;
+      } else {
+        const constraintObject = extractValidationErrorConstraints(errors);
+        validationError.constraints = constraintObject;
+      }
 
       throw validationError;
     }
@@ -113,12 +109,96 @@ export const createActivity = async (
     }
 
     appLogger.error(
-      `Activity repository: ${createActivity.name} -> ServerError thrown`
+      `Activity repository: ${createActivity.name} -> Internal server error thrown`
     );
     throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
   }
 };
 
-// TODO: export const updateActivity = async(updateDTO: IActivityUpdate) => {}
-// TODO: export const deleteActivityById = async(id: number) => {}
-// TODO: export const deleteActivityByTitle = async(title: string) => {}
+export const updateActivity = async (
+  updateDTO: ActivityUpdateDTO
+): Promise<Activity | null> => {
+  try {
+    const { id, title, description, activityType } = updateDTO;
+    const result = await activityRepository.update(
+      { id: id },
+      { title, description, activityType }
+    );
+
+    if (result.affected === 0) {
+      return Promise.resolve(null);
+    }
+
+    return await activityRepository.findOneBy({ id: id });
+  } catch (error) {
+    if (error instanceof TypeORMError || error instanceof Error) {
+      appLogger.error(
+        `Activity repository: ${updateActivity.name} -> ${error.name} thrown`
+      );
+
+      throw error;
+    }
+
+    appLogger.error(
+      `Activity repository: ${updateActivity.name} -> Internal server error thrown`
+    );
+
+    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+  }
+};
+
+export const deleteActivityById = async (
+  id: number
+): Promise<Activity | null> => {
+  try {
+    const activityToRemove = await activityRepository.findOneBy({ id: id });
+    if (activityToRemove === null) {
+      return Promise.resolve(null);
+    }
+
+    return await activityRepository.remove(activityToRemove);
+  } catch (error) {
+    if (error instanceof TypeORMError || error instanceof Error) {
+      appLogger.error(
+        `Activity repository: ${deleteActivityById.name} -> ${error.name} thrown`
+      );
+
+      throw error;
+    }
+
+    appLogger.error(
+      `Activity repository: ${deleteActivityById.name} -> Internal server error throw`
+    );
+
+    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+  }
+};
+
+export const deleteActivityByTitle = async (
+  title: string
+): Promise<Activity | null> => {
+  try {
+    const activityToRemove = await activityRepository.findOneBy({
+      title: title,
+    });
+    if (activityToRemove === null) {
+      return Promise.resolve(null);
+    }
+
+    return await activityRepository.remove(activityToRemove);
+  } catch (error) {
+    if (error instanceof TypeORMError || error instanceof Error) {
+      appLogger.error(
+        `Activity repository: ${deleteActivityByTitle.name} -> ${error.name} thrown`
+      );
+
+      throw error;
+    }
+
+    appLogger.error(
+      `Activity repository: ${deleteActivityByTitle.name} -> Internal server error throw`
+    );
+
+    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+  }
+};

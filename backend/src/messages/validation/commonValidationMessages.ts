@@ -12,4 +12,7 @@ export const commonFailedValidation = {
   PHONE_NUMBER_REQUIRED_MESSAGE: "Phone number is a required field",
   PHONE_NUMBER_INVALID_TYPE_MESSAGE: "Phone number must be a string",
   PHONE_NUMBER_INVALID_FORMAT_MESSAGE: `Phone number must be a ${commonConstants.PHONE_NUMBER_LENGTH}-digit long number`,
+  ID_REQUIRED_MESSAGE: "ID is a required field",
+  ID_INVALID_TYPE_MESSAGE: "ID must be an integer",
+  ID_NEGATIVE_MESSAGE: "ID must be a positive integer",
 };
