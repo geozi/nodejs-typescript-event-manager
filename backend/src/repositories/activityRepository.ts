@@ -55,7 +55,7 @@ export const getActivitiesByType = async (
 export const getActivityById = async (id: number): Promise<Activity | null> => {
   try {
     return await activityRepository.findOneBy({ id: id });
-  } catch (error) {
+  } catch (error: TypeORMError | Error | unknown) {
     if (error instanceof TypeORMError || error instanceof Error) {
       appLogger.error(
         `Activity repository: ${getActivityById.name} -> ${error.name} thrown`
@@ -64,10 +64,9 @@ export const getActivityById = async (id: number): Promise<Activity | null> => {
       throw error;
     }
 
-    appLogger.error(
-      `Activity repository: ${getActivityById.name} -> Internal server error thrown`
-    );
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+
+  }
+
   }
 };
 
