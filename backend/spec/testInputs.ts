@@ -72,6 +72,8 @@ export const invalidCommonInputs = {
     ["email has no .", "random@mailcom"],
     ["email has no top level domain", "random@mail."],
   ] as [string, string][],
+  ID_INVALID_TYPE: "1",
+  ID_NEGATIVE: -1,
 };
 
 export const validStaffInputs = {
