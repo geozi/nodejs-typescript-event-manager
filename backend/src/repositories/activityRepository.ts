@@ -4,9 +4,10 @@ import { ActivityUpdateDTO } from "dto/ActivityUpdateDTO";
 import { Activity } from "entities/primary/Activity";
 import { ActivityType } from "enums/ActivityType";
 import { appLogger } from "logs/loggerConfig";
-import { commonResponseMessages } from "messages/response/commonResponseMessages";
-import { TypeORMError } from "typeorm";
-import { extractValidationErrorConstraints } from "utilities/constraintExtractor";
+import {
+  determineError,
+  extractValidationErrorConstraints,
+} from "utilities/utilityFunctions";
 
 const activityRepository = AppDataSource.getRepository(Activity);
 
@@ -16,18 +17,12 @@ export const getActivityByTitle = async (
   try {
     return await activityRepository.findOneBy({ title: title });
   } catch (error) {
-    if (error instanceof TypeORMError || error instanceof Error) {
-      appLogger.error(
-        `Activity repository: ${getActivityByTitle.name} -> ${error.name} thrown`
-      );
-
-      throw error;
-    }
-
+    const errorWithType = determineError(error);
     appLogger.error(
-      `Activity repository: ${getActivityByTitle.name} -> Internal server error thrown`
+      `Activity repository: ${getActivityByTitle.name} -> ${errorWithType.name} thrown`
     );
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+
+    throw errorWithType;
   }
 };
 
@@ -37,18 +32,12 @@ export const getActivitiesByType = async (
   try {
     return await activityRepository.findBy({ activityType: activityType });
   } catch (error) {
-    if (error instanceof TypeORMError || error instanceof Error) {
-      appLogger.error(
-        `Activity repository: ${getActivitiesByType.name} -> ${error.name} thrown`
-      );
-
-      throw error;
-    }
-
+    const errorWithType = determineError(error);
     appLogger.error(
-      `Activity repository: ${getActivitiesByType.name} -> Internal server error thrown`
+      `Activity repository: ${getActivitiesByType.name} -> ${errorWithType.name} thrown`
     );
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+
+    throw errorWithType;
   }
 };
 
@@ -56,18 +45,12 @@ export const getActivityById = async (id: number): Promise<Activity | null> => {
   try {
     return await activityRepository.findOneBy({ id: id });
   } catch (error) {
-    if (error instanceof TypeORMError || error instanceof Error) {
-      appLogger.error(
-        `Activity repository: ${getActivityById.name} -> ${error.name} thrown`
-      );
-
-      throw error;
-    }
-
+    const errorWithType = determineError(error);
     appLogger.error(
-      `Activity repository: ${getActivityById.name} -> Internal server error thrown`
+      `Activity repository: ${getActivityById.name} -> ${errorWithType.name} thrown`
     );
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+
+    throw errorWithType;
   }
 };
 
@@ -92,26 +75,12 @@ export const createActivity = async (
 
     return await activityRepository.save(newActivity);
   } catch (error) {
-    if (error instanceof TypeORMError || error instanceof Error) {
-      appLogger.error(
-        `Activity repository: ${createActivity.name} -> ${error.name} thrown`
-      );
-
-      throw error;
-    }
-
-    if (error instanceof ValidationError) {
-      appLogger.error(
-        `Activity repository: ${createActivity.name} -> ValidationError thrown`
-      );
-
-      throw error;
-    }
-
+    const errorWithType = determineError(error);
     appLogger.error(
-      `Activity repository: ${createActivity.name} -> Internal server error thrown`
+      `Activity repository: ${createActivity.name} -> ${errorWithType.name} thrown`
     );
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+
+    throw errorWithType;
   }
 };
 
@@ -131,19 +100,12 @@ export const updateActivity = async (
 
     return await activityRepository.findOneBy({ id: updateDTO.id });
   } catch (error) {
-    if (error instanceof TypeORMError || error instanceof Error) {
-      appLogger.error(
-        `Activity repository: ${updateActivity.name} -> ${error.name} thrown`
-      );
-
-      throw error;
-    }
-
+    const errorWithType = determineError(error);
     appLogger.error(
-      `Activity repository: ${updateActivity.name} -> Internal server error thrown`
+      `Activity repository: ${updateActivity.name} -> ${errorWithType.name} thrown`
     );
 
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+    throw errorWithType;
   }
 };
 
@@ -158,19 +120,12 @@ export const deleteActivityById = async (
 
     return await activityRepository.remove(activityToRemove);
   } catch (error) {
-    if (error instanceof TypeORMError || error instanceof Error) {
-      appLogger.error(
-        `Activity repository: ${deleteActivityById.name} -> ${error.name} thrown`
-      );
-
-      throw error;
-    }
-
+    const errorWithType = determineError(error);
     appLogger.error(
-      `Activity repository: ${deleteActivityById.name} -> Internal server error throw`
+      `Activity repository: ${deleteActivityById.name} -> ${errorWithType.name} thrown`
     );
 
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+    throw errorWithType;
   }
 };
 
@@ -187,18 +142,11 @@ export const deleteActivityByTitle = async (
 
     return await activityRepository.remove(activityToRemove);
   } catch (error) {
-    if (error instanceof TypeORMError || error instanceof Error) {
-      appLogger.error(
-        `Activity repository: ${deleteActivityByTitle.name} -> ${error.name} thrown`
-      );
-
-      throw error;
-    }
-
+    const errorWithType = determineError(error);
     appLogger.error(
-      `Activity repository: ${deleteActivityByTitle.name} -> Internal server error throw`
+      `Activity repository: ${deleteActivityByTitle.name} -> ${errorWithType.name} thrown`
     );
 
-    throw new Error(commonResponseMessages.SERVER_ERROR_MESSAGE);
+    throw errorWithType;
   }
 };
