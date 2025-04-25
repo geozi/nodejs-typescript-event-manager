@@ -5,6 +5,6 @@ export class CustomValidationError extends ValidationError {
 
   constructor() {
     super();
-    this.name = "ValidationError";
+    this.name = "CustomValidationError";
   }
 }
