@@ -88,3 +88,90 @@ export const activityUpdateRules = (): ValidationChain[] => {
       .withMessage(activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE),
   ];
 };
+
+export const activityRetrievalByIdRules = (): ValidationChain[] => {
+  return [
+    check("id")
+      .notEmpty()
+      .withMessage(commonFailedValidation.ID_REQUIRED_MESSAGE)
+      .bail()
+      .custom(async (value) => {
+        if (typeof value !== "number" || !Number.isInteger(value)) {
+          throw new Error(commonFailedValidation.ID_INVALID_TYPE_MESSAGE);
+        }
+        return true;
+      })
+      .bail()
+      .custom(async (value) => {
+        if (value < 0) {
+          throw new Error(commonFailedValidation.ID_NEGATIVE_MESSAGE);
+        }
+        return true;
+      }),
+  ];
+};
+
+export const activityRetrievalByTitleRules = (): ValidationChain[] => {
+  return [
+    check("title")
+      .notEmpty()
+      .withMessage(activityFailedValidation.TITLE_REQUIRED_MESSAGE)
+      .bail()
+      .isString()
+      .withMessage(activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE)
+      .bail()
+      .isLength({ min: activityConstants.TITLE_MIN_LENGTH })
+      .withMessage(activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE)
+      .isLength({ max: activityConstants.TITLE_MAX_LENGTH })
+      .withMessage(activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE),
+  ];
+};
+
+export const activityRetrievalByTypeRules = (): ValidationChain[] => {
+  return [
+    check("activityType")
+      .notEmpty()
+      .withMessage(activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE)
+      .bail()
+      .isIn(Object.values(ActivityType))
+      .withMessage(activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE),
+  ];
+};
+
+export const activityRemovalByIdRules = (): ValidationChain[] => {
+  return [
+    check("id")
+      .notEmpty()
+      .withMessage(commonFailedValidation.ID_REQUIRED_MESSAGE)
+      .bail()
+      .custom(async (value) => {
+        if (typeof value !== "number" || !Number.isInteger(value)) {
+          throw new Error(commonFailedValidation.ID_INVALID_TYPE_MESSAGE);
+        }
+        return true;
+      })
+      .bail()
+      .custom(async (value) => {
+        if (value < 0) {
+          throw new Error(commonFailedValidation.ID_NEGATIVE_MESSAGE);
+        }
+        return true;
+      }),
+  ];
+};
+
+export const activityRemovalByTitleRules = (): ValidationChain[] => {
+  return [
+    check("title")
+      .notEmpty()
+      .withMessage(activityFailedValidation.TITLE_REQUIRED_MESSAGE)
+      .bail()
+      .isString()
+      .withMessage(activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE)
+      .bail()
+      .isLength({ min: activityConstants.TITLE_MIN_LENGTH })
+      .withMessage(activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE)
+      .isLength({ max: activityConstants.TITLE_MAX_LENGTH })
+      .withMessage(activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE),
+  ];
+};
