@@ -1,20 +1,26 @@
 import { Request, Response } from "express";
 import { activityFailedValidation } from "messages/validation/activityValidationMessages";
+import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { catchExpressValidationErrors } from "middleware/catchers/expressErrorCatcher";
-import { activityAdditionRules } from "middleware/rules/activityRules";
+import { activityUpdateRules } from "middleware/rules/activityRules";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
-import { invalidActivityInputs, validActivityInputs } from "spec/testInputs";
+import {
+  invalidActivityInputs,
+  invalidCommonInputs,
+  validActivityInputs,
+  validCommonInputs,
+} from "spec/testInputs";
 
-describe("Activity addition rules: integration tests", () => {
+describe("Activity update rules: integration tests", () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
   let next: SinonSpy;
   let statusStub: SinonStub;
   let jsonSpy: SinonSpy;
   let mockNumericValue: number;
-  const activityAdditionArray = [
-    ...activityAdditionRules(),
+  const activityUpdateArray = [
+    ...activityUpdateRules(),
     catchExpressValidationErrors,
   ];
 
@@ -36,6 +42,7 @@ describe("Activity addition rules: integration tests", () => {
       req = {
         body: JSON.parse(
           JSON.stringify({
+            id: validCommonInputs.id,
             title: validActivityInputs.title,
             description: validActivityInputs.description,
             activityType: validActivityInputs.activityType.toString(),
@@ -45,7 +52,7 @@ describe("Activity addition rules: integration tests", () => {
     });
 
     it("request has valid inputs", async () => {
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -78,6 +85,7 @@ describe("Activity addition rules: integration tests", () => {
       req = {
         body: JSON.parse(
           JSON.stringify({
+            id: validCommonInputs.id,
             title: validActivityInputs.title,
             description: validActivityInputs.description,
             activityType: validActivityInputs.activityType.toString(),
@@ -86,10 +94,10 @@ describe("Activity addition rules: integration tests", () => {
       };
     });
 
-    it("title is undefined", async () => {
-      req.body.title = undefined;
+    it("id is undefined", async () => {
+      req.body.id = undefined;
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -99,9 +107,43 @@ describe("Activity addition rules: integration tests", () => {
       expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
       expect(
         jsonSpy.calledWith({
-          errors: [
-            { message: activityFailedValidation.TITLE_REQUIRED_MESSAGE },
-          ],
+          errors: [{ message: commonFailedValidation.ID_REQUIRED_MESSAGE }],
+        })
+      ).toBeTrue();
+    });
+
+    it("id is invalid", async () => {
+      req.body.id = invalidCommonInputs.ID_INVALID_TYPE;
+
+      for (const middleware of activityUpdateArray) {
+        await middleware(req as Request, res as Response, next);
+      }
+
+      statusStub = res.status as SinonStub;
+      jsonSpy = res.json as SinonSpy;
+
+      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+      expect(
+        jsonSpy.calledWith({
+          errors: [{ message: commonFailedValidation.ID_INVALID_TYPE_MESSAGE }],
+        })
+      ).toBeTrue();
+    });
+
+    it("id is negative", async () => {
+      req.body.id = invalidCommonInputs.ID_NEGATIVE;
+
+      for (const middleware of activityUpdateArray) {
+        await middleware(req as Request, res as Response, next);
+      }
+
+      statusStub = res.status as SinonStub;
+      jsonSpy = res.json as SinonSpy;
+
+      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+      expect(
+        jsonSpy.calledWith({
+          errors: [{ message: commonFailedValidation.ID_NEGATIVE_MESSAGE }],
         })
       ).toBeTrue();
     });
@@ -109,7 +151,7 @@ describe("Activity addition rules: integration tests", () => {
     it("title is not a string", async () => {
       req.body.title = mockNumericValue;
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -129,7 +171,7 @@ describe("Activity addition rules: integration tests", () => {
     it("title is too short", async () => {
       req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -151,7 +193,7 @@ describe("Activity addition rules: integration tests", () => {
     it("title is too long", async () => {
       req.body.title = invalidActivityInputs.TITLE_TOO_LONG;
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -170,32 +212,10 @@ describe("Activity addition rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("description is undefined", async () => {
-      req.body.description = undefined;
-
-      for (const middleware of activityAdditionArray) {
-        await middleware(req as Request, res as Response, next);
-      }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message: activityFailedValidation.DESCRIPTION_REQUIRED_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
-
     it("description is not a string", async () => {
       req.body.description = mockNumericValue;
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -218,7 +238,7 @@ describe("Activity addition rules: integration tests", () => {
     it("description is too short", async () => {
       req.body.description = invalidActivityInputs.DESCRIPTION_TOO_SHORT;
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -241,7 +261,7 @@ describe("Activity addition rules: integration tests", () => {
     it("description is too long", async () => {
       req.body.description = invalidActivityInputs.DESCRIPTION_TOO_LONG;
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 
@@ -261,33 +281,11 @@ describe("Activity addition rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("activityType is undefined", async () => {
-      req.body.activityType = undefined;
-
-      for (const middleware of activityAdditionArray) {
-        await middleware(req as Request, res as Response, next);
-      }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message: activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
-
     it("activityType is invalid", async () => {
       req.body.activityType =
         invalidActivityInputs.ACTIVITY_TYPE_INVALID.toString();
 
-      for (const middleware of activityAdditionArray) {
+      for (const middleware of activityUpdateArray) {
         await middleware(req as Request, res as Response, next);
       }
 

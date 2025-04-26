@@ -47,13 +47,18 @@ export const activityUpdateRules = (): ValidationChain[] => {
       .notEmpty()
       .withMessage(commonFailedValidation.ID_REQUIRED_MESSAGE)
       .bail()
-      .isInt()
-      .withMessage(commonFailedValidation.ID_INVALID_TYPE_MESSAGE)
+      .custom(async (value) => {
+        if (typeof value !== "number" || !Number.isInteger(value)) {
+          throw new Error(commonFailedValidation.ID_INVALID_TYPE_MESSAGE);
+        }
+        return true;
+      })
       .bail()
       .custom(async (value) => {
         if (value < 0) {
           throw new Error(commonFailedValidation.ID_NEGATIVE_MESSAGE);
         }
+        return true;
       }),
     check("title")
       .optional()
