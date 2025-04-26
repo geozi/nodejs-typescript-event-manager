@@ -1,6 +1,7 @@
 import { ActivityType } from "enums/ActivityType";
 import { check, ValidationChain } from "express-validator";
 import { activityFailedValidation } from "messages/validation/activityValidationMessages";
+import { commonFailedValidation } from "messages/validation/commonValidationMessages";
 import { activityConstants } from "resources/constants/activityConstants";
 
 export const activityAdditionRules = (): ValidationChain[] => {
@@ -35,6 +36,49 @@ export const activityAdditionRules = (): ValidationChain[] => {
       .notEmpty()
       .withMessage(activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE)
       .bail()
+      .isIn(Object.values(ActivityType))
+      .withMessage(activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE),
+  ];
+};
+
+export const activityUpdateRules = (): ValidationChain[] => {
+  return [
+    check("id")
+      .notEmpty()
+      .withMessage(commonFailedValidation.ID_REQUIRED_MESSAGE)
+      .bail()
+      .isInt()
+      .withMessage(commonFailedValidation.ID_INVALID_TYPE_MESSAGE)
+      .bail()
+      .custom(async (value) => {
+        if (value < 0) {
+          throw new Error(commonFailedValidation.ID_NEGATIVE_MESSAGE);
+        }
+      }),
+    check("title")
+      .optional()
+      .isString()
+      .withMessage(activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE)
+      .bail()
+      .isLength({ min: activityConstants.TITLE_MIN_LENGTH })
+      .withMessage(activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE)
+      .isLength({ max: activityConstants.TITLE_MAX_LENGTH })
+      .withMessage(activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE),
+    check("description")
+      .optional()
+      .isString()
+      .withMessage(activityFailedValidation.DESCRIPTION_INVALID_TYPE_MESSAGE)
+      .bail()
+      .isLength({ min: activityConstants.DESCRIPTION_MIN_LENGTH })
+      .withMessage(
+        activityFailedValidation.DESCRIPTION_BELOW_MIN_LENGTH_MESSAGE
+      )
+      .isLength({ max: activityConstants.DESCRIPTION_MAX_LENGTH })
+      .withMessage(
+        activityFailedValidation.DESCRIPTION_ABOVE_MAX_LENGTH_MESSAGE
+      ),
+    check("activityType")
+      .optional()
       .isIn(Object.values(ActivityType))
       .withMessage(activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE),
   ];
