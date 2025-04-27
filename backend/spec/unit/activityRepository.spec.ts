@@ -4,6 +4,7 @@ import { ActivityUpdateDTO } from "dto/ActivityUpdateDTO";
 import { Activity } from "entities/primary/Activity";
 import { ActivityType } from "enums/ActivityType";
 import { CustomValidationError } from "errors/CustomValidationError";
+import { ServerError } from "errors/ServerError";
 import {
   createActivity,
   deleteActivityById,
@@ -75,23 +76,13 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise rejects -> Error", async () => {
-      findOneByStub.rejects();
-
-      try {
-        await getActivityById(mockId);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise rejects -> Unknown type error", async () => {
+    it("Promise rejects -> ServerError", async () => {
       findOneByStub.rejects({});
 
       try {
         await getActivityById(mockId);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
   });
@@ -138,23 +129,13 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise rejects -> Error", async () => {
-      findOneByStub.rejects();
-
-      try {
-        await getActivityByTitle(mockTitle);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise rejects -> Unknown type error", async () => {
+    it("Promise rejects -> ServerError", async () => {
       findOneByStub.rejects({});
 
       try {
         await getActivityByTitle(mockTitle);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
   });
@@ -201,23 +182,13 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise rejects -> Error", async () => {
-      findByStub.rejects();
-
-      try {
-        await getActivitiesByType(mockActivityType);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise rejects -> Unknown type error", async () => {
+    it("Promise rejects -> ServerError", async () => {
       findByStub.rejects({});
 
       try {
         await getActivitiesByType(mockActivityType);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
   });
@@ -270,23 +241,13 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise rejects -> Error", async () => {
-      saveStub.rejects();
-
-      try {
-        await createActivity(mockActivity);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise rejects -> Unknown type error", async () => {
+    it("Promise rejects -> ServerError", async () => {
       saveStub.rejects({});
 
       try {
         await createActivity(mockActivity);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
   });
@@ -351,23 +312,13 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise (update) rejects -> Error", async () => {
-      updateStub.rejects();
-
-      try {
-        await updateActivity(mockDataObject);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise (update) rejects -> Unknown type error", async () => {
+    it("Promise (update) rejects -> ServerError", async () => {
       updateStub.rejects({});
 
       try {
         await updateActivity(mockDataObject);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
 
@@ -383,19 +334,7 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise (findOneBy) rejects -> Error", async () => {
-      mockUpdateResult.affected = 1;
-      updateStub.resolves(mockUpdateResult);
-      findOneByStub.rejects();
-
-      try {
-        await updateActivity(mockDataObject);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise (findOneBy) rejects -> Unknown type error", async () => {
+    it("Promise (findOneBy) rejects -> ServerError", async () => {
       mockUpdateResult.affected = 1;
       updateStub.resolves(mockUpdateResult);
       findOneByStub.rejects({});
@@ -403,7 +342,7 @@ describe("Activity repository unit tests", () => {
       try {
         await updateActivity(mockDataObject);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
   });
@@ -450,23 +389,13 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise (findOneBy) rejects -> Error", async () => {
-      findOneByStub.rejects();
-
-      try {
-        await deleteActivityById(mockId);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise (findOneBy) rejects -> Unknown type error", async () => {
+    it("Promise (findOneBy) rejects -> ServerError", async () => {
       findOneByStub.rejects({});
 
       try {
         await deleteActivityById(mockId);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
 
@@ -481,25 +410,14 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise (remove) rejects -> Error", async () => {
-      findOneByStub.resolves(mockActivity);
-      removeStub.rejects();
-
-      try {
-        await deleteActivityById(mockId);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise (remove) rejects -> Unknown type error", async () => {
+    it("Promise (remove) rejects -> ServerError", async () => {
       findOneByStub.resolves(mockActivity);
       removeStub.rejects({});
 
       try {
         await deleteActivityById(mockId);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
   });
@@ -547,23 +465,13 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise (findOneBy) rejects -> Error", async () => {
-      findOneByStub.rejects();
-
-      try {
-        await deleteActivityByTitle(mockTitle);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise (findOneBy) rejects -> Unknown type error", async () => {
+    it("Promise (findOneBy) rejects -> ServerError", async () => {
       findOneByStub.rejects({});
 
       try {
         await deleteActivityByTitle(mockTitle);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
 
@@ -578,25 +486,14 @@ describe("Activity repository unit tests", () => {
       }
     });
 
-    it("Promise (remove) rejects -> Error", async () => {
-      findOneByStub.resolves(mockActivity);
-      removeStub.rejects();
-
-      try {
-        await deleteActivityByTitle(mockTitle);
-      } catch (error) {
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it("Promise (remove) rejects -> Unknown type error", async () => {
+    it("Promise (remove) rejects -> ServerError", async () => {
       findOneByStub.resolves(mockActivity);
       removeStub.rejects({});
 
       try {
         await deleteActivityByTitle(mockTitle);
       } catch (error) {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ServerError);
       }
     });
   });
