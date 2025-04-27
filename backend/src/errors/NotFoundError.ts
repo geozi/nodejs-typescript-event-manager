@@ -1,7 +1,7 @@
 export class NotFoundError extends Error {
   constructor(message: string) {
     super();
-    this.name = "CustomNotFoundError";
+    this.name = "NotFoundError";
     this.message = message;
   }
 }

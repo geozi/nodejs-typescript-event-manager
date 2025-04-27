@@ -1,6 +1,8 @@
 import { CustomValidationError } from "errors/CustomValidationError";
+import { NotFoundError } from "errors/NotFoundError";
 import { ServerError } from "errors/ServerError";
 import { Request, Response } from "express";
+import { appLogger } from "logs/loggerConfig";
 import { reqToActivity, reqToActivityUpdateDTO } from "mappers/activityMapper";
 import { activityResponseMessages } from "messages/response/activityResponseMessages";
 import {
@@ -43,10 +45,13 @@ export const callActivityUpdate = async (req: Request, res: Response) => {
     const updatedActivity = await updateActivity(activityToUpdate);
 
     if (updatedActivity === null) {
-      res
-        .status(httpCodes.NOT_FOUND)
-        .json({ message: activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE });
-      return;
+      appLogger.error(
+        `Activity controller: ${callActivityUpdate.name} -> ${NotFoundError.name} thrown`
+      );
+
+      throw new NotFoundError(
+        activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE
+      );
     }
 
     res
@@ -57,7 +62,16 @@ export const callActivityUpdate = async (req: Request, res: Response) => {
       });
   } catch (error) {
     if (error instanceof TypeORMError || error instanceof ServerError) {
-      res.status(httpCodes.INTERNAL_SERVER_ERROR).json(error.message);
+      res
+        .status(httpCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+      return;
+    }
+
+    if (error instanceof NotFoundError) {
+      res
+        .status(httpCodes.NOT_FOUND)
+        .json({ message: activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE });
       return;
     }
   }
