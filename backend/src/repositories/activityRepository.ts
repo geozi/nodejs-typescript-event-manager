@@ -1,8 +1,9 @@
-import { validate, ValidationError } from "class-validator";
+import { validate } from "class-validator";
 import { AppDataSource } from "db/dataSource";
 import { ActivityUpdateDTO } from "dto/ActivityUpdateDTO";
 import { Activity } from "entities/primary/Activity";
 import { ActivityType } from "enums/ActivityType";
+import { CustomValidationError } from "errors/CustomValidationError";
 import { appLogger } from "logs/loggerConfig";
 import {
   determineError,
@@ -60,9 +61,9 @@ export const createActivity = async (
   try {
     const errors = await validate(newActivity);
 
-    let validationError: ValidationError;
+    let validationError: CustomValidationError;
     if (errors.length > 0) {
-      validationError = new ValidationError();
+      validationError = new CustomValidationError();
       if (errors.length === 1) {
         validationError.constraints = errors[0].constraints;
       } else {
