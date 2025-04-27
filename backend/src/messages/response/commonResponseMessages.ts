@@ -1,3 +1,3 @@
 export const commonResponseMessages = {
-  UNKNOWN_ERROR_TYPE: "Unknown error type",
+  INTERNAL_SERVER_ERROR_MESSAGE: "Internal server error",
 };

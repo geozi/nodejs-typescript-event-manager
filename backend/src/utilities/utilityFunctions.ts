@@ -1,6 +1,6 @@
 import { ValidationError } from "class-validator";
 import { CustomValidationError } from "errors/CustomValidationError";
-import { commonResponseMessages } from "messages/response/commonResponseMessages";
+import { ServerError } from "errors/ServerError";
 import { TypeORMError } from "typeorm";
 
 export function extractValidationErrorConstraints(
@@ -13,14 +13,10 @@ export function extractValidationErrorConstraints(
 
 export function determineError(
   value: unknown
-): TypeORMError | CustomValidationError | Error {
-  if (
-    value instanceof Error ||
-    value instanceof TypeORMError ||
-    value instanceof CustomValidationError
-  ) {
+): TypeORMError | CustomValidationError {
+  if (value instanceof TypeORMError || value instanceof CustomValidationError) {
     return value;
   } else {
-    return new Error(commonResponseMessages.UNKNOWN_ERROR_TYPE);
+    return new ServerError();
   }
 }
