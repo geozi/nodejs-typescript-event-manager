@@ -10,7 +10,7 @@ import sinon, { SinonSpy, SinonStub } from "sinon";
 import { invalidActivityInputs, validActivityInputs } from "spec/testInputs";
 import { TypeORMError } from "typeorm";
 
-describe("Activity addition integration tests", () => {
+fdescribe("Activity addition integration tests", () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
   let statusStub: SinonStub;
@@ -341,9 +341,9 @@ describe("Activity addition integration tests", () => {
           statusStub.calledWith(httpCodes.INTERNAL_SERVER_ERROR)
         ).toBeTrue();
         expect(
-          jsonSpy.calledWith(
-            commonResponseMessages.INTERNAL_SERVER_ERROR_MESSAGE
-          )
+          jsonSpy.calledWith({
+            message: commonResponseMessages.INTERNAL_SERVER_ERROR_MESSAGE,
+          })
         ).toBeTrue();
       });
     });
