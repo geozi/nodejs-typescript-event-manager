@@ -3,7 +3,11 @@ import { NotFoundError } from "errors/NotFoundError";
 import { ServerError } from "errors/ServerError";
 import { Request, Response } from "express";
 import { appLogger } from "logs/loggerConfig";
-import { reqToActivity, reqToActivityUpdateDTO } from "mappers/activityMapper";
+import {
+  reqToActivity,
+  reqToActivityUpdateDTO,
+  reqToTitle,
+} from "mappers/activityMapper";
 import { reqToId } from "mappers/commonMapper";
 import { activityResponseMessages } from "messages/response/activityResponseMessages";
 import {
@@ -139,7 +143,8 @@ export const callActivityRetrievalByTitle = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { title } = req.body;
+    const title = reqToTitle(req);
+
     const retrievedActivity = await getActivityByTitle(title);
     if (retrievedActivity === null) {
       throw new NotFoundError(
@@ -154,6 +159,11 @@ export const callActivityRetrievalByTitle = async (
         data: retrievedActivity,
       });
   } catch (error) {
+    if (error instanceof TypeError) {
+      res.status(httpCodes.BAD_REQUEST).json({ message: error.message });
+      return;
+    }
+
     if (error instanceof TypeORMError || error instanceof ServerError) {
       res
         .status(httpCodes.INTERNAL_SERVER_ERROR)

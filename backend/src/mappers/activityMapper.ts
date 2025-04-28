@@ -1,6 +1,8 @@
 import { ActivityUpdateDTO } from "dto/ActivityUpdateDTO";
 import { Activity } from "entities/primary/Activity";
 import { Request } from "express";
+import { appLogger } from "logs/loggerConfig";
+import { activityFailedValidation } from "messages/validation/activityValidationMessages";
 
 export const reqToActivity = (req: Request): Activity => {
   const { title, description, activityType } = req.body;
@@ -23,4 +25,21 @@ export const reqToActivityUpdateDTO = (req: Request): ActivityUpdateDTO => {
   activityToUpdate.activityType = activityType;
 
   return activityToUpdate;
+};
+
+export const reqToTitle = (req: Request): string => {
+  const { title } = req.body;
+
+  if (typeof title !== "string") {
+    appLogger.error(
+      `Activity mapper: ${reqToTitle.name} -> ${TypeError.name} thrown`
+    );
+
+    const typeError = new TypeError();
+    typeError.message = activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE;
+
+    throw typeError;
+  }
+
+  return title;
 };
