@@ -113,6 +113,11 @@ export const callActivityRetrievalById = async (
         data: retrievedActivity,
       });
   } catch (error) {
+    if (error instanceof TypeError) {
+      res.status(httpCodes.BAD_REQUEST).json({ message: error.message });
+      return;
+    }
+
     if (error instanceof TypeORMError || error instanceof ServerError) {
       res
         .status(httpCodes.INTERNAL_SERVER_ERROR)
