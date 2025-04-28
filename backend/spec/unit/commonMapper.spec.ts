@@ -23,7 +23,25 @@ describe("Common mapper unit tests", () => {
       expect(id).toEqual(1);
     });
 
-    it("id is a string -> TypeError", () => {
+    it("id is a string representation of integer", () => {
+      mockInput = "1";
+
+      req = {
+        body: JSON.parse(
+          JSON.stringify({
+            id: mockInput,
+          })
+        ),
+      };
+
+      try {
+        reqToId(req as Request);
+      } catch (error) {
+        expect(error).toBeInstanceOf(TypeError);
+      }
+    });
+
+    it("id is a hex string", () => {
       mockInput = "680f398b117c19aabf04217d";
 
       req = {
