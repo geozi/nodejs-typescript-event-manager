@@ -1,3 +1,4 @@
+import { ActivityType } from "enums/ActivityType";
 import { CustomValidationError } from "errors/CustomValidationError";
 import { NotFoundError } from "errors/NotFoundError";
 import { ServerError } from "errors/ServerError";
@@ -5,6 +6,7 @@ import { Request, Response } from "express";
 import { appLogger } from "logs/loggerConfig";
 import {
   reqToActivity,
+  reqToActivityType,
   reqToActivityUpdateDTO,
   reqToTitle,
 } from "mappers/activityMapper";
@@ -14,6 +16,7 @@ import {
   createActivity,
   deleteActivityById,
   deleteActivityByTitle,
+  getActivitiesByType,
   getActivityById,
   getActivityByTitle,
   updateActivity,
@@ -180,6 +183,49 @@ export const callActivityRetrievalByTitle = async (
   }
 };
 
+export const callActivityRetrievalByType = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const activityType = reqToActivityType(req);
+    const retrievedActivities = await getActivitiesByType(
+      activityType as ActivityType
+    );
+    if (retrievedActivities.length === 0) {
+      throw new NotFoundError(
+        activityResponseMessages.ACTIVITY_S_NOT_FOUND_MESSAGE
+      );
+    }
+
+    res
+      .setHeader("x-api-version", apiVersionNumbers.VERSION_1_0)
+      .status(httpCodes.OK)
+      .json({
+        data: retrievedActivities,
+      });
+  } catch (error) {
+    if (error instanceof TypeError) {
+      res.status(httpCodes.BAD_REQUEST).json({ message: error.message });
+      return;
+    }
+
+    if (error instanceof TypeORMError || error instanceof ServerError) {
+      res
+        .status(httpCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+      return;
+    }
+
+    if (error instanceof NotFoundError) {
+      res
+        .status(httpCodes.NOT_FOUND)
+        .json({ message: activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE });
+      return;
+    }
+  }
+};
+
 export const callActivityRemovalById = async (
   req: Request,
   res: Response
@@ -257,5 +303,3 @@ export const callActivityRemovalByTitle = async (
     }
   }
 };
-
-// TODO: callActivityRetrievalByType

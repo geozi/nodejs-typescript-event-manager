@@ -1,5 +1,6 @@
 import { ActivityUpdateDTO } from "dto/ActivityUpdateDTO";
 import { Activity } from "entities/primary/Activity";
+import { ActivityType } from "enums/ActivityType";
 import { Request } from "express";
 import { appLogger } from "logs/loggerConfig";
 import { activityFailedValidation } from "messages/validation/activityValidationMessages";
@@ -42,4 +43,22 @@ export const reqToTitle = (req: Request): string => {
   }
 
   return title;
+};
+
+export const reqToActivityType = (req: Request): string => {
+  const { activityType } = req.body;
+  const keys = Object.keys(ActivityType);
+
+  if (!keys.includes(activityType)) {
+    appLogger.error(
+      `Activity mapper: ${reqToActivityType.name} -> ${TypeError.name} thrown`
+    );
+
+    const typeError = new TypeError();
+    typeError.message = activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE;
+
+    throw typeError;
+  }
+
+  return activityType;
 };
