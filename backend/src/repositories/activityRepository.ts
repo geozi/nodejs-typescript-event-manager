@@ -89,6 +89,21 @@ export const updateActivity = async (
   updateDTO: ActivityUpdateDTO
 ): Promise<Activity | null> => {
   try {
+    const errors = await validate(updateDTO);
+
+    let validationError: CustomValidationError;
+    if (errors.length > 0) {
+      validationError = new CustomValidationError();
+      if (errors.length === 1) {
+        validationError.constraints = errors[0].constraints;
+      } else {
+        const constraintObject = extractValidationErrorConstraints(errors);
+        validationError.constraints = constraintObject;
+      }
+
+      throw validationError;
+    }
+
     const { id, title, description, activityType } = updateDTO;
     const result = await activityRepository.update(
       { id: id },
