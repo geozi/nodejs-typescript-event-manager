@@ -37,7 +37,10 @@ describe("Activity removal by title rules: integration tests", () => {
       mockTitle = validActivityInputs.title;
 
       // HTTP request
-      req = { body: JSON.parse(JSON.stringify({ title: mockTitle })) };
+      req = {
+        method: "DELETE",
+        body: JSON.parse(JSON.stringify({ title: mockTitle })),
+      };
     });
 
     it("request has valid title", async () => {
@@ -72,7 +75,10 @@ describe("Activity removal by title rules: integration tests", () => {
       mockNumericValue = 1;
 
       // HTTP request
-      req = { body: JSON.parse(JSON.stringify({ title: mockTitle })) };
+      req = {
+        method: "DELETE",
+        body: JSON.parse(JSON.stringify({ title: mockTitle })),
+      };
     });
 
     it("title is undefined", async () => {

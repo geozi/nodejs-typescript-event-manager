@@ -34,6 +34,7 @@ describe("Activity addition rules: integration tests", () => {
 
       // HTTP request
       req = {
+        method: "POST",
         body: JSON.parse(
           JSON.stringify({
             title: validActivityInputs.title,
@@ -76,6 +77,7 @@ describe("Activity addition rules: integration tests", () => {
 
       // HTTP request
       req = {
+        method: "POST",
         body: JSON.parse(
           JSON.stringify({
             title: validActivityInputs.title,

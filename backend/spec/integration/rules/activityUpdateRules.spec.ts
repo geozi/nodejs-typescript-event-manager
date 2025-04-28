@@ -40,6 +40,7 @@ describe("Activity update rules: integration tests", () => {
 
       // HTTP request
       req = {
+        method: "PUT",
         body: JSON.parse(
           JSON.stringify({
             id: validCommonInputs.id,
@@ -83,6 +84,7 @@ describe("Activity update rules: integration tests", () => {
 
       // HTTP request
       req = {
+        method: "PUT",
         body: JSON.parse(
           JSON.stringify({
             id: validCommonInputs.id,

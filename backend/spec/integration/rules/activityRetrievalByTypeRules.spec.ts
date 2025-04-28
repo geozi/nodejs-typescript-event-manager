@@ -37,6 +37,7 @@ describe("Activity retrieval by type rules: integration tests", () => {
 
       // HTTP request
       req = {
+        method: "GET",
         body: JSON.parse(JSON.stringify({ activityType: mockActivityType })),
       };
     });
@@ -73,6 +74,7 @@ describe("Activity retrieval by type rules: integration tests", () => {
 
       // HTTP request
       req = {
+        method: "GET",
         body: JSON.parse(JSON.stringify({ activityType: mockActivityType })),
       };
     });

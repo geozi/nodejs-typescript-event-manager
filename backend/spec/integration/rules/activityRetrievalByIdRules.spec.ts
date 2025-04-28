@@ -36,7 +36,7 @@ describe("Activity retrieval by ID rules: integration tests", () => {
       mockId = validCommonInputs.id;
 
       // HTTP request
-      req = { body: JSON.parse(JSON.stringify({ id: mockId })) };
+      req = { method: "GET", body: JSON.parse(JSON.stringify({ id: mockId })) };
     });
 
     it("request has valid ID", async () => {
@@ -70,7 +70,7 @@ describe("Activity retrieval by ID rules: integration tests", () => {
       mockId = validCommonInputs.id;
 
       // HTTP request
-      req = { body: JSON.parse(JSON.stringify({ id: mockId })) };
+      req = { method: "GET", body: JSON.parse(JSON.stringify({ id: mockId })) };
     });
 
     it("id is undefined", async () => {

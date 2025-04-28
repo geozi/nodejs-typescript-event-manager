@@ -41,7 +41,10 @@ describe("Activity retrieval by title rules: integration tests", () => {
       mockTitle = validActivityInputs.title;
 
       // HTTP request
-      req = { body: JSON.parse(JSON.stringify({ title: mockTitle })) };
+      req = {
+        method: "GET",
+        body: JSON.parse(JSON.stringify({ title: mockTitle })),
+      };
     });
 
     it("request has valid title", async () => {
@@ -76,7 +79,10 @@ describe("Activity retrieval by title rules: integration tests", () => {
       mockNumericValue = validCommonInputs.id;
 
       // HTTP request
-      req = { body: JSON.parse(JSON.stringify({ title: mockTitle })) };
+      req = {
+        method: "GET",
+        body: JSON.parse(JSON.stringify({ title: mockTitle })),
+      };
     });
 
     it("title is undefined", async () => {

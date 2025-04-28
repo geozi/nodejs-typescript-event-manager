@@ -1,4 +1,4 @@
-import { callActivityRetrievalById } from "controllers/activityController";
+import { callActivityRemovalById } from "controllers/activityController";
 import { AppDataSource } from "db/dataSource";
 import { Activity } from "entities/primary/Activity";
 import { Request, Response } from "express";
@@ -9,15 +9,16 @@ import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
 import { TypeORMError } from "typeorm";
 
-describe("Activity retrieval by ID integration tests", () => {
+describe("Activity Removal by id integration tests", () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
   let statusStub: SinonStub;
   let jsonSpy: SinonSpy;
   let setHeaderStub: SinonStub;
   let findOneByStub: SinonStub;
+  let removeStub: SinonStub;
   let mockActivity: Activity;
-  let mockId: number | string | object | boolean;
+  let mockId: number;
   const activityRepository = AppDataSource.getRepository(Activity);
 
   describe("Positive scenario", () => {
@@ -27,6 +28,7 @@ describe("Activity retrieval by ID integration tests", () => {
 
       // Stubs and spies
       findOneByStub = sinon.stub(activityRepository, "findOneBy");
+      removeStub = sinon.stub(activityRepository, "remove");
       res = {
         setHeader: sinon.stub().callsFake(() => res) as unknown as SinonStub,
         status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
@@ -40,7 +42,7 @@ describe("Activity retrieval by ID integration tests", () => {
 
       // HTTP request
       req = {
-        method: "GET",
+        method: "DELETE",
         body: JSON.parse(
           JSON.stringify({
             id: mockId,
@@ -49,20 +51,19 @@ describe("Activity retrieval by ID integration tests", () => {
       };
     });
 
-    it(`response code ${httpCodes.OK}`, async () => {
+    it(`response code ${httpCodes.NO_CONTENT}`, async () => {
       findOneByStub.resolves(mockActivity);
+      removeStub.resolves(mockActivity);
 
-      await callActivityRetrievalById(req as Request, res as Response);
+      await callActivityRemovalById(req as Request, res as Response);
 
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
       setHeaderStub = res.setHeader as SinonStub;
+      statusStub = res.status as SinonStub;
 
       expect(
         setHeaderStub.calledWith("x-api-version", apiVersionNumbers.VERSION_1_0)
       ).toBeTrue();
-      expect(statusStub.calledWith(httpCodes.OK)).toBeTrue();
-      expect(jsonSpy.calledWith({ data: mockActivity })).toBeTrue();
+      expect(statusStub.calledWith(httpCodes.NO_CONTENT)).toBeTrue();
     });
   });
 
@@ -81,7 +82,7 @@ describe("Activity retrieval by ID integration tests", () => {
 
       it("id is a string representation of a number", async () => {
         req = {
-          method: "GET",
+          method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
               id: "1",
@@ -89,7 +90,7 @@ describe("Activity retrieval by ID integration tests", () => {
           ),
         };
 
-        await callActivityRetrievalById(req as Request, res as Response);
+        await callActivityRemovalById(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
         jsonSpy = res.json as SinonSpy;
@@ -104,7 +105,7 @@ describe("Activity retrieval by ID integration tests", () => {
 
       it("id is a hex string", async () => {
         req = {
-          method: "GET",
+          method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
               id: "680f43bdf2929acc6220668e",
@@ -112,7 +113,7 @@ describe("Activity retrieval by ID integration tests", () => {
           ),
         };
 
-        await callActivityRetrievalById(req as Request, res as Response);
+        await callActivityRemovalById(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
         jsonSpy = res.json as SinonSpy;
@@ -127,7 +128,7 @@ describe("Activity retrieval by ID integration tests", () => {
 
       it("id is an object", async () => {
         req = {
-          method: "GET",
+          method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
               id: {},
@@ -135,7 +136,7 @@ describe("Activity retrieval by ID integration tests", () => {
           ),
         };
 
-        await callActivityRetrievalById(req as Request, res as Response);
+        await callActivityRemovalById(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
         jsonSpy = res.json as SinonSpy;
@@ -150,7 +151,7 @@ describe("Activity retrieval by ID integration tests", () => {
 
       it("id is a boolean", async () => {
         req = {
-          method: "GET",
+          method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
               id: false,
@@ -158,7 +159,7 @@ describe("Activity retrieval by ID integration tests", () => {
           ),
         };
 
-        await callActivityRetrievalById(req as Request, res as Response);
+        await callActivityRemovalById(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
         jsonSpy = res.json as SinonSpy;
@@ -180,16 +181,19 @@ describe("Activity retrieval by ID integration tests", () => {
         // Stubs and spies
         findOneByStub = sinon.stub(activityRepository, "findOneBy");
         res = {
+          setHeader: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           json: sinon.spy(),
         };
 
         // Mocks
         mockId = 1;
+        mockActivity = new Activity();
+        mockActivity.id = mockId;
 
         // HTTP request
         req = {
-          method: "GET",
+          method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
               id: mockId,
@@ -198,10 +202,10 @@ describe("Activity retrieval by ID integration tests", () => {
         };
       });
 
-      it("Promise resolves -> NotFoundError", async () => {
+      it("Promise resolves to null", async () => {
         findOneByStub.resolves(null);
 
-        await callActivityRetrievalById(req as Request, res as Response);
+        await callActivityRemovalById(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
         jsonSpy = res.json as SinonSpy;
@@ -222,17 +226,22 @@ describe("Activity retrieval by ID integration tests", () => {
 
         // Stubs and spies
         findOneByStub = sinon.stub(activityRepository, "findOneBy");
+        removeStub = sinon.stub(activityRepository, "remove");
+
         res = {
+          setHeader: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           json: sinon.spy(),
         };
 
         // Mocks
         mockId = 1;
+        mockActivity = new Activity();
+        mockActivity.id = mockId;
 
         // HTTP request
         req = {
-          method: "GET",
+          method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
               id: mockId,
@@ -241,10 +250,10 @@ describe("Activity retrieval by ID integration tests", () => {
         };
       });
 
-      it("Promise rejects -> TypeORMError", async () => {
+      it("Promise (findOneBy) rejects -> TypeORMError", async () => {
         findOneByStub.rejects(new TypeORMError());
 
-        await callActivityRetrievalById(req as Request, res as Response);
+        await callActivityRemovalById(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
 
@@ -253,15 +262,53 @@ describe("Activity retrieval by ID integration tests", () => {
         ).toBeTrue();
       });
 
-      it("Promise rejects -> ServerError", async () => {
+      it("Promise (findOneBy) rejects -> ServerError", async () => {
         findOneByStub.rejects({});
 
-        await callActivityRetrievalById(req as Request, res as Response);
+        await callActivityRemovalById(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(
+          statusStub.calledWith(httpCodes.INTERNAL_SERVER_ERROR)
+        ).toBeTrue();
+        expect(
+          jsonSpy.calledWith({
+            message: commonResponseMessages.INTERNAL_SERVER_ERROR_MESSAGE,
+          })
+        ).toBeTrue();
+      });
+
+      it("Promise (remove) rejects -> TypeORMError", async () => {
+        findOneByStub.resolves(mockActivity);
+        removeStub.rejects(new TypeORMError());
+
+        await callActivityRemovalById(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
 
         expect(
           statusStub.calledWith(httpCodes.INTERNAL_SERVER_ERROR)
+        ).toBeTrue();
+      });
+
+      it("Promise (remove) rejects -> ServerError", async () => {
+        findOneByStub.resolves(mockActivity);
+        removeStub.rejects({});
+
+        await callActivityRemovalById(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(
+          statusStub.calledWith(httpCodes.INTERNAL_SERVER_ERROR)
+        ).toBeTrue();
+        expect(
+          jsonSpy.calledWith({
+            message: commonResponseMessages.INTERNAL_SERVER_ERROR_MESSAGE,
+          })
         ).toBeTrue();
       });
     });

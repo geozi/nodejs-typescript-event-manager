@@ -42,6 +42,7 @@ describe("Activity retrieval by title integration tests", () => {
 
       // HTTP request
       req = {
+        method: "GET",
         body: JSON.parse(
           JSON.stringify({
             title: mockTitle,
@@ -84,6 +85,7 @@ describe("Activity retrieval by title integration tests", () => {
 
         // HTTP request
         req = {
+          method: "GET",
           body: JSON.parse(
             JSON.stringify({
               title: mockTitle,
@@ -124,6 +126,7 @@ describe("Activity retrieval by title integration tests", () => {
 
         // HTTP request
         req = {
+          method: "GET",
           body: JSON.parse(
             JSON.stringify({
               title: mockTitle,
@@ -180,6 +183,7 @@ describe("Activity retrieval by title integration tests", () => {
 
         // HTTP request
         req = {
+          method: "GET",
           body: JSON.parse(
             JSON.stringify({
               title: mockTitle,

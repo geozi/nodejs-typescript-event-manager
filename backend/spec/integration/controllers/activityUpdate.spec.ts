@@ -51,6 +51,7 @@ describe("Activity update integration tests", () => {
 
       // HTTP request
       req = {
+        method: "PUT",
         body: JSON.parse(
           JSON.stringify({
             id: mockId,
@@ -98,6 +99,7 @@ describe("Activity update integration tests", () => {
 
         // HTTP request
         req = {
+          method: "PUT",
           body: JSON.parse(
             JSON.stringify({
               id: mockId,
@@ -188,6 +190,7 @@ describe("Activity update integration tests", () => {
 
         // HTTP request
         req = {
+          method: "PUT",
           body: JSON.parse(
             JSON.stringify({
               id: mockId,
@@ -251,6 +254,7 @@ describe("Activity update integration tests", () => {
 
         // HTTP request
         req = {
+          method: "PUT",
           body: JSON.parse(
             JSON.stringify({
               id: mockId,
