@@ -261,7 +261,7 @@ describe("Activity update integration tests", () => {
         };
       });
 
-      it("Promise rejects (title) -> CustomValidationError", async () => {
+      it("Promise (title) rejects -> CustomValidationError", async () => {
         req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
 
         await callActivityUpdate(req as Request, res as Response);
@@ -277,7 +277,40 @@ describe("Activity update integration tests", () => {
         ).toBeTrue();
       });
 
-      it("Promise rejects (title and description) -> CustomValidationError", async () => {
+      it("Promise (description) rejects -> CustomValidationError", async () => {
+        req.body.description = invalidActivityInputs.DESCRIPTION_TOO_SHORT;
+
+        await callActivityUpdate(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+        expect(
+          jsonSpy.calledWith({
+            minLength:
+              activityFailedValidation.DESCRIPTION_BELOW_MIN_LENGTH_MESSAGE,
+          })
+        ).toBeTrue();
+      });
+
+      it("Promise (activityType) rejects -> CustomValidationError", async () => {
+        req.body.activityType = invalidActivityInputs.ACTIVITY_TYPE_INVALID;
+
+        await callActivityUpdate(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+        expect(
+          jsonSpy.calledWith({
+            isEnum: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
+          })
+        ).toBeTrue();
+      });
+
+      it("Promise (title and description) rejects -> CustomValidationError", async () => {
         req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
         req.body.description = invalidActivityInputs.DESCRIPTION_TOO_LONG;
 
