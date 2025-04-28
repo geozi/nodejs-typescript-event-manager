@@ -4,10 +4,15 @@ import { Activity } from "entities/primary/Activity";
 import { Request, Response } from "express";
 import { activityResponseMessages } from "messages/response/activityResponseMessages";
 import { commonResponseMessages } from "messages/response/commonResponseMessages";
+import { activityFailedValidation } from "messages/validation/activityValidationMessages";
 import { apiVersionNumbers } from "resources/codes/apiVersionNumbers";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
-import { validCommonInputs } from "spec/testInputs";
+import {
+  invalidActivityInputs,
+  validActivityInputs,
+  validCommonInputs,
+} from "spec/testInputs";
 import { TypeORMError, UpdateResult } from "typeorm";
 
 describe("Activity update integration tests", () => {
@@ -222,6 +227,71 @@ describe("Activity update integration tests", () => {
         expect(
           jsonSpy.calledWith({
             message: activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE,
+          })
+        ).toBeTrue();
+      });
+    });
+
+    describe(`response code ${httpCodes.BAD_REQUEST}`, () => {
+      beforeEach(() => {
+        // Reset stubs and spies
+        sinon.restore();
+
+        // Stubs and spies
+        updateFuncStub = sinon.stub(activityRepository, "update");
+        findOneByStub = sinon.stub(activityRepository, "findOneBy");
+        res = {
+          status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
+          json: sinon.spy(),
+        };
+
+        // Mocks
+        mockId = validCommonInputs.id;
+        mockUpdateResult = new UpdateResult();
+
+        // HTTP request
+        req = {
+          body: JSON.parse(
+            JSON.stringify({
+              id: mockId,
+              title: validActivityInputs.title,
+              description: validActivityInputs.description,
+            })
+          ),
+        };
+      });
+
+      it("Promise rejects (title) -> CustomValidationError", async () => {
+        req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
+
+        await callActivityUpdate(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+        expect(
+          jsonSpy.calledWith({
+            minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
+          })
+        ).toBeTrue();
+      });
+
+      it("Promise rejects (title and description) -> CustomValidationError", async () => {
+        req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
+        req.body.description = invalidActivityInputs.DESCRIPTION_TOO_LONG;
+
+        await callActivityUpdate(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+        expect(
+          jsonSpy.calledWith({
+            maxLength:
+              activityFailedValidation.DESCRIPTION_ABOVE_MAX_LENGTH_MESSAGE,
+            minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
           })
         ).toBeTrue();
       });
