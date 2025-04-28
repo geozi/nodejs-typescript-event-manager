@@ -198,7 +198,7 @@ describe("Activity retrieval by ID integration tests", () => {
         };
       });
 
-      it("Promise resolves -> NotFoundError", async () => {
+      it("Promise resolves to null -> NotFoundError", async () => {
         findOneByStub.resolves(null);
 
         await callActivityRetrievalById(req as Request, res as Response);

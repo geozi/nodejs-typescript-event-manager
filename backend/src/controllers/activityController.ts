@@ -224,7 +224,7 @@ export const callActivityRemovalByTitle = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { title } = req.body;
+    const title = reqToTitle(req);
     const removedActivity = await deleteActivityByTitle(title);
     if (removedActivity === null) {
       throw new NotFoundError(
@@ -237,6 +237,11 @@ export const callActivityRemovalByTitle = async (
       .status(httpCodes.NO_CONTENT)
       .json({});
   } catch (error) {
+    if (error instanceof TypeError) {
+      res.status(httpCodes.BAD_REQUEST).json({ message: error.message });
+      return;
+    }
+
     if (error instanceof TypeORMError || error instanceof ServerError) {
       res
         .status(httpCodes.INTERNAL_SERVER_ERROR)

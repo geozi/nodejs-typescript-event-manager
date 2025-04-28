@@ -1,15 +1,17 @@
-import { callActivityRemovalById } from "controllers/activityController";
+import { callActivityRemovalByTitle } from "controllers/activityController";
 import { AppDataSource } from "db/dataSource";
 import { Activity } from "entities/primary/Activity";
 import { Request, Response } from "express";
 import { activityResponseMessages } from "messages/response/activityResponseMessages";
 import { commonResponseMessages } from "messages/response/commonResponseMessages";
+import { activityFailedValidation } from "messages/validation/activityValidationMessages";
 import { apiVersionNumbers } from "resources/codes/apiVersionNumbers";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
+import { validActivityInputs } from "spec/testInputs";
 import { TypeORMError } from "typeorm";
 
-describe("Activity Removal by id integration tests", () => {
+describe("Activity removal by title integration tests", () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
   let statusStub: SinonStub;
@@ -18,7 +20,7 @@ describe("Activity Removal by id integration tests", () => {
   let findOneByStub: SinonStub;
   let removeStub: SinonStub;
   let mockActivity: Activity;
-  let mockId: number;
+  let mockTitle: number | string;
   const activityRepository = AppDataSource.getRepository(Activity);
 
   describe("Positive scenario", () => {
@@ -36,16 +38,16 @@ describe("Activity Removal by id integration tests", () => {
       };
 
       // Mocks
-      mockId = 1;
+      mockTitle = validActivityInputs.title;
       mockActivity = new Activity();
-      mockActivity.id = mockId;
+      mockActivity.title = mockTitle;
 
       // HTTP request
       req = {
         method: "DELETE",
         body: JSON.parse(
           JSON.stringify({
-            id: mockId,
+            title: mockTitle,
           })
         ),
       };
@@ -55,7 +57,7 @@ describe("Activity Removal by id integration tests", () => {
       findOneByStub.resolves(mockActivity);
       removeStub.resolves(mockActivity);
 
-      await callActivityRemovalById(req as Request, res as Response);
+      await callActivityRemovalByTitle(req as Request, res as Response);
 
       setHeaderStub = res.setHeader as SinonStub;
       statusStub = res.status as SinonStub;
@@ -78,142 +80,49 @@ describe("Activity Removal by id integration tests", () => {
           status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           json: sinon.spy(),
         };
-      });
-
-      it("id is a string representation of a number", async () => {
-        req = {
-          method: "DELETE",
-          body: JSON.parse(
-            JSON.stringify({
-              id: "1",
-            })
-          ),
-        };
-
-        await callActivityRemovalById(req as Request, res as Response);
-
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
-
-      it("id is a hex string", async () => {
-        req = {
-          method: "DELETE",
-          body: JSON.parse(
-            JSON.stringify({
-              id: "680f43bdf2929acc6220668e",
-            })
-          ),
-        };
-
-        await callActivityRemovalById(req as Request, res as Response);
-
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
-
-      it("id is an object", async () => {
-        req = {
-          method: "DELETE",
-          body: JSON.parse(
-            JSON.stringify({
-              id: {},
-            })
-          ),
-        };
-
-        await callActivityRemovalById(req as Request, res as Response);
-
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
-
-      it("id is a boolean", async () => {
-        req = {
-          method: "DELETE",
-          body: JSON.parse(
-            JSON.stringify({
-              id: false,
-            })
-          ),
-        };
-
-        await callActivityRemovalById(req as Request, res as Response);
-
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
-    });
-
-    describe(`response code ${httpCodes.NOT_FOUND}`, () => {
-      beforeEach(() => {
-        // Reset stubs and spies
-        sinon.restore();
-
-        // Stubs and spies
-        findOneByStub = sinon.stub(activityRepository, "findOneBy");
-        res = {
-          setHeader: sinon.stub().callsFake(() => res) as unknown as SinonStub,
-          status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
-          json: sinon.spy(),
-        };
 
         // Mocks
-        mockId = 1;
-        mockActivity = new Activity();
-        mockActivity.id = mockId;
+        mockTitle = validActivityInputs.title;
 
         // HTTP request
         req = {
           method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
-              id: mockId,
+              title: mockTitle,
             })
           ),
         };
       });
 
-      it("Promise resolves to null -> NotFoundError", async () => {
-        findOneByStub.resolves(null);
+      it("title is undefined", async () => {
+        req.body.title = undefined;
 
-        await callActivityRemovalById(req as Request, res as Response);
+        await callActivityRemovalByTitle(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
         jsonSpy = res.json as SinonSpy;
 
-        expect(statusStub.calledWith(httpCodes.NOT_FOUND)).toBeTrue();
+        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
         expect(
           jsonSpy.calledWith({
-            message: activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE,
+            message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+          })
+        ).toBeTrue();
+      });
+
+      it("title is a numeric value", async () => {
+        req.body.title = 1;
+
+        await callActivityRemovalByTitle(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+        expect(
+          jsonSpy.calledWith({
+            message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
           })
         ).toBeTrue();
       });
@@ -227,24 +136,22 @@ describe("Activity Removal by id integration tests", () => {
         // Stubs and spies
         findOneByStub = sinon.stub(activityRepository, "findOneBy");
         removeStub = sinon.stub(activityRepository, "remove");
-
         res = {
-          setHeader: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           json: sinon.spy(),
         };
 
         // Mocks
-        mockId = 1;
+        mockTitle = validActivityInputs.title;
         mockActivity = new Activity();
-        mockActivity.id = mockId;
+        mockActivity.title = mockTitle;
 
         // HTTP request
         req = {
           method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
-              id: mockId,
+              title: mockTitle,
             })
           ),
         };
@@ -253,7 +160,7 @@ describe("Activity Removal by id integration tests", () => {
       it("Promise (findOneBy) rejects -> TypeORMError", async () => {
         findOneByStub.rejects(new TypeORMError());
 
-        await callActivityRemovalById(req as Request, res as Response);
+        await callActivityRemovalByTitle(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
 
@@ -265,7 +172,7 @@ describe("Activity Removal by id integration tests", () => {
       it("Promise (findOneBy) rejects -> ServerError", async () => {
         findOneByStub.rejects({});
 
-        await callActivityRemovalById(req as Request, res as Response);
+        await callActivityRemovalByTitle(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
         jsonSpy = res.json as SinonSpy;
@@ -284,7 +191,7 @@ describe("Activity Removal by id integration tests", () => {
         findOneByStub.resolves(mockActivity);
         removeStub.rejects(new TypeORMError());
 
-        await callActivityRemovalById(req as Request, res as Response);
+        await callActivityRemovalByTitle(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
 
@@ -297,17 +204,54 @@ describe("Activity Removal by id integration tests", () => {
         findOneByStub.resolves(mockActivity);
         removeStub.rejects({});
 
-        await callActivityRemovalById(req as Request, res as Response);
+        await callActivityRemovalByTitle(req as Request, res as Response);
 
         statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
 
         expect(
           statusStub.calledWith(httpCodes.INTERNAL_SERVER_ERROR)
         ).toBeTrue();
+      });
+    });
+
+    describe(`response code ${httpCodes.NOT_FOUND}`, () => {
+      beforeEach(() => {
+        // Reset stubs and spies
+        sinon.restore();
+
+        // Stubs and spies
+        findOneByStub = sinon.stub(activityRepository, "findOneBy");
+        res = {
+          status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
+          json: sinon.spy(),
+        };
+
+        // Mocks
+        mockTitle = validActivityInputs.title;
+
+        // HTTP request
+        req = {
+          method: "DELETE",
+          body: JSON.parse(
+            JSON.stringify({
+              title: mockTitle,
+            })
+          ),
+        };
+      });
+
+      it("Promise resolves to null -> NotFoundError", async () => {
+        findOneByStub.resolves(null);
+
+        await callActivityRemovalByTitle(req as Request, res as Response);
+
+        statusStub = res.status as SinonStub;
+        jsonSpy = res.json as SinonSpy;
+
+        expect(statusStub.calledWith(httpCodes.NOT_FOUND)).toBeTrue();
         expect(
           jsonSpy.calledWith({
-            message: commonResponseMessages.INTERNAL_SERVER_ERROR_MESSAGE,
+            message: activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE,
           })
         ).toBeTrue();
       });
