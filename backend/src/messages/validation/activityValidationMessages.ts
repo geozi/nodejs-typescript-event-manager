@@ -10,5 +10,6 @@ export const activityFailedValidation = {
   DESCRIPTION_BELOW_MIN_LENGTH_MESSAGE: `Description must be at least ${activityConstants.DESCRIPTION_MIN_LENGTH} characters long`,
   DESCRIPTION_ABOVE_MAX_LENGTH_MESSAGE: `Description must be no longer than ${activityConstants.DESCRIPTION_MAX_LENGTH} characters`,
   ACTIVITY_TYPE_REQUIRED_MESSAGE: "Activity type is a required field",
-  ACTIVITY_TYPE_INVALID_MESSAGE: `Activity type has a standard set of constant values. See relevant documentation`,
+  ACTIVITY_TYPE_INVALID_MESSAGE: "Activity must be a string",
+  ACTIVITY_TYPE_WRONG_ENUM_MESSAGE: `Activity type has a standard set of constant values. See relevant documentation`,
 };

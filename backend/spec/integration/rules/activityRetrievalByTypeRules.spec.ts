@@ -4,7 +4,7 @@ import { catchExpressValidationErrors } from "middleware/catchers/expressErrorCa
 import { activityRetrievalByTypeRules } from "middleware/rules/activityRules";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
-import { invalidActivityInputs, validActivityInputs } from "spec/testInputs";
+import { invalidCommonInputs, validActivityInputs } from "spec/testInputs";
 
 describe("Activity retrieval by type rules: integration tests", () => {
   let req: Partial<Request>;
@@ -79,49 +79,58 @@ describe("Activity retrieval by type rules: integration tests", () => {
       };
     });
 
-    it("activityType is undefined", async () => {
-      req.body.activityType = undefined;
+    invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, inputRequiredCase]) => {
+        it(testName, async () => {
+          req.body.activityType = inputRequiredCase;
 
-      for (const middleware of activityRetrievalArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityRetrievalArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
+    );
 
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it(testName, async () => {
+          req.body.activityType = invalidInput;
 
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message: activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
+          for (const middleware of activityRetrievalArray) {
+            await middleware(req as Request, res as Response, next);
+          }
 
-    it("activityType is invalid", async () => {
-      req.body.activityType =
-        invalidActivityInputs.ACTIVITY_TYPE_INVALID.toString();
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
 
-      for (const middleware of activityRetrievalArray) {
-        await middleware(req as Request, res as Response, next);
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
+    );
   });
 });
