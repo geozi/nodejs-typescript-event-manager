@@ -85,7 +85,7 @@ describe("Activity retrieval by title rules: integration tests", () => {
 
     invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
       ([testName, inputRequiredCase]) => {
-        it(testName, async () => {
+        it("title" + testName, async () => {
           req.body.title = inputRequiredCase;
 
           for (const middleware of activityRetrievalArray) {
@@ -109,7 +109,7 @@ describe("Activity retrieval by title rules: integration tests", () => {
 
     invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
       ([testName, invalidInput]) => {
-        it(testName, async () => {
+        it("title" + testName, async () => {
           req.body.title = invalidInput;
 
           for (const middleware of activityRetrievalArray) {
