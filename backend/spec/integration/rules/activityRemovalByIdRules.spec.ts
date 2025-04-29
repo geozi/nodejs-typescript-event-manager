@@ -79,41 +79,51 @@ describe("Activity removal by ID rules: integration tests", () => {
       };
     });
 
-    it("id is undefined", async () => {
-      req.body.id = undefined;
+    invalidCommonInputs.ID_REQUIRED_CASES.forEach(
+      ([testName, idRequiredCase]) => {
+        it(testName, async () => {
+          req.body.id = idRequiredCase;
 
-      for (const middleware of activityRemovalArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityRemovalArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [{ message: commonFailedValidation.ID_REQUIRED_MESSAGE }],
+            })
+          ).toBeTrue();
+        });
       }
+    );
 
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
+    invalidCommonInputs.ID_INVALID_TYPE_CASES.forEach(
+      ([testName, invalidId]) => {
+        it(testName, async () => {
+          req.body.id = invalidId;
 
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [{ message: commonFailedValidation.ID_REQUIRED_MESSAGE }],
-        })
-      ).toBeTrue();
-    });
+          for (const middleware of activityRemovalArray) {
+            await middleware(req as Request, res as Response, next);
+          }
 
-    it("id is invalid", async () => {
-      req.body.id = invalidCommonInputs.ID_INVALID_TYPE;
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
 
-      for (const middleware of activityRemovalArray) {
-        await middleware(req as Request, res as Response, next);
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                { message: commonFailedValidation.ID_INVALID_TYPE_MESSAGE },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [{ message: commonFailedValidation.ID_INVALID_TYPE_MESSAGE }],
-        })
-      ).toBeTrue();
-    });
+    );
 
     it("id is negative", async () => {
       req.body.id = invalidCommonInputs.ID_NEGATIVE;

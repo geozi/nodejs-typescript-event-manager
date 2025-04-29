@@ -251,38 +251,46 @@ describe("Activity mapper unit tests", () => {
       expect(errors.length).toEqual(0);
     });
 
-    it("id is undefined", async () => {
-      req.body.id = undefined;
+    invalidCommonInputs.ID_REQUIRED_CASES.forEach(
+      ([testName, idRequiredCase]) => {
+        it(testName, async () => {
+          req.body.id = idRequiredCase;
 
-      const activityToUpdate = reqToActivityUpdateDTO(req as Request);
-      const errors = await validateSpy(activityToUpdate);
+          const activityToUpdate = reqToActivityUpdateDTO(req as Request);
+          const errors = await validateSpy(activityToUpdate);
 
-      expect(activityToUpdate).toBeInstanceOf(ActivityUpdateDTO);
-      expect(validateSpy.calledOnce).toBeTrue();
-      expect(validateSpy.calledWithExactly(activityToUpdate)).toBeTrue();
-      expect(errors).toEqual([jasmine.any(ValidationError)]);
-      expect(errors[0].constraints).toEqual({
-        isNotEmpty: commonFailedValidation.ID_REQUIRED_MESSAGE,
-        isInt: commonFailedValidation.ID_INVALID_TYPE_MESSAGE,
-        isPositive: commonFailedValidation.ID_NEGATIVE_MESSAGE,
-      });
-    });
+          expect(activityToUpdate).toBeInstanceOf(ActivityUpdateDTO);
+          expect(validateSpy.calledOnce).toBeTrue();
+          expect(validateSpy.calledWithExactly(activityToUpdate)).toBeTrue();
+          expect(errors).toEqual([jasmine.any(ValidationError)]);
+          expect(errors[0].constraints).toEqual({
+            isNotEmpty: commonFailedValidation.ID_REQUIRED_MESSAGE,
+            isInt: commonFailedValidation.ID_INVALID_TYPE_MESSAGE,
+            isPositive: commonFailedValidation.ID_NEGATIVE_MESSAGE,
+          });
+        });
+      }
+    );
 
-    it("id is not an integer", async () => {
-      req.body.id = invalidCommonInputs.ID_INVALID_TYPE;
+    invalidCommonInputs.ID_INVALID_TYPE_CASES.forEach(
+      ([testName, invalidId]) => {
+        it(testName, async () => {
+          req.body.id = invalidId;
 
-      const activityToUpdate = reqToActivityUpdateDTO(req as Request);
-      const errors = await validateSpy(activityToUpdate);
+          const activityToUpdate = reqToActivityUpdateDTO(req as Request);
+          const errors = await validateSpy(activityToUpdate);
 
-      expect(activityToUpdate).toBeInstanceOf(ActivityUpdateDTO);
-      expect(validateSpy.calledOnce).toBeTrue();
-      expect(validateSpy.calledWithExactly(activityToUpdate)).toBeTrue();
-      expect(errors).toEqual([jasmine.any(ValidationError)]);
-      expect(errors[0].constraints).toEqual({
-        isInt: commonFailedValidation.ID_INVALID_TYPE_MESSAGE,
-        isPositive: commonFailedValidation.ID_NEGATIVE_MESSAGE,
-      });
-    });
+          expect(activityToUpdate).toBeInstanceOf(ActivityUpdateDTO);
+          expect(validateSpy.calledOnce).toBeTrue();
+          expect(validateSpy.calledWithExactly(activityToUpdate)).toBeTrue();
+          expect(errors).toEqual([jasmine.any(ValidationError)]);
+          expect(errors[0].constraints).toEqual({
+            isInt: commonFailedValidation.ID_INVALID_TYPE_MESSAGE,
+            isPositive: commonFailedValidation.ID_NEGATIVE_MESSAGE,
+          });
+        });
+      }
+    );
 
     it("id is a negative integer", async () => {
       req.body.id = invalidCommonInputs.ID_NEGATIVE;

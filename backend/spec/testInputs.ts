@@ -72,7 +72,16 @@ export const invalidCommonInputs = {
     ["email has no .", "random@mailcom"],
     ["email has no top level domain", "random@mail."],
   ] as [string, string][],
-  ID_INVALID_TYPE: "1",
+  ID_REQUIRED_CASES: [
+    ["id is undefined", undefined],
+    ["id is null", null],
+    ["id is an empty string", ""],
+  ] as [string, unknown][],
+  ID_INVALID_TYPE_CASES: [
+    ["id is an integer as string", "1"],
+    ["id is an empty object", {}],
+    ["id is a boolean", false],
+  ] as [string, unknown][],
   ID_NEGATIVE: -1,
 };
 

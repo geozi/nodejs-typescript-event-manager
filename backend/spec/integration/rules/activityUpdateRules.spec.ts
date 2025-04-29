@@ -114,23 +114,29 @@ describe("Activity update rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("id is invalid", async () => {
-      req.body.id = invalidCommonInputs.ID_INVALID_TYPE;
+    invalidCommonInputs.ID_INVALID_TYPE_CASES.forEach(
+      ([testName, invalidId]) => {
+        it(testName, async () => {
+          req.body.id = invalidId;
 
-      for (const middleware of activityUpdateArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityUpdateArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                { message: commonFailedValidation.ID_INVALID_TYPE_MESSAGE },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [{ message: commonFailedValidation.ID_INVALID_TYPE_MESSAGE }],
-        })
-      ).toBeTrue();
-    });
+    );
 
     it("id is negative", async () => {
       req.body.id = invalidCommonInputs.ID_NEGATIVE;

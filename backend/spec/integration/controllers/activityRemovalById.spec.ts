@@ -7,9 +7,10 @@ import { commonResponseMessages } from "messages/response/commonResponseMessages
 import { apiVersionNumbers } from "resources/codes/apiVersionNumbers";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
+import { invalidCommonInputs, validCommonInputs } from "spec/testInputs";
 import { TypeORMError } from "typeorm";
 
-describe("Activity Removal by id integration tests", () => {
+describe("Activity removal by id integration tests", () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
   let statusStub: SinonStub;
@@ -78,99 +79,37 @@ describe("Activity Removal by id integration tests", () => {
           status: sinon.stub().callsFake(() => res) as unknown as SinonStub,
           json: sinon.spy(),
         };
-      });
 
-      it("id is a string representation of a number", async () => {
+        // HTTP request
         req = {
           method: "DELETE",
           body: JSON.parse(
             JSON.stringify({
-              id: "1",
+              id: validCommonInputs.id,
             })
           ),
         };
-
-        await callActivityRemovalById(req as Request, res as Response);
-
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
       });
 
-      it("id is a hex string", async () => {
-        req = {
-          method: "DELETE",
-          body: JSON.parse(
-            JSON.stringify({
-              id: "680f43bdf2929acc6220668e",
-            })
-          ),
-        };
+      invalidCommonInputs.ID_INVALID_TYPE_CASES.forEach(
+        ([testName, invalidId]) => {
+          it(testName, async () => {
+            req.body.id = invalidId;
 
-        await callActivityRemovalById(req as Request, res as Response);
+            await callActivityRemovalById(req as Request, res as Response);
 
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
+            statusStub = res.status as SinonStub;
+            jsonSpy = res.json as SinonSpy;
 
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
-
-      it("id is an object", async () => {
-        req = {
-          method: "DELETE",
-          body: JSON.parse(
-            JSON.stringify({
-              id: {},
-            })
-          ),
-        };
-
-        await callActivityRemovalById(req as Request, res as Response);
-
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
-
-      it("id is a boolean", async () => {
-        req = {
-          method: "DELETE",
-          body: JSON.parse(
-            JSON.stringify({
-              id: false,
-            })
-          ),
-        };
-
-        await callActivityRemovalById(req as Request, res as Response);
-
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
+            expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+            expect(
+              jsonSpy.calledWith({
+                message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
+              })
+            ).toBeTrue();
+          });
+        }
+      );
     });
 
     describe(`response code ${httpCodes.NOT_FOUND}`, () => {
