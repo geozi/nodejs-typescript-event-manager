@@ -4,7 +4,11 @@ import { catchExpressValidationErrors } from "middleware/catchers/expressErrorCa
 import { activityAdditionRules } from "middleware/rules/activityRules";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
-import { invalidActivityInputs, validActivityInputs } from "spec/testInputs";
+import {
+  invalidActivityInputs,
+  invalidCommonInputs,
+  validActivityInputs,
+} from "spec/testInputs";
 
 describe("Activity addition rules: integration tests", () => {
   let req: Partial<Request>;
@@ -12,7 +16,6 @@ describe("Activity addition rules: integration tests", () => {
   let next: SinonSpy;
   let statusStub: SinonStub;
   let jsonSpy: SinonSpy;
-  let mockNumericValue: number;
   const activityAdditionArray = [
     ...activityAdditionRules(),
     catchExpressValidationErrors,
@@ -72,9 +75,6 @@ describe("Activity addition rules: integration tests", () => {
       };
       next = sinon.spy();
 
-      // Mocks
-      mockNumericValue = 1;
-
       // HTTP request
       req = {
         method: "POST",
@@ -88,45 +88,55 @@ describe("Activity addition rules: integration tests", () => {
       };
     });
 
-    it("title is undefined", async () => {
-      req.body.title = undefined;
+    invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, inputRequiredCase]) => {
+        it("title" + testName, async () => {
+          req.body.title = inputRequiredCase;
 
-      for (const middleware of activityAdditionArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityAdditionArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                { message: activityFailedValidation.TITLE_REQUIRED_MESSAGE },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
+    );
 
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it("title" + testName, async () => {
+          req.body.title = invalidInput;
 
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            { message: activityFailedValidation.TITLE_REQUIRED_MESSAGE },
-          ],
-        })
-      ).toBeTrue();
-    });
+          for (const middleware of activityAdditionArray) {
+            await middleware(req as Request, res as Response, next);
+          }
 
-    it("title is not a string", async () => {
-      req.body.title = mockNumericValue;
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
 
-      for (const middleware of activityAdditionArray) {
-        await middleware(req as Request, res as Response, next);
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            { message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE },
-          ],
-        })
-      ).toBeTrue();
-    });
+    );
 
     it("title is too short", async () => {
       req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
@@ -172,50 +182,59 @@ describe("Activity addition rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("description is undefined", async () => {
-      req.body.description = undefined;
+    invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, inputRequiredCase]) => {
+        it("description" + testName, async () => {
+          req.body.description = inputRequiredCase;
 
-      for (const middleware of activityAdditionArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityAdditionArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.DESCRIPTION_REQUIRED_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
+    );
 
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it("description" + testName, async () => {
+          req.body.description = invalidInput;
 
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message: activityFailedValidation.DESCRIPTION_REQUIRED_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
+          for (const middleware of activityAdditionArray) {
+            await middleware(req as Request, res as Response, next);
+          }
 
-    it("description is not a string", async () => {
-      req.body.description = mockNumericValue;
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
 
-      for (const middleware of activityAdditionArray) {
-        await middleware(req as Request, res as Response, next);
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.DESCRIPTION_INVALID_TYPE_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message:
-                activityFailedValidation.DESCRIPTION_INVALID_TYPE_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
+    );
 
     it("description is too short", async () => {
       req.body.description = invalidActivityInputs.DESCRIPTION_TOO_SHORT;
@@ -263,29 +282,61 @@ describe("Activity addition rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("activityType is undefined", async () => {
-      req.body.activityType = undefined;
+    invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, inputRequiredCase]) => {
+        it("activityType" + testName, async () => {
+          req.body.activityType = inputRequiredCase;
 
-      for (const middleware of activityAdditionArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityAdditionArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
+    );
 
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it("activityType" + testName, async () => {
+          req.body.activityType = invalidInput;
 
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message: activityFailedValidation.ACTIVITY_TYPE_REQUIRED_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
+          for (const middleware of activityAdditionArray) {
+            await middleware(req as Request, res as Response, next);
+          }
 
-    it("activityType is invalid", async () => {
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
+      }
+    );
+
+    it("activityType is not enum member", async () => {
       req.body.activityType =
         invalidActivityInputs.ACTIVITY_TYPE_INVALID.toString();
 
@@ -301,7 +352,8 @@ describe("Activity addition rules: integration tests", () => {
         jsonSpy.calledWith({
           errors: [
             {
-              message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
+              message:
+                activityFailedValidation.ACTIVITY_TYPE_WRONG_ENUM_MESSAGE,
             },
           ],
         })
