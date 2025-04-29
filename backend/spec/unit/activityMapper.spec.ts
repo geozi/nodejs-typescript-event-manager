@@ -50,40 +50,48 @@ describe("Activity mapper unit tests", () => {
       expect(errors.length).toEqual(0);
     });
 
-    it("title is undefined", async () => {
-      req.body.title = undefined;
+    invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, inputRequiredCase]) => {
+        it(testName, async () => {
+          req.body.title = inputRequiredCase;
 
-      const newActivity = reqToActivity(req as Request);
-      const errors = await validateSpy(newActivity);
+          const newActivity = reqToActivity(req as Request);
+          const errors = await validateSpy(newActivity);
 
-      expect(newActivity).toBeInstanceOf(Activity);
-      expect(validateSpy.calledOnce).toBeTrue();
-      expect(validateSpy.calledWithExactly(newActivity)).toBeTrue();
-      expect(errors).toEqual([jasmine.any(ValidationError)]);
-      expect(errors[0].constraints).toEqual({
-        isNotEmpty: activityFailedValidation.TITLE_REQUIRED_MESSAGE,
-        isString: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
-        maxLength: activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE,
-        minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
-      });
-    });
+          expect(newActivity).toBeInstanceOf(Activity);
+          expect(validateSpy.calledOnce).toBeTrue();
+          expect(validateSpy.calledWithExactly(newActivity)).toBeTrue();
+          expect(errors).toEqual([jasmine.any(ValidationError)]);
+          expect(errors[0].constraints).toEqual({
+            isNotEmpty: activityFailedValidation.TITLE_REQUIRED_MESSAGE,
+            isString: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+            maxLength: activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE,
+            minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
+          });
+        });
+      }
+    );
 
-    it("title is not a string", async () => {
-      req.body.title = mockNumericValue;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it(testName, async () => {
+          req.body.title = invalidInput;
 
-      const newActivity = reqToActivity(req as Request);
-      const errors = await validateSpy(newActivity);
+          const newActivity = reqToActivity(req as Request);
+          const errors = await validateSpy(newActivity);
 
-      expect(newActivity).toBeInstanceOf(Activity);
-      expect(validateSpy.calledOnce).toBeTrue();
-      expect(validateSpy.calledWithExactly(newActivity)).toBeTrue();
-      expect(errors).toEqual([jasmine.any(ValidationError)]);
-      expect(errors[0].constraints).toEqual({
-        isString: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
-        maxLength: activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE,
-        minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
-      });
-    });
+          expect(newActivity).toBeInstanceOf(Activity);
+          expect(validateSpy.calledOnce).toBeTrue();
+          expect(validateSpy.calledWithExactly(newActivity)).toBeTrue();
+          expect(errors).toEqual([jasmine.any(ValidationError)]);
+          expect(errors[0].constraints).toEqual({
+            isString: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+            maxLength: activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE,
+            minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
+          });
+        });
+      }
+    );
 
     it("title is too short", async () => {
       req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
@@ -307,22 +315,26 @@ describe("Activity mapper unit tests", () => {
       });
     });
 
-    it("title is not a string", async () => {
-      req.body.title = mockNumericValue;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it(testName, async () => {
+          req.body.title = invalidInput;
 
-      const activityToUpdate = reqToActivityUpdateDTO(req as Request);
-      const errors = await validateSpy(activityToUpdate);
+          const newActivity = reqToActivity(req as Request);
+          const errors = await validateSpy(newActivity);
 
-      expect(activityToUpdate).toBeInstanceOf(ActivityUpdateDTO);
-      expect(validateSpy.calledOnce).toBeTrue();
-      expect(validateSpy.calledWithExactly(activityToUpdate)).toBeTrue();
-      expect(errors).toEqual([jasmine.any(ValidationError)]);
-      expect(errors[0].constraints).toEqual({
-        isString: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
-        maxLength: activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE,
-        minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
-      });
-    });
+          expect(newActivity).toBeInstanceOf(Activity);
+          expect(validateSpy.calledOnce).toBeTrue();
+          expect(validateSpy.calledWithExactly(newActivity)).toBeTrue();
+          expect(errors).toEqual([jasmine.any(ValidationError)]);
+          expect(errors[0].constraints).toEqual({
+            isString: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+            maxLength: activityFailedValidation.TITLE_ABOVE_MAX_LENGTH_MESSAGE,
+            minLength: activityFailedValidation.TITLE_BELOW_MIN_LENGTH_MESSAGE,
+          });
+        });
+      }
+    );
 
     it("title is too short", async () => {
       req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;

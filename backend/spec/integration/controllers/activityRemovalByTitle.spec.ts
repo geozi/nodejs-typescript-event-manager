@@ -8,7 +8,7 @@ import { activityFailedValidation } from "messages/validation/activityValidation
 import { apiVersionNumbers } from "resources/codes/apiVersionNumbers";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
-import { validActivityInputs } from "spec/testInputs";
+import { invalidCommonInputs, validActivityInputs } from "spec/testInputs";
 import { TypeORMError } from "typeorm";
 
 describe("Activity removal by title integration tests", () => {
@@ -95,37 +95,45 @@ describe("Activity removal by title integration tests", () => {
         };
       });
 
-      it("title is undefined", async () => {
-        req.body.title = undefined;
+      invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+        ([testName, inputRequiredCase]) => {
+          it(testName, async () => {
+            req.body.title = inputRequiredCase;
 
-        await callActivityRemovalByTitle(req as Request, res as Response);
+            await callActivityRemovalByTitle(req as Request, res as Response);
 
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
+            statusStub = res.status as SinonStub;
+            jsonSpy = res.json as SinonSpy;
 
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
+            expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+            expect(
+              jsonSpy.calledWith({
+                message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+              })
+            ).toBeTrue();
+          });
+        }
+      );
 
-      it("title is a numeric value", async () => {
-        req.body.title = 1;
+      invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+        ([testName, invalidInput]) => {
+          it(testName, async () => {
+            req.body.title = invalidInput;
 
-        await callActivityRemovalByTitle(req as Request, res as Response);
+            await callActivityRemovalByTitle(req as Request, res as Response);
 
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
+            statusStub = res.status as SinonStub;
+            jsonSpy = res.json as SinonSpy;
 
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
-          })
-        ).toBeTrue();
-      });
+            expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+            expect(
+              jsonSpy.calledWith({
+                message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+              })
+            ).toBeTrue();
+          });
+        }
+      );
     });
 
     describe(`response code ${httpCodes.INTERNAL_SERVER_ERROR}`, () => {

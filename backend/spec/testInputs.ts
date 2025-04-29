@@ -83,6 +83,16 @@ export const invalidCommonInputs = {
     ["id is a boolean", false],
   ] as [string, unknown][],
   ID_NEGATIVE: -1,
+  REQUIRED_INPUT_CASES_FOR_STRINGS: [
+    ["input is undefined", undefined],
+    ["input is null", null],
+  ] as [string, unknown][],
+  INVALID_INPUT_CASES_FOR_STRINGS: [
+    ["input is an empty object", {}],
+    ["input is a boolean", false],
+    ["input is an integer", 1],
+    ["input is an empty array", []],
+  ] as [string, unknown][],
 };
 
 export const validStaffInputs = {
