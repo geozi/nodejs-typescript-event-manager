@@ -81,7 +81,7 @@ describe("Activity retrieval by type rules: integration tests", () => {
 
     invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
       ([testName, inputRequiredCase]) => {
-        it(testName, async () => {
+        it("activityType" + testName, async () => {
           req.body.activityType = inputRequiredCase;
 
           for (const middleware of activityRetrievalArray) {
@@ -108,7 +108,7 @@ describe("Activity retrieval by type rules: integration tests", () => {
 
     invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
       ([testName, invalidInput]) => {
-        it(testName, async () => {
+        it("activityType" + testName, async () => {
           req.body.activityType = invalidInput;
 
           for (const middleware of activityRetrievalArray) {
