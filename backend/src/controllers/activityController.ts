@@ -218,9 +218,9 @@ export const callActivityRetrievalByType = async (
     }
 
     if (error instanceof NotFoundError) {
-      res
-        .status(httpCodes.NOT_FOUND)
-        .json({ message: activityResponseMessages.ACTIVITY_NOT_FOUND_MESSAGE });
+      res.status(httpCodes.NOT_FOUND).json({
+        message: activityResponseMessages.ACTIVITY_S_NOT_FOUND_MESSAGE,
+      });
       return;
     }
   }
