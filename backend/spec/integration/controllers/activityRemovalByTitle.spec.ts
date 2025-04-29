@@ -97,7 +97,7 @@ describe("Activity removal by title integration tests", () => {
 
       invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
         ([testName, inputRequiredCase]) => {
-          it(testName, async () => {
+          it("title" + testName, async () => {
             req.body.title = inputRequiredCase;
 
             await callActivityRemovalByTitle(req as Request, res as Response);
@@ -117,7 +117,7 @@ describe("Activity removal by title integration tests", () => {
 
       invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
         ([testName, invalidInput]) => {
-          it(testName, async () => {
+          it("title" + testName, async () => {
             req.body.title = invalidInput;
 
             await callActivityRemovalByTitle(req as Request, res as Response);

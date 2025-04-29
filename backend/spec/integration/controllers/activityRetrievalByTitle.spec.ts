@@ -81,7 +81,7 @@ describe("Activity retrieval by title integration tests", () => {
         };
 
         // Mocks
-        mockTitle = 1;
+        mockTitle = validActivityInputs.title;
 
         // HTTP request
         req = {
@@ -96,7 +96,7 @@ describe("Activity retrieval by title integration tests", () => {
 
       invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
         ([testName, inputRequiredCase]) => {
-          it(testName, async () => {
+          it("title" + testName, async () => {
             req.body.title = inputRequiredCase;
 
             await callActivityRetrievalByTitle(req as Request, res as Response);
@@ -116,7 +116,7 @@ describe("Activity retrieval by title integration tests", () => {
 
       invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
         ([testName, invalidInput]) => {
-          it(testName, async () => {
+          it("title" + testName, async () => {
             req.body.title = invalidInput;
 
             await callActivityRetrievalByTitle(req as Request, res as Response);

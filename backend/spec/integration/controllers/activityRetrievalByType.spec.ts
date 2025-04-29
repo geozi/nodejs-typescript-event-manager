@@ -9,7 +9,7 @@ import { activityFailedValidation } from "messages/validation/activityValidation
 import { apiVersionNumbers } from "resources/codes/apiVersionNumbers";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
-import { invalidActivityInputs, validActivityInputs } from "spec/testInputs";
+import { invalidCommonInputs, validActivityInputs } from "spec/testInputs";
 import { TypeORMError } from "typeorm";
 
 describe("Activity retrieval by type integration tests", () => {
@@ -100,37 +100,44 @@ describe("Activity retrieval by type integration tests", () => {
         };
       });
 
-      it("activityType is undefined", async () => {
-        req.body.activityType = undefined;
+      invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+        ([testName, inputRequiredCase]) => {
+          it("activityType" + testName, async () => {
+            req.body.activityType = inputRequiredCase;
 
-        await callActivityRetrievalByType(req as Request, res as Response);
+            await callActivityRetrievalByType(req as Request, res as Response);
 
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
+            statusStub = res.status as SinonStub;
+            jsonSpy = res.json as SinonSpy;
 
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
-          })
-        ).toBeTrue();
-      });
+            expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+            expect(
+              jsonSpy.calledWith({
+                message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
+              })
+            ).toBeTrue();
+          });
+        }
+      );
 
-      it("activityType is invalid", async () => {
-        req.body.activityType = invalidActivityInputs.ACTIVITY_TYPE_INVALID;
+      invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+        ([testName, invalidInput]) => {
+          it("activityType" + testName, async () => {
+            req.body.activityType = invalidInput;
+            await callActivityRetrievalByType(req as Request, res as Response);
 
-        await callActivityRetrievalByType(req as Request, res as Response);
+            statusStub = res.status as SinonStub;
+            jsonSpy = res.json as SinonSpy;
 
-        statusStub = res.status as SinonStub;
-        jsonSpy = res.json as SinonSpy;
-
-        expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-        expect(
-          jsonSpy.calledWith({
-            message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
-          })
-        ).toBeTrue();
-      });
+            expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+            expect(
+              jsonSpy.calledWith({
+                message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
+              })
+            ).toBeTrue();
+          });
+        }
+      );
     });
 
     describe(`response code ${httpCodes.INTERNAL_SERVER_ERROR}`, () => {

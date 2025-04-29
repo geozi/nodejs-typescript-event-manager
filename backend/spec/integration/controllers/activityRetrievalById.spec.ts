@@ -93,6 +93,26 @@ describe("Activity retrieval by ID integration tests", () => {
         };
       });
 
+      invalidCommonInputs.ID_REQUIRED_CASES.forEach(
+        ([testName, idRequiredCase]) => {
+          it(testName, async () => {
+            req.body.id = idRequiredCase;
+
+            await callActivityRetrievalById(req as Request, res as Response);
+
+            statusStub = res.status as SinonStub;
+            jsonSpy = res.json as SinonSpy;
+
+            expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+            expect(
+              jsonSpy.calledWith({
+                message: commonResponseMessages.INVALID_ID_TYPE_MESSAGE,
+              })
+            ).toBeTrue();
+          });
+        }
+      );
+
       invalidCommonInputs.ID_INVALID_TYPE_CASES.forEach(
         ([testName, invalidId]) => {
           it(testName, async () => {
