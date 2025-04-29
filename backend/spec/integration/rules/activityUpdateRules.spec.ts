@@ -18,7 +18,6 @@ describe("Activity update rules: integration tests", () => {
   let next: SinonSpy;
   let statusStub: SinonStub;
   let jsonSpy: SinonSpy;
-  let mockNumericValue: number;
   const activityUpdateArray = [
     ...activityUpdateRules(),
     catchExpressValidationErrors,
@@ -79,9 +78,6 @@ describe("Activity update rules: integration tests", () => {
       };
       next = sinon.spy();
 
-      // Mocks
-      mockNumericValue = 1;
-
       // HTTP request
       req = {
         method: "PUT",
@@ -96,23 +92,27 @@ describe("Activity update rules: integration tests", () => {
       };
     });
 
-    it("id is undefined", async () => {
-      req.body.id = undefined;
+    invalidCommonInputs.ID_REQUIRED_CASES.forEach(
+      ([testName, idRequiredCase]) => {
+        it(testName, async () => {
+          req.body.id = idRequiredCase;
 
-      for (const middleware of activityUpdateArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityUpdateArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [{ message: commonFailedValidation.ID_REQUIRED_MESSAGE }],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [{ message: commonFailedValidation.ID_REQUIRED_MESSAGE }],
-        })
-      ).toBeTrue();
-    });
+    );
 
     invalidCommonInputs.ID_INVALID_TYPE_CASES.forEach(
       ([testName, invalidId]) => {
@@ -156,25 +156,31 @@ describe("Activity update rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("title is not a string", async () => {
-      req.body.title = mockNumericValue;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it("title" + testName, async () => {
+          req.body.title = invalidInput;
 
-      for (const middleware of activityUpdateArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityUpdateArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            { message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE },
-          ],
-        })
-      ).toBeTrue();
-    });
+    );
 
     it("title is too short", async () => {
       req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
@@ -220,28 +226,32 @@ describe("Activity update rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("description is not a string", async () => {
-      req.body.description = mockNumericValue;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it("description" + testName, async () => {
+          req.body.description = invalidInput;
 
-      for (const middleware of activityUpdateArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityUpdateArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.DESCRIPTION_INVALID_TYPE_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message:
-                activityFailedValidation.DESCRIPTION_INVALID_TYPE_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
+    );
 
     it("description is too short", async () => {
       req.body.description = invalidActivityInputs.DESCRIPTION_TOO_SHORT;
@@ -289,27 +299,31 @@ describe("Activity update rules: integration tests", () => {
       ).toBeTrue();
     });
 
-    it("activityType is invalid", async () => {
-      req.body.activityType =
-        invalidActivityInputs.ACTIVITY_TYPE_INVALID.toString();
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it("activityType" + testName, async () => {
+          req.body.activityType = invalidInput;
 
-      for (const middleware of activityUpdateArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityUpdateArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message:
+                    activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            {
-              message: activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE,
-            },
-          ],
-        })
-      ).toBeTrue();
-    });
+    );
   });
 });

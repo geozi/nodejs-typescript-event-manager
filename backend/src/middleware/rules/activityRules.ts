@@ -87,8 +87,11 @@ export const activityUpdateRules = (): ValidationChain[] => {
       ),
     check("activityType")
       .optional()
+      .isString()
+      .withMessage(activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE)
+      .bail()
       .isIn(Object.values(ActivityType))
-      .withMessage(activityFailedValidation.ACTIVITY_TYPE_INVALID_MESSAGE),
+      .withMessage(activityFailedValidation.ACTIVITY_TYPE_WRONG_ENUM_MESSAGE),
   ];
 };
 
