@@ -4,7 +4,11 @@ import { catchExpressValidationErrors } from "middleware/catchers/expressErrorCa
 import { activityRemovalByTitleRules } from "middleware/rules/activityRules";
 import { httpCodes } from "resources/codes/httpStatusCodes";
 import sinon, { SinonSpy, SinonStub } from "sinon";
-import { invalidActivityInputs, validActivityInputs } from "spec/testInputs";
+import {
+  invalidActivityInputs,
+  invalidCommonInputs,
+  validActivityInputs,
+} from "spec/testInputs";
 
 describe("Activity removal by title rules: integration tests", () => {
   let req: Partial<Request>;
@@ -13,7 +17,6 @@ describe("Activity removal by title rules: integration tests", () => {
   let statusStub: SinonStub;
   let jsonSpy: SinonSpy;
   let mockTitle: string;
-  let mockNumericValue: number;
   const activityRemovalArray = [
     ...activityRemovalByTitleRules(),
     catchExpressValidationErrors,
@@ -72,7 +75,6 @@ describe("Activity removal by title rules: integration tests", () => {
 
       // Mocks
       mockTitle = validActivityInputs.title;
-      mockNumericValue = 1;
 
       // HTTP request
       req = {
@@ -81,45 +83,55 @@ describe("Activity removal by title rules: integration tests", () => {
       };
     });
 
-    it("title is undefined", async () => {
-      req.body.title = undefined;
+    invalidCommonInputs.REQUIRED_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, inputRequiredCase]) => {
+        it(testName, async () => {
+          req.body.title = inputRequiredCase;
 
-      for (const middleware of activityRemovalArray) {
-        await middleware(req as Request, res as Response, next);
+          for (const middleware of activityRemovalArray) {
+            await middleware(req as Request, res as Response, next);
+          }
+
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
+
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                { message: activityFailedValidation.TITLE_REQUIRED_MESSAGE },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
+    );
 
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
+    invalidCommonInputs.INVALID_INPUT_CASES_FOR_STRINGS.forEach(
+      ([testName, invalidInput]) => {
+        it(testName, async () => {
+          req.body.title = invalidInput;
 
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            { message: activityFailedValidation.TITLE_REQUIRED_MESSAGE },
-          ],
-        })
-      ).toBeTrue();
-    });
+          for (const middleware of activityRemovalArray) {
+            await middleware(req as Request, res as Response, next);
+          }
 
-    it("title is not a string", async () => {
-      req.body.title = mockNumericValue;
+          statusStub = res.status as SinonStub;
+          jsonSpy = res.json as SinonSpy;
 
-      for (const middleware of activityRemovalArray) {
-        await middleware(req as Request, res as Response, next);
+          expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
+          expect(
+            jsonSpy.calledWith({
+              errors: [
+                {
+                  message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE,
+                },
+              ],
+            })
+          ).toBeTrue();
+        });
       }
-
-      statusStub = res.status as SinonStub;
-      jsonSpy = res.json as SinonSpy;
-
-      expect(statusStub.calledWith(httpCodes.BAD_REQUEST)).toBeTrue();
-      expect(
-        jsonSpy.calledWith({
-          errors: [
-            { message: activityFailedValidation.TITLE_INVALID_TYPE_MESSAGE },
-          ],
-        })
-      ).toBeTrue();
-    });
+    );
 
     it("title is too short", async () => {
       req.body.title = invalidActivityInputs.TITLE_TOO_SHORT;
